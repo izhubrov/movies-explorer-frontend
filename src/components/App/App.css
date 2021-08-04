@@ -20,6 +20,7 @@
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
+  position: relative;
 }
 
 .page__container {
@@ -34,4 +35,44 @@
 .appear {
   animation: appear 0.5s ease-in-out;
   animation-fill-mode: both;
+}
+
+.btn-close {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background-image: url('../../images/close-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transform: rotate(45deg);
+  transition: opacity .3s;
+  padding: 0;
+}
+
+.btn-close:hover {
+  opacity: 0.6;
+}
+
+.btn-close_active {
+  display: flex;
+}
+
+.btn-close_place_header {
+  width: 22px;
+  height: 22px;
+  display: none;
+  align-self: center;
+  background-color: transparent;
+  background-image: url('../../images/close-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transform: rotate(45deg);
+  transition: opacity .3s;
+  padding: 0;
+}
+
+.btn-close_place_header:hover {
+  opacity: 0.6;
 }
