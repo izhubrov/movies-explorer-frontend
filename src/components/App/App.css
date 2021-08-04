@@ -24,6 +24,11 @@
 
 .page__container {
   margin: 0 auto;
+  max-width: 1140px;
+}
+
+.page_place_main-top {
+  background-color: #DDDEE3;
 }
 
 .appear {
