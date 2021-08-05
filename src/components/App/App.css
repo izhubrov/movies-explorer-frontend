@@ -37,6 +37,30 @@
   animation-fill-mode: both;
 }
 
+.title {
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.subtitle {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.21;
+  letter-spacing: -4%;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400px;
+}
+
+.caption {
+  font-size: 13px;
+  line-height: 1.21;
+}
+
 .btn-close {
   border: none;
   outline: none;
@@ -67,4 +91,32 @@
 
 .btn-close_place_header:hover {
   opacity: 0.6;
+}
+
+@media screen and (max-width: 918px) {
+  .title {
+    font-size: 40px;
+    line-height: 1.25;
+  }
+
+  .text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .title {
+    font-size: 30px;
+    line-height: 1.26;
+  }
+
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .text {
+    font-size: 11px;
+    line-height: 1.45;
+  }
 }

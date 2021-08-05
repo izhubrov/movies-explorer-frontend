@@ -1,8 +1,11 @@
 import "./Main.css";
+import Promo from "../Promo/Promo";
 
 function Main() {
   return (
-    <div></div>
+    <>
+    <Promo/>
+    </>
   );
 }
 
