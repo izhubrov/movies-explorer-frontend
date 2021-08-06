@@ -3,6 +3,7 @@
   padding: 75px 70px;
   box-sizing: border-box;
   justify-content: space-between;
+  max-width: 1280px;
 }
 
 .promo__container {
@@ -13,11 +14,9 @@
 
 .promo__title {
   max-width: 640px;
-  margin: 0;
 }
 
 .promo__caption {
-  margin: 0;
   max-width: 310px;
   padding-top: 36px;
   padding-bottom: 146px;

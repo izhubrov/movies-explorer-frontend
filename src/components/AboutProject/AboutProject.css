@@ -4,13 +4,7 @@
   box-sizing: border-box;
   flex-direction: column;
   width: 100%;
-}
-
-.about-project__subtitle {
-  width: 100%;
-  padding-bottom: 23px;
-  border-bottom: 1px solid #000;
-  margin: 0;
+  max-width: 1280px;
 }
 
 .about-project__subsubtitle {
@@ -31,10 +25,39 @@
   padding: 70px 0 110px;
 }
 
-.about-project__info-container {
+.about-project__period-container {
+  width: 100%;
   display: grid;
-  grid-template-rows: max-content;
-  row-gap: 26px;
+  grid-template-columns: 1fr 4fr;
+}
+
+.about-project__period {
+  padding: 9px 0;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  order: -1;
+  margin-bottom: 14px;
+  background-color: #3456F3;
+  color: #fff;
+  min-width: 100px;
+}
+
+.about-project__period_type_frontend {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
+.about-project__tag {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  color: #a0a0a0;
+  text-align: center;
+  font-family: "Suisse Intl";
 }
 
 @media screen and (max-width: 918px) {
@@ -48,14 +71,6 @@
 
   .about-project__subsubtitle {
     padding-bottom: 22px;
-  }
-
-  .about-project__title {
-    padding-top: 48px;
-  }
-  .about-project__caption {
-    padding-top: 22px;
-    padding-bottom: 92px;
   }
 }
 
@@ -71,6 +86,17 @@
     order: unset;
   }
 
+  .about-project__period {
+    margin-bottom: 10px;
+    font-size: 11px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .about-project__tag {
+    font-size: 11px;
+  }
+
   .about-project__subsubtitle:first-of-type {
     padding-top: 0;
   }
@@ -81,17 +107,4 @@
     padding-bottom: 60px;
   }
 
-  .about-project__title {
-    padding-top: 44px;
-  }
-  .about-project__caption {
-    padding-top: 24px;
-    padding-bottom: 80px;
-  }
-
-  .about-project__image {
-    margin: 0;
-    width: 210px;
-    height: 206px;
-  }
 }

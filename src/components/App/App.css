@@ -25,11 +25,18 @@
 
 .page__container {
   margin: 0 auto;
-  max-width: 1140px;
 }
 
-.page_place_main-top {
+.theme-dark {
   background-color: #DDDEE3;
+}
+
+.theme-gray {
+  background-color: #f5f5f5;
+}
+
+.theme-footer {
+  background-color: #f8f8f8;
 }
 
 .appear {
@@ -41,12 +48,17 @@
   font-size: 50px;
   font-weight: 400;
   line-height: 1.16;
+  margin: 0;
 }
 
 .subtitle {
   font-size: 22px;
   font-weight: 400;
   line-height: 1.21;
+  width: 100%;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #000;
+  margin: 0;
   letter-spacing: -4%;
 }
 
@@ -60,6 +72,7 @@
 .caption {
   font-size: 13px;
   line-height: 1.21;
+  margin: 0;
 }
 
 .btn-close {
