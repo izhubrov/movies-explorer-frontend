@@ -111,9 +111,7 @@
 }
 
 @media screen and (max-width: 660px) {
-  .about-me {
-    padding: 70px 14px;
-  }
+
   .about-me__title {
     padding-top: 40px;
   }
@@ -130,6 +128,12 @@
   .about-me__outer-container {
     flex-direction: column-reverse;
     padding-top: 40px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .about-me {
+    padding: 70px 14px;
   }
 }
 

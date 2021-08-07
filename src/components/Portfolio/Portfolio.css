@@ -71,8 +71,12 @@
   .portfolio__title {
     padding-bottom: 40px;
   }
-  .portfolio__item {
+  .portfolio__link-text {
     font-size: 18px;
     line-height: 1.56;
+  }
+  .portfolio__arrow-icon {
+    width: 11px;
+    height: 12px;
   }
 }
