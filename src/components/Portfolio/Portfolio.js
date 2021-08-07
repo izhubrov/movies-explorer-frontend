@@ -1,5 +1,6 @@
 import React from "react";
 import "./Portfolio.css";
+import arrow from "../../images/arrow.svg";
 
 function Portfolio() {
   return (
@@ -14,7 +15,7 @@ function Portfolio() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="portfolio__arrow-icon">&rarr;</p>
+                <img className="portfolio__arrow-icon" alt="Иконка стрелки" src={arrow}></img>
               </a>
             </li>
             <li className="portfolio__item">
@@ -25,7 +26,7 @@ function Portfolio() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="portfolio__arrow-icon">&rarr;</p>
+                <img className="portfolio__arrow-icon" alt="Иконка стрелки" src={arrow}></img>
               </a>
             </li>
             <li className="portfolio__item">
@@ -36,7 +37,7 @@ function Portfolio() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <p className="portfolio__arrow-icon">&rarr;</p>
+                <img className="portfolio__arrow-icon" alt="Иконка стрелки" src={arrow}></img>
               </a>
             </li>
           </ul>

@@ -26,22 +26,23 @@
 .portfolio__item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding-bottom: 20px;
   border-bottom: 1px solid #E6E6E6;
+}
+
+.portfolio__link-text {
+  margin: 0;
   font-size: 28px;
   line-height: 1.78;
   font-weight: 400;
   letter-spacing: -4%;
 }
-
-.portfolio__link-text {
-  margin: 0;
-}
 .portfolio__link {
   text-decoration: none;
-  color: #000;
   transition: opacity .3s ease-in-out;
+  height: 17px;
 }
 
 .portfolio__link:hover {
@@ -49,8 +50,8 @@
 }
 
 .portfolio__arrow-icon {
-  transform: rotate(-45deg);
   margin: 0;
+  object-position: center;
 }
 
 @media screen and (max-width: 918px) {
