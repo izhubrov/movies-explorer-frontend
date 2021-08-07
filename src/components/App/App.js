@@ -10,8 +10,7 @@ import Main from "../Main/Main";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
-
-
+import Movies from "../Movies/Movies";
 
 function App() {
   const history = useHistory();
@@ -25,7 +24,7 @@ function App() {
         <Header
         />
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <Main
             />
           </Route>
@@ -36,6 +35,9 @@ function App() {
           <Route path="/sign-in">
             <Login
             />
+          </Route>
+          <Route path="/movies">
+            <Movies/>
           </Route>
         </Switch>
         <Footer

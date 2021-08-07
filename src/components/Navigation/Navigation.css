@@ -124,6 +124,7 @@
   padding: 0;
   transform: rotate(90deg);
   display: none;
+  margin-right: 8px;
 }
 
 .navigation__btn-menu:hover {
@@ -135,8 +136,8 @@
 }
 
 .navigation__burger-line {
-  border: 2px solid #000;
-  margin-right: 6px;
+  background-color: #000;
+  margin-right: 7px;
   width: 3px;
   box-sizing: border-box;
 }
@@ -165,8 +166,18 @@
     row-gap: 24px;
     padding: 13px 13px 48px;
   }
-
   .navigation__item_active-column {
     padding-bottom: 7px;
   }
+  .navigation__btn-menu {
+    height: 22px;
+    margin-right: 8px;
+  }
+  .navigation__burger-line {
+    background-color: #000;
+    margin-right: 6.5px;
+    width: 2.5px;
+    box-sizing: border-box;
+  }
+
 }
