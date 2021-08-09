@@ -3,6 +3,7 @@ import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckBox from '../FilterCheckBox/FilterCheckBox';
 import Preloader from '../Preloader/Preloader';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 function Movies() {
   return (
@@ -10,6 +11,7 @@ function Movies() {
       <SearchForm/>
       <FilterCheckBox/>
       <Preloader/>
+      <MoviesCardList/>
     </section>
   );
 }

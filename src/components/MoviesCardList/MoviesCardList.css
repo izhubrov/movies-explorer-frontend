@@ -26,11 +26,23 @@
     padding-right: 30px;
     padding-left: 30px;
   }
+  .movies-card-list__container {
+    column-gap: 30px;
+    row-gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(339px, max-content));
+    grid-auto-rows: 262px;
+  }
 }
 
 @media screen and (max-width: 520px) {
   .movies-card-list {
     padding-right: 10px;
     padding-left: 10px;
+  }
+
+  .movies-card-list__container {
+    row-gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+    grid-auto-rows: 237px;
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../../utils/utils';
+import { movies } from '../../utils/utils';
 
 function MoviesCardList() {
 
@@ -11,7 +11,7 @@ function MoviesCardList() {
         {
           movies.map((movie) => {
             return (
-              <MoviesCard key={movie._id}/>
+              <MoviesCard movie={movie} key={movie._id}/>
             );
           })
         }
