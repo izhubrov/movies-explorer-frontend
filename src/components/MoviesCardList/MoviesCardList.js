@@ -6,7 +6,7 @@ import { movies } from '../../utils/utils';
 function MoviesCardList() {
 
   return (
-    <section className="movies-card-list page__container">
+    <section className="movies-card-list">
       <ul className="movies-card-list__container">
         {
           movies.map((movie) => {
