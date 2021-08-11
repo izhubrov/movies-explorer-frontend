@@ -1,0 +1,16 @@
+.form {
+  width: 100%;
+}
+
+.form__field {
+  padding: 0;
+  width: 100%;
+  height: 31px;
+  margin: 0 0 1px;
+  font-family: inherit;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+

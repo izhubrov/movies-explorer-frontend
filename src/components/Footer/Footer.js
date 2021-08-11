@@ -1,10 +1,21 @@
 import "./Footer.css";
+import { useLocation } from "react-router-dom";
 
 function Footer() {
+  const location = useLocation();
+  const isLocationRegisterOrLoginOrProfileOrNotFound =
+    location.pathname === "/signin" ||
+    location.pathname === "/signup" ||
+    location.pathname === "/profile" ||
+    location.pathname === "/not-found";
+
   return (
-    <div className="theme-footer">
+    !isLocationRegisterOrLoginOrProfileOrNotFound &&
+      <div className="theme-footer">
       <footer className="footer page__container">
-        <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+        <p className="footer__text">
+          Учебный проект Яндекс.Практикум х BeatFilm.
+        </p>
         <div className="footer__container">
           <p className="footer__copyrights">&copy; 2021</p>
           <ul className="footer__socials">
@@ -40,7 +51,6 @@ function Footer() {
             </li>
           </ul>
         </div>
-
       </footer>
     </div>
   );

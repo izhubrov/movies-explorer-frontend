@@ -12,6 +12,7 @@ import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
+import Profile from "../Profile/Profile";
 
 function App() {
   const history = useHistory();
@@ -35,6 +36,10 @@ function App() {
           </Route>
           <Route path="/sign-in">
             <Login
+            />
+          </Route>
+          <Route path="/profile">
+            <Profile
             />
           </Route>
           <Route path="/movies">
