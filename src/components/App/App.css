@@ -20,7 +20,6 @@
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
-  position: relative;
 }
 
 .page__container {
@@ -95,16 +94,13 @@
 }
 
 .btn-close {
-  border: none;
-  outline: none;
   background-color: transparent;
-  background-image: url('../../images/close-icon.svg');
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
-  transform: rotate(90deg);
   transition: opacity .3s;
   padding: 0;
+  border: none;
+  outline: none;
+  position: relative;
 }
 
 .btn-close:hover {
@@ -118,8 +114,45 @@
   justify-self: end;
 }
 
+.btn-close_place_saved-movies {
+  width: 7px;
+  height: 7px;
+  display: none;
+  justify-self: end;
+  margin-top: 4.5px;
+  margin-right: 11.5px;
+}
+
+.btn-close_place_navigation::before, .btn-close_place_navigation::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  width: 3px;
+  height: 100%;
+  background-color: #000;
+}
+
+.btn-close_place_saved-movies::before, .btn-close_place_saved-movies::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  width: 1px;
+  height: 100%;
+  background-color: #000;
+}
+
+.btn-close::before {
+  transform: rotate(45deg);
+}
+
+.btn-close::after {
+  transform: rotate(-45deg);
+}
+
 .btn-close_active {
-  display: grid;
+  display: flex;
 }
 
 .btn-close_place_navigation:hover {

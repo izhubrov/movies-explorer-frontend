@@ -23,6 +23,7 @@
   padding: 22px 22px 92px;
   max-width: 520px;
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
 }

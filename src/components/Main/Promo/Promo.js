@@ -1,6 +1,6 @@
 import React from "react";
 import "./Promo.css";
-import Web from "../../images/web.png";
+import Web from "../../../images/web.png";
 
 function Promo() {
   const ref = React.useRef(null);

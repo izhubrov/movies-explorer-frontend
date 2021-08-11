@@ -1,5 +1,5 @@
-.movies {
-  padding: 60px 70px 0;
+.saved-movies {
+  padding: 60px 70px 247px;
   max-width: 1280px;
   box-sizing: border-box;
   display: flex;
@@ -8,16 +8,13 @@
 }
 
 @media screen and (max-width: 918px) {
-  .movies {
-    padding-top: 80px;
-    padding-right: 30px;
-    padding-left: 30px;
+  .saved-movies {
+    padding: 70px 30px 170px;
   }
 }
 
 @media screen and (max-width: 520px) {
-  .movies {
-    padding-right: 10px;
-    padding-left: 10px;
+  .saved-movies {
+    padding: 70px 10px 166px;
   }
 }

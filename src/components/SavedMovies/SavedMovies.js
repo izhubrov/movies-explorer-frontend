@@ -1,13 +1,13 @@
 import React from 'react';
-import './Movies.css';
+import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckBox from '../FilterCheckBox/FilterCheckBox';
 // import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies() {
+function SavedMovies() {
   return (
-    <section className="movies page__container">
+    <section className="saved-movies page__container">
       <SearchForm/>
       <FilterCheckBox/>
       {/* <Preloader/> */}
@@ -16,4 +16,4 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default SavedMovies;
