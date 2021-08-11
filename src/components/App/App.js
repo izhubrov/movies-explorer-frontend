@@ -8,7 +8,7 @@ import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Register from "../Register/Register";
-import Login from "../Login/Login";
+import Login from "../Form/Login/Login";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
