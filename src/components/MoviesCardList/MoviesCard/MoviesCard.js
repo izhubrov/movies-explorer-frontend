@@ -4,8 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 function MoviesCard({ movie }) {
 
-  // const isLiked = movie.likes.some((userWhoLiked)=>userWhoLiked._id === currentUser._id);
-  // const cardButtonSaveClassName = `cards__btn-like ${isLiked ? 'cards__btn-like_active appear': ''}`;
   const location = useLocation();
   const isLocationSavedMovies = location.pathname === '/saved-movies';
 
