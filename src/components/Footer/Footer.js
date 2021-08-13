@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 function Footer() {
   const location = useLocation();
   const isLocationRegisterOrLoginOrProfileOrNotFound =
-    location.pathname === "/signin" ||
-    location.pathname === "/signup" ||
+    location.pathname === "/sign-in" ||
+    location.pathname === "/sign-up" ||
     location.pathname === "/profile" ||
     location.pathname === "/not-found";
 

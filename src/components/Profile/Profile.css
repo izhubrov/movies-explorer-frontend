@@ -17,11 +17,6 @@
   margin: 0;
 }
 
-.profile__inputs-container {
-  display: flex;
-  width: 100%;
-}
-
 .profile__signout {
   font-size: 13px;
   font-weight: 500;
@@ -37,12 +32,12 @@
 
 @media screen and (max-width: 918px) {
   .profile {
-    padding-top: 236px;
-    padding-bottom: 269px;
+    padding-top: calc(236 * 100vh / 1024);
+    padding-bottom: calc(269 * 100vh / 1024);
   }
 
   .profile__title {
-    padding-bottom: 96px;
+    padding-bottom: calc(96 * 100vh / 1024);
   }
 }
 
@@ -51,6 +46,6 @@
     padding: 70px 30px 40px;
   }
   .profile__title {
-    padding-bottom: 80px;
+    padding-bottom: calc(80 * 100vh / 1024);
   }
 }

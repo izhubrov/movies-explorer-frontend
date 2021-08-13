@@ -4,7 +4,6 @@
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: repeat(2, max-content) 1fr;
-  padding-top: 50px;
 }
 
 .form__field {
@@ -79,6 +78,7 @@
   font-family: inherit;
   color: #EE3465;
   padding-top: 6px;
+  margin-bottom: 5px;
   box-sizing: border-box;
   opacity: 0;
   transition: all .3s ease-in-out;

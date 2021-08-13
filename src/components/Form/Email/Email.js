@@ -3,6 +3,7 @@ import "./Email.css";
 
 function Email() {
   const [isFocused, setFocused] = React.useState(false);
+  const [isValid, setValid] = React.useState(false || "");
 
   function handleChange() {
 
@@ -24,14 +25,15 @@ function Email() {
         <input
           type="email"
           name="E-mail"
-          className={`form__input form__input_type_error`}
+          value={"pochta@yandex.ru"}
+          className={`form__input ${!isValid ? "form__input_type_error" : "" }`}
           required
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleLeave}
         />
       </div>
-      <span className={`form__input-error form__input-error_active`}>Что-то пошло не так...</span>
+      <span className={`form__input-error ${!isValid ? "form__input-error_active" : "" }`}>Что-то пошло не так...</span>
     </label>
   );
 }

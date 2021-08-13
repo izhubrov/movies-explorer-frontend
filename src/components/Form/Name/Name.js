@@ -3,6 +3,7 @@ import "./Name.css";
 
 function Name() {
   const [isFocused, setFocused] = React.useState(false);
+  const [isValid, setValid] = React.useState(false || "");
 
   function handleChange() {
 
@@ -24,7 +25,8 @@ function Name() {
         <input
           type="text"
           name="name"
-          className={`form__input form__input_type_error`}
+          value={"Виталий"}
+          className={`form__input ${!isValid ? "form__input_type_error" : "" }`}
           required
           minLength="2"
           maxLength="30"
@@ -33,7 +35,7 @@ function Name() {
           onBlur={handleLeave}
         />
       </div>
-      <span className={`form__input-error form__input-error_active`}>Что-то пошло не так...</span>
+      <span className={`form__input-error ${!isValid ? "form__input-error_active" : "" }`}>Что-то пошло не так...</span>
     </label>
   );
 }

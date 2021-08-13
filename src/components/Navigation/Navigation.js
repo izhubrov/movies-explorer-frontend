@@ -59,12 +59,15 @@ function Navigation() {
               <NavLink onClick={handleSavedMoviesPage} className="navigation__item" activeClassName={!isColumnMenu ? "navigation__item_active" : "navigation__item_active-column"} to={"/saved-movies"}>Сохраненные фильмы</NavLink>
             </div>
             <div className={`navigation__account-container ${isColumnMenu ? "navigation__account-container_type_column" : ""}`}>
-              <NavLink onClick={handleProfilePage}className="navigation__item" to={"/profile"}>Аккаунт</NavLink>
-              <img
-                className="navigation__logo-account appear"
-                src={navigationLogoAccount}
-                alt="Логотип аккаунта"
-              />
+              <NavLink onClick={handleProfilePage} className="navigation__item" to={"/profile"}>
+                  <p>Аккаунт</p>
+                  <img
+                    className="navigation__logo-account appear"
+                    src={navigationLogoAccount}
+                    alt="Логотип аккаунта"
+                  />
+                </NavLink>
+
             </div>
           </div>
           }
