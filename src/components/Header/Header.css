@@ -30,7 +30,10 @@
   display: flex;
   object-fit: contain;
   object-position: center;
+}
 
+.header__logo-image_place_auth {
+  margin: 0;
 }
 
 

@@ -1,10 +1,7 @@
 .register {
   display: flex;
-  flex-direction: column;
-  padding: 40px 0 70px;
   max-width: 396px;
   box-sizing: border-box;
-  height: calc(100vh - 108px);
 }
 
 .register__title {
@@ -44,25 +41,15 @@
   opacity: 0.6;
 }
 
-
-@media screen and (max-width: 918px) {
-  .register {
-    padding-top: 40px;
-    padding-bottom: calc(232 * 100vh / 1024);
-    height: calc(100vh - 38px - (232 * 100vh / 1024));
-  }
-}
-
 @media screen and (max-width: 520px) {
-  .register {
-    padding: 50px 30px 30px;
-    height: calc(100vh - 38px - 56px);
-  }
   .register__title {
-    padding-bottom: calc(80 * 100vh / 1024);
+    padding-bottom: calc(80 * 100vh / 780);
     text-align: center;
   }
   .register__text {
+    font-size: 12px;
+  }
+  .register__signin {
     font-size: 12px;
   }
 }

@@ -19,7 +19,7 @@
 
 .navigation__container_type_column {
   background-color: rgba(255,255,255,1);
-  height: 100vh;
+  min-height: 100vh;
   padding: 22px 22px 92px;
   max-width: 520px;
   position: absolute;
@@ -182,5 +182,14 @@
     width: 2.5px;
     box-sizing: border-box;
   }
+}
 
+@media screen and (max-height: 520px) {
+  .navigation__films-container_type_column {
+    padding-top: 45px;
+  }
+  .navigation__container_type_column {
+    row-gap: 24px;
+    padding-bottom: 26px;
+  }
 }

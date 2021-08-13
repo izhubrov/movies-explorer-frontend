@@ -12,13 +12,17 @@ function Profile() {
 
   return (
     <section className="profile page__container">
-      <h2 className="profile__title">Привет, Виталий!</h2>
       <Form>
-        <Name/>
-        <Email/>
-        <SubmitButton buttonSubmitText="Редактировать"/>
+        <h2 className="profile__title">Привет, Виталий!</h2>
+        <>
+          <Name/>
+          <Email/>
+        </>
+        <>
+          <SubmitButton buttonSubmitText="Редактировать"/>
+          <NavLink onClick={handleLogout} className="profile__signout" to={"/"}>Выйти из аккаунта</NavLink>
+        </>
       </Form>
-      <NavLink onClick={handleLogout} className="profile__signout" to={"/"}>Выйти из аккаунта</NavLink>
     </section>
   );
 }

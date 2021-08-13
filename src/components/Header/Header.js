@@ -9,7 +9,8 @@ import { NavLink } from 'react-router-dom';
 function Header() {
   const location = useLocation();
   const isLocationMain = location.pathname === '/';
-  const isLocationRegisterOrLogin = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+  // const isLocationRegisterOrLogin = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+  const isLocationRegisterOrLogin = location.pathname === '/sign-up';
   const history = useHistory();
 
   return (
@@ -17,7 +18,7 @@ function Header() {
       <header className={`header ${isLocationRegisterOrLogin ? "header__auth-location" : ""} page__container`}>
         <NavLink className="header__logo-link" to={"/"}>
           <img
-            className="header__logo-image appear"
+            className={`header__logo-image ${isLocationRegisterOrLogin ? "header__logo-image_place_auth" : ""} appear`}
             src={headerLogo}
             alt="Логотип сайта"
           />

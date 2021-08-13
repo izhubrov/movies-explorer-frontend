@@ -19,7 +19,17 @@
   padding: 0;
 }
 
-.form__btn-submit:hover {
+.submit-button_place_auth {
+  padding: 13px 0 15px;
+  box-sizing: border-box;
+  background-color: #3456F3;
+  border-radius: 3px;
+  color:#fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.submit-button:hover {
   opacity: 0.8;
 }
 
@@ -29,4 +39,11 @@
 
 .submit-button_inactive:hover {
   opacity: 0.2;
+}
+
+@media screen and (max-width: 520px) {
+  .submit-button_place_auth {
+    padding-top: 15px;
+    font-size: 12px;
+  }
 }

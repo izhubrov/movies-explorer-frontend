@@ -1,6 +1,6 @@
 import "./Form.css";
 
-function Form({ children }) {
+function Form({ children, authPage }) {
 
   function onSubmit() {
 
@@ -8,7 +8,7 @@ function Form({ children }) {
 
   return (
     <form
-      className="form"
+      className={`form ${authPage ? "form__auth-page" : ""} `}
       onSubmit={onSubmit}
       noValidate
     >

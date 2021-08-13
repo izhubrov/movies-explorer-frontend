@@ -1,9 +1,9 @@
 import React from 'react';
 import "./Email.css";
 
-function Email() {
+function Email( {authPage} ) {
   const [isFocused, setFocused] = React.useState(false);
-  const [isValid, setValid] = React.useState(false || "");
+  const [isValid, setValid] = React.useState(true);
 
   function handleChange() {
 
@@ -20,13 +20,12 @@ function Email() {
 
   return (
     <label className="form__field">
-      <div className={`form__input-container ${isFocused ? "form__input-container_focused" : ""}`}>
-        <div className="form__placeholder">E-mail</div>
+      <div className={`form__input-container ${authPage ? "form__input-container_place_auth" : ""} ${isFocused ? "form__input-container_focused" : ""}`}>
+        <div className={`form__placeholder ${authPage ? "form__placeholder_place_auth" : ""}`}>E-mail</div>
         <input
           type="email"
           name="E-mail"
-          value={"pochta@yandex.ru"}
-          className={`form__input ${!isValid ? "form__input_type_error" : "" }`}
+          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${!isValid ? "form__input_type_error" : "" }`}
           required
           onChange={handleChange}
           onFocus={handleFocus}

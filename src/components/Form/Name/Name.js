@@ -1,9 +1,9 @@
 import React from 'react';
 import "./Name.css";
 
-function Name() {
+function Name({ authPage }) {
   const [isFocused, setFocused] = React.useState(false);
-  const [isValid, setValid] = React.useState(false || "");
+  const [isValid, setValid] = React.useState(true);
 
   function handleChange() {
 
@@ -20,13 +20,12 @@ function Name() {
 
   return (
     <label className="form__field">
-      <div className={`form__input-container ${isFocused ? "form__input-container_focused" : ""}`}>
-        <div className="form__placeholder">Имя</div>
+      <div className={`form__input-container ${authPage ? "form__input-container_place_auth" : ""} ${isFocused ? "form__input-container_focused" : ""}`}>
+        <div className={`form__placeholder ${authPage ? "form__placeholder_place_auth" : ""}`}>Имя</div>
         <input
           type="text"
           name="name"
-          value={"Виталий"}
-          className={`form__input ${!isValid ? "form__input_type_error" : "" }`}
+          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${!isValid ? "form__input_type_error" : "" }`}
           required
           minLength="2"
           maxLength="30"
