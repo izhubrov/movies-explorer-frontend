@@ -1,32 +1,27 @@
 import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from './MoviesCard/MoviesCard';
-import { movies } from '../../utils/utils';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCardList() {
+function MoviesCardList({ moviesListShown, onShowMoreMovies, allMoviesAreShown }) {
   const location = useLocation();
-  const isLocationMovies = location.pathname == '/movies';
-
-  function handleAddMoreMovies() {
-
-  }
+  const isLocationMovies = location.pathname === '/movies';
 
   return (
     <section className="movies-card-list">
-      {movies.length === 0 && <p className="subtitle">К сожалению, по вашему запросу ничего не найдено.</p>}
+      {!moviesListShown.length && <p className="subtitle">К сожалению, по вашему запросу ничего не найдено.</p>}
       <ul className="movies-card-list__container">
         {
-          movies.map((movie) => {
+          moviesListShown.map((movie) => {
             return (
               <MoviesCard movie={movie} key={movie._id}/>
             );
           })
         }
       </ul>
-      {isLocationMovies &&
+      {isLocationMovies && !allMoviesAreShown &&
         <button
-          onClick={handleAddMoreMovies}
+          onClick={onShowMoreMovies}
           type="button"
           aria-label="Ещё"
           className="movies-card-list__button-more-movies"

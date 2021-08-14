@@ -3,14 +3,13 @@ import { useLocation } from "react-router-dom";
 
 function Footer() {
   const location = useLocation();
-  const isLocationRegisterOrLoginOrProfileOrNotFound =
-    location.pathname === "/sign-in" ||
-    location.pathname === "/sign-up" ||
-    location.pathname === "/profile" ||
-    location.pathname === "/not-found";
+  const isLocationMainOrMovies =
+    location.pathname === "/" ||
+    location.pathname === "/movies" ||
+    location.pathname === "/saved-movies";
 
   return (
-    !isLocationRegisterOrLoginOrProfileOrNotFound &&
+    isLocationMainOrMovies &&
       <div className="theme-footer">
       <footer className="footer page__container">
         <p className="footer__text">

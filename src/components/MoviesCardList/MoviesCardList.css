@@ -10,6 +10,7 @@
 
 .movies-card-list__container {
   width: 100%;
+  box-sizing: border-box;
   justify-content: center;
   display: grid;
   column-gap: 24px;
@@ -44,7 +45,7 @@
   opacity: 0.6;
 }
 
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1210px) {
   .movies-card-list__container {
     column-gap: 30px;
     row-gap: 30px;

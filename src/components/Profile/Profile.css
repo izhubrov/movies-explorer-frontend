@@ -3,38 +3,3 @@
   max-width: 410px;
   box-sizing: border-box;
 }
-
-.profile__title {
-  font-size: 24px;
-  line-height: 1.21;
-  font-weight: 500;
-  text-align: center;
-  padding-bottom: 123px;
-  margin: 0;
-}
-
-.profile__signout {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.21;
-  color: #EE3465;
-  text-decoration: none;
-  text-align: center;
-  transition: opacity .3s ease-in-out;
-}
-
-.profile__signout:hover {
-  opacity: 0.6;
-}
-
-@media screen and (max-width: 918px) {
-  .profile__title {
-    padding-bottom: calc(96 * 100vh / 1024);
-  }
-}
-
-@media screen and (max-width: 520px) {
-  .profile__title {
-    padding-bottom: calc(80 * 100vh / 780);
-  }
-}

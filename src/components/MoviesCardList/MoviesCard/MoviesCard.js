@@ -1,9 +1,10 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import './MoviesCard.css';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCard({ movie }) {
 
+function MoviesCard({ movie }) {
   const location = useLocation();
   const isLocationSavedMovies = location.pathname === '/saved-movies';
 
@@ -53,11 +54,11 @@ function MoviesCard({ movie }) {
           onClick={handleAddToSaveClick}
           ></button>
         }
-         { isLocationSavedMovies &&
-            <button
+        { isLocationSavedMovies &&
+          <button
             type="button"
             aria-label="Убрать из сохраненных"
-            className={`btn-close btn-close_place_saved-movies ${isRemoveButtonVisible? "btn-close_active" : ""} `}
+            className={`btn-close btn-close_place_saved-movies ${(isRemoveButtonVisible || isMobile) ? "btn-close_active" : ""} `}
             onClick={handleRemoveFromSavedClick}
           ></button>
         }
