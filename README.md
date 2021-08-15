@@ -3,8 +3,6 @@
 
 Адрес сервера клиентской части: https://izhubrov-mov-explorer.nomoredomains.monster
 
-Макет сайта: https://www.figma.com/file/MhwhkNnlKcgGwXKqLwQgAS/Diploma-(Copy)?node-id=891%3A3857
-
 ## Фронтенд
 Фронтенд часть приложения написана с помощью JavaScript библиотеки React с помощью [Create React App](https://github.com/facebook/create-react-app).
 Реализована верстка следующих страниц:
