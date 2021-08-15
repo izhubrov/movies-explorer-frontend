@@ -1,0 +1,49 @@
+.submit-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.21;
+  text-align: center;
+  color: #000;
+  background-color: transparent;
+  transition: opacity .3s;
+  cursor: pointer;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  display: grid;
+  justify-self: center;
+  align-content: end;
+  align-self: end;
+  padding: 0;
+}
+
+.submit-button_place_auth {
+  padding: 13px 0 15px;
+  box-sizing: border-box;
+  background-color: #3456F3;
+  border-radius: 3px;
+  color:#fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.submit-button:hover {
+  opacity: 0.8;
+}
+
+.submit-button_inactive {
+  opacity: 0.2;
+}
+
+.submit-button_inactive:hover {
+  opacity: 0.2;
+}
+
+@media screen and (max-width: 520px) {
+  .submit-button_place_auth {
+    padding-top: 15px;
+    font-size: 12px;
+  }
+}

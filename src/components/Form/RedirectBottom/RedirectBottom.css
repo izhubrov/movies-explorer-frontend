@@ -1,0 +1,44 @@
+.redirect-bottom {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.redirect-bottom__text {
+  color: #a0a0a0;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  margin: 0 6px 0 0;
+}
+
+.redirect-bottom__link {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.21;
+  color: #3456f3;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.redirect-bottom__link_place_profile {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ee3465;
+}
+
+.redirect-bottom__link:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 520px) {
+  .redirect-bottom__text {
+    font-size: 12px;
+  }
+  .redirect-bottom__link {
+    font-size: 12px;
+  }
+}
