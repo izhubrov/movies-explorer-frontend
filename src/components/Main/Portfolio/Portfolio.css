@@ -28,7 +28,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 19px;
   border-bottom: 1px solid #E6E6E6;
 }
 
@@ -37,7 +37,7 @@
   font-size: 28px;
   line-height: 1.78;
   font-weight: 400;
-  letter-spacing: -4%;
+  letter-spacing: -.04em;;
 }
 .portfolio__link {
   text-decoration: none;

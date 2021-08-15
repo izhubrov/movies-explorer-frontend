@@ -29,7 +29,7 @@
 .movies-card__container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  max-width: 87%;
   box-sizing: border-box;
 }
 
@@ -42,6 +42,7 @@
   white-space: nowrap;
   overflow: hidden;
   padding-bottom: 17px;
+  width: 100%;
 }
 
 .movies-card__duration {

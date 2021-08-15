@@ -11,7 +11,7 @@
   z-index: 2;
 }
 
-.header__auth-location {
+.header_place_auth {
   max-width: 396px;
   padding: 70px 0 0;
 }
@@ -19,6 +19,7 @@
 .header__logo-link {
   transition: opacity .3s ease-in-out;
 }
+
 .header__logo-link:hover {
   opacity: 0.6;
 }
@@ -42,7 +43,7 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-  .header__auth-location {
+  .header_place_auth {
     padding: calc(232 * 100vh / 1024) 0 0;
   }
 }
@@ -52,8 +53,16 @@
     padding-left: 14px;
     padding-right: 14px;
   }
-  .header__auth-location {
+  .header_place_auth {
     padding-top: 56px;
+    padding-left: 30px;
+    padding-right: 30px;
     justify-content: center;
+  }
+  .header__logo-link_place_auth {
+    display: flex;
+    width: 100%;
+  }
+  .header__logo-image_place_auth {
   }
 }

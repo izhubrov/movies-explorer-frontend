@@ -33,7 +33,6 @@
   line-height: 1.33;
   font-weight: 500;
   max-width: 131px;
-  border: none;
   border: 1px solid #000;
   box-sizing: border-box;
   outline: none;
@@ -55,6 +54,7 @@
 @media screen and (max-width: 918px) {
   .promo {
     padding-top: 140px;
+    padding-bottom: 76px;
     flex-direction: column-reverse;
     align-items: center;
   }
@@ -73,15 +73,13 @@
 
 @media screen and (max-width: 520px) {
   .promo {
-    padding-top: 70px;
-    padding-bottom: 30px;
+    padding: 70px 10px 30px;
   }
   .promo__title {
     padding-top: 44px;
   }
   .promo__caption {
-    padding-top: 24px;
-    padding-bottom: 80px;
+    padding: 24px 20px 80px;
   }
 
   .promo__image {

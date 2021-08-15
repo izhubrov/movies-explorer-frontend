@@ -116,8 +116,8 @@
 
 @media screen and (max-width: 918px) {
   .form {
-    padding-top: calc(236 * 100vh / 1024);
-    padding-bottom: calc(269 * 100vh / 1024);
+    padding-top: calc(198 * 100vh / 1024);
+    padding-bottom: calc(307 * 100vh / 1024);
   }
   .form__auth-page {
     padding-top: 40px;

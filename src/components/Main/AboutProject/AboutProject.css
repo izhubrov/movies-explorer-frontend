@@ -10,7 +10,7 @@
   font-size: 20px;
   line-height: 1.21;
   font-weight: 400;
-  letter-spacing: -4%;
+  letter-spacing: -.04em;;
   margin: 0;
   order: -1;
   padding-bottom: 26px;
@@ -31,7 +31,7 @@
 }
 
 .about-project__period {
-  padding: 9px 0;
+  padding: 10px 0;
   font-size: 14px;
   line-height: 1.21;
   font-weight: 400;
@@ -52,7 +52,7 @@
 .about-project__tag {
   margin: 0;
   font-size: 14px;
-  line-height: 1.21;
+  line-height: 1.214;
   font-weight: 400;
   color: #a0a0a0;
   text-align: center;

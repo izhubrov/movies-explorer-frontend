@@ -15,7 +15,7 @@ function Header({ isLoggedIn }) {
     <div className={`${isLocationMain ? "theme-dark" : ""}`}>
       <header
         className={`header ${
-          isLocationRegisterOrLogin ? "header__auth-location" : ""
+          isLocationRegisterOrLogin ? "header_place_auth" : ""
         } page__container`}
       >
         <NavLink className="header__logo-link" to={"/"}>
@@ -27,7 +27,7 @@ function Header({ isLoggedIn }) {
             alt="Логотип сайта"
           />
         </NavLink>
-        <Navigation isLoggedIn={isLoggedIn} />
+        {!isLocationRegisterOrLogin && <Navigation isLoggedIn={isLoggedIn} />}
       </header>
     </div>
   );

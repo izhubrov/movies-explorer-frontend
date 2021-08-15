@@ -8,7 +8,7 @@ function Portfolio() {
       <h2 className="portfolio__title">Портфолио</h2>
       <ul className="portfolio__container">
             <li className="portfolio__item">
-              <p className="portfolio__link-text">Статичный сайт</p>
+              <p className="portfolio__link-text">Научиться учиться</p>
               <a
                 className="portfolio__link"
                 href="https://izhubrov.github.io/how-to-learn-with-form/"
@@ -19,7 +19,7 @@ function Portfolio() {
               </a>
             </li>
             <li className="portfolio__item">
-              <p className="portfolio__link-text">Адаптивный сайт</p>
+              <p className="portfolio__link-text">Путешествия по России</p>
               <a
                 className="portfolio__link"
                 href="https://izhubrov.github.io/russian-travel/"
@@ -30,7 +30,7 @@ function Portfolio() {
               </a>
             </li>
             <li className="portfolio__item">
-              <p className="portfolio__link-text">Одностраничное приложение</p>
+              <p className="portfolio__link-text">Проект Место</p>
               <a
                 className="portfolio__link"
                 href="https://izhubrov-mesto.nomoredomains.club/sign-in"

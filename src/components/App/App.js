@@ -10,6 +10,7 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
+import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import movies from "../../utils/utils";
 let numberOfPackages = 0;
 
@@ -85,7 +86,10 @@ function App() {
         </Route>
         <Redirect to="/404" />
       </Switch>
+
       <Footer />
+
+      <ErrorPopup errorText={"Некорректно введен адрес электронной почты"} isActive={false} />
     </div>
   );
 }
