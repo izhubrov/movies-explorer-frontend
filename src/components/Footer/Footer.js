@@ -45,7 +45,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Яндекс.Практикум
+                Facebook
               </a>
             </li>
           </ul>
