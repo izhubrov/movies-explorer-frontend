@@ -1,0 +1,5 @@
+.register {
+  display: flex;
+  max-width: 396px;
+  box-sizing: border-box;
+}

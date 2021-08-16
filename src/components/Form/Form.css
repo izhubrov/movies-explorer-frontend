@@ -1,0 +1,137 @@
+.form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  min-height: calc(100vh - 74px);
+  box-sizing: border-box;
+  grid-template-rows: repeat(3, auto) 1fr;
+  justify-content: center;
+  font-family: inherit;
+  padding: 74px 0 70px;
+}
+
+.form__auth-page {
+  padding: 40px 0 70px;
+  min-height: calc(100vh - 108px);
+}
+
+.form__field {
+  padding: 0;
+  width: 100%;
+  margin: 0 0 1px;
+  font-family: inherit;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.form__input-container {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.form__input-container_place_auth {
+  flex-direction: column;
+}
+
+.form__input-container_place_profile {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.form__placeholder {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.21;
+  color: #000;
+  padding-right: 50px;
+  margin: 0;
+  background-color: transparent;
+  white-space: nowrap;
+}
+
+.form__placeholder_place_auth {
+  font-size: 10px;
+  font-weight: 400;
+  color: #a0a0a0;
+}
+
+.form__input {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.21;
+  border: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  text-align: right;
+  display: flex;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.form__input_place_auth {
+  text-align: unset;
+  padding-top: 5px;
+  font-size: 14px;
+}
+
+.form__input-container_focused {
+  border-bottom: 1px solid #3456f3;
+}
+
+.form__input:focus {
+  outline: none;
+}
+
+.form__input_type_error {
+  color: #ee3465;
+}
+
+.form__input-error {
+  /* visibility: hidden; */
+  font-size: 10px;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.21;
+  font-family: inherit;
+  color: #ee3465;
+  padding-top: 6px;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.form__input-error_active {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+}
+
+@media screen and (max-width: 918px) {
+  .form {
+    padding-top: calc(198 * 100vh / 1024);
+    padding-bottom: calc(307 * 100vh / 1024);
+  }
+  .form__auth-page {
+    padding-top: 40px;
+    padding-bottom: calc(232 * 100vh / 1024);
+    min-height: calc(100vh - 38px - (232 * 100vh / 1024));
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .form {
+    padding: 70px 30px 40px;
+  }
+  .form__auth-page {
+    padding: 50px 30px 30px;
+    min-height: calc(100vh - 38px - 56px);
+  }
+}
