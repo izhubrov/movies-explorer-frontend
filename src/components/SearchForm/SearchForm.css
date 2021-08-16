@@ -6,13 +6,18 @@
   padding: 0;
   width: 100%;
   margin: 0;
+  min-height: 46px;
   font-family: inherit;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   background-color: #f4f4f4;
   border-radius: 40px;
-  padding: 6px 6px 6px 22px;
+  padding: 5px 6px 5px 22px;
+}
+
+.search-form__field_focused {
+  border: 1px solid #3456f3;
 }
 
 .search-form__input {
@@ -36,11 +41,11 @@
   border: none;
   outline: none;
   padding: 6px 29px;
-  background-image: url('../../images/search-icon.svg');
+  background-image: url("../../images/search-icon.svg");
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #3456F3;
-  transition: opacity .3s;
+  background-color: #3456f3;
+  transition: opacity 0.3s;
   cursor: pointer;
   height: 34px;
   width: 80px;
