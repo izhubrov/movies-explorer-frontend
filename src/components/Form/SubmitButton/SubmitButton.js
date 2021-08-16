@@ -2,8 +2,7 @@ import React from 'react';
 import "./SubmitButton.css";
 
 
-function SubmitButton({buttonSubmitText, authPage}) {
-  const [buttonSubmitState, setButtonSubmitState] = React.useState(true);
+function SubmitButton({buttonSubmitText, authPage, buttonSubmitState}) {
 
   return (
     <button

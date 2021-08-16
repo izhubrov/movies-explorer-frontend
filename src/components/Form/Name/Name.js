@@ -1,13 +1,9 @@
 import React from 'react';
 import "./Name.css";
 
-function Name({ authPage }) {
+function Name({ authPage, values, handleChange, errors }) {
   const [isFocused, setFocused] = React.useState(false);
-  const [isValid, setValid] = React.useState(true);
 
-  function handleChange() {
-
-  }
 
   function handleFocus() {
     setFocused(true);
@@ -25,7 +21,8 @@ function Name({ authPage }) {
         <input
           type="text"
           name="name"
-          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${!isValid ? "form__input_type_error" : "" }`}
+          value={values.name || ""}
+          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${errors.name ? "form__input_type_error" : "" }`}
           required
           minLength="2"
           maxLength="30"
@@ -34,7 +31,7 @@ function Name({ authPage }) {
           onBlur={handleLeave}
         />
       </div>
-      <span className={`form__input-error ${!isValid ? "form__input-error_active" : "" }`}>Что-то пошло не так...</span>
+      <span className={`form__input-error ${errors.name ? "form__input-error_active" : "" }`}>{errors.name}</span>
     </label>
   );
 }

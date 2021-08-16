@@ -1,13 +1,8 @@
 import React from 'react';
 import "./Password.css";
 
-function Password({authPage}) {
+function Password({authPage, values, handleChange, errors}) {
   const [isFocused, setFocused] = React.useState(false);
-  const [isValid, setValid] = React.useState(true);
-
-  function handleChange() {
-
-  }
 
   function handleFocus() {
     setFocused(true);
@@ -24,8 +19,9 @@ function Password({authPage}) {
         <div className={`form__placeholder ${authPage ? "form__placeholder_place_auth" : ""}`}>Пароль</div>
         <input
           type="password"
-          name="Пароль"
-          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${!isValid ? "form__input_type_error" : "" }`}
+          name="password"
+          value={values.password || ""}
+          className={`form__input ${authPage ? "form__input_place_auth" : ""} ${errors.password ? "form__input_type_error" : "" }`}
           required
           minLength="8"
           onChange={handleChange}
@@ -33,7 +29,7 @@ function Password({authPage}) {
           onBlur={handleLeave}
         />
       </div>
-      <span className={`form__input-error ${!isValid ? "form__input-error_active" : "" }`}>Что-то пошло не так...</span>
+      <span className={`form__input-error ${errors.password ? "form__input-error_active" : "" }`}>{errors.password}</span>
     </label>
   );
 }
