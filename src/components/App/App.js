@@ -11,6 +11,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import { images } from "../../utils/utils";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
@@ -20,9 +21,13 @@ let numberOfPackages = 0;
 function App() {
   const history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
-  const [moviesListShown, setMoviesListShown] = React.useState([]);
-  const [allMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [isMoviesListShown, setMoviesListShown] = React.useState([]);
+  const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
+  const [isCurrentUser, setCurrentUser] = React.useState({});
+  const [isError, setError] = React.useState({ errorText: "", isActive: false });
+  const [isSuccess, setSuccess] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
 
   React.useEffect(() => {
     setMoviesListShown(images.filter((movie, index) => index < 12));
@@ -30,12 +35,12 @@ function App() {
 
   React.useEffect(()=>{
     checkCountOfShownMovies();
-  },[moviesListShown]);
+  },[isMoviesListShown]);
 
   function handleShowMovies() {
     numberOfPackages++;
     setMoviesListShown([
-      ...moviesListShown,
+      ...isMoviesListShown,
       ...images.filter(
         (movie, index) =>
           index >= (12 * numberOfPackages) && index < (12 * (numberOfPackages + 1))
@@ -44,26 +49,23 @@ function App() {
   }
 
   function checkCountOfShownMovies() {
-    if (moviesListShown.length === images.length) setAllMoviesAreShown(true);
+    if (isMoviesListShown.length === images.length) setAllMoviesAreShown(true);
   }
 
 
   function handleCheckToken() {
-    // setIsLoading(true);
+    setIsLoading(true);
     mainApi
       .checkToken()
       .then((res) => {
         setCurrentUser(res);
         setIsLoggedIn(true);
-        // setIsLoading(false);
+        setIsLoading(false);
         history.push("/movies");
       })
-      .catch(() => {
-        // setIsLoading(false);
-        // if (isLoggedIn !== null) {
-        //   setIsSuccessInfoToolTip(false);
-        //   setInfoToolTipPopupOpen(true);
-        // }
+      .catch(async (err) => {
+        setIsLoading(false);
+        await handleShowError(err);
       });
   }
 
@@ -74,10 +76,7 @@ function App() {
         handleCheckToken();
       })
       .catch(async (err) => {
-        // const newErr = await err;
-        // setErrorPopup(newErr.message, true);
-        // setTimeout(() => setErrorPopup(newErr.message, false), 5000);
-        console.log(err);
+        await handleShowError(err);
       });
   }
 
@@ -89,33 +88,50 @@ function App() {
         handleSignIn(data);
       })
       .catch(async (err) => {
-        // const newErr = await err;
-        // setErrorPopup(newErr.message, true);
-        // setTimeout(() => setErrorPopup(newErr.message, false), 5000);
-        console.log(err);
+        await handleShowError(err);
       });
   }
 
   function handleSignOut() {
     mainApi
-    .signOut(currentUser.email)
+    .signOut(isCurrentUser.email)
     .then(() => {
       setIsLoggedIn(null);
       history.push("/");
       setCurrentUser({ email: "", password: "", name: "" });
-      // setIsLoading(false);
+      setIsLoading(false);
     })
-    .catch(() => {
-      // setIsSuccessInfoToolTip(false);
-      // setInfoToolTipPopupOpen(true);
+    .catch(async (err) => {
+      await handleShowError(err);
     });
   }
 
-  function handleEditProfile() {}
+  function handleEditProfile(data) {
+    mainApi
+    .editProfile(data)
+    .then((res) => {
+      setCurrentUser(res);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    })
+    .catch(async (err) => {
+      await handleShowError(err);
+    });
+  }
+
+  async function handleShowError(err) {
+    const newErr = await err;
+    setErrorPopupFields(newErr.message, true);
+    setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
+  }
+
+  function setErrorPopupFields(message, active) {
+    setError({ errorText: message, isActive: active });
+  }
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={isCurrentUser}>
       <Header isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/">
@@ -133,20 +149,21 @@ function App() {
           component={Profile}
           onUpdateUser={handleEditProfile}
           onSignOut={handleSignOut}
+          isSuccess={isSuccess}
         />
         <ProtectedRoute
           exact path="/movies"
           isLoggedIn={isLoggedIn}
           component={Movies}
-          moviesListShown={moviesListShown}
+          isMoviesListShown={isMoviesListShown}
           onShowMoreMovies={handleShowMovies}
-          allMoviesAreShown={allMoviesAreShown}
+          isAllMoviesAreShown={isAllMoviesAreShown}
         />
         <ProtectedRoute
           exact path="/saved-movies"
           isLoggedIn={isLoggedIn}
           component={SavedMovies}
-          moviesListShown={moviesListShown}
+          isMoviesListShown={isMoviesListShown}
         />
         <Route path="/404">
           <NotFound />
@@ -156,7 +173,7 @@ function App() {
 
       <Footer />
 
-      <ErrorPopup errorText={"Некорректно введен адрес электронной почты"} isActive={false} />
+      <ErrorPopup errorText={isError.errorText} isActive={isError.isActive} />
       </CurrentUserContext.Provider>
     </div>
   );

@@ -54,6 +54,20 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
+  editProfile({name, email}) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "name": name,
+        "email": email
+      }),
+    }).then(this._checkResponse);
+  }
+
   checkToken() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",

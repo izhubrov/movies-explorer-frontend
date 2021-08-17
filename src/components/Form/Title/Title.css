@@ -26,3 +26,12 @@
     padding-bottom: calc(80 * 100vh / 780);
   }
 }
+
+@media screen and (max-height: 520px) {
+  .form-title {
+    padding-bottom: 20px;
+  }
+  .form-title_place_profile {
+    font-size: 20px;
+  }
+}

@@ -5,8 +5,9 @@ import Name from "../Form/Name/Name";
 import Email from "../Form/Email/Email";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
-function Profile({ onUpdateUser, onSignOut }) {
+function Profile({ onUpdateUser, onSignOut, isSuccess }) {
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -17,6 +18,10 @@ function Profile({ onUpdateUser, onSignOut }) {
   }, []);
 
   React.useEffect(()=>{
+    checkInputsToEqualCurrent();
+  },[values]);
+
+  function checkInputsToEqualCurrent() {
     const {name, email} = currentUser;
     if (!values.name && !values.email) return;
     if ((name === values.name.trim()) && (email === values.email.trim())) {
@@ -24,7 +29,7 @@ function Profile({ onUpdateUser, onSignOut }) {
     } else {
       setisInputsEqualCurrent(false);
     }
-  },[values]);
+  }
 
   function handleUpdateUser(evt) {
     evt.preventDefault();
@@ -41,7 +46,7 @@ function Profile({ onUpdateUser, onSignOut }) {
       <Form
         onSubmit={handleUpdateUser}
         authPage={false}
-        title={"Привет, Виталий!"}
+        title={`Привет, ${currentUser.name}!`}
         buttonSubmitText="Редактировать"
         onbottomLinkClick={handleSignOut}
         bottomLinkText="Выйти из аккаунта"
@@ -50,6 +55,7 @@ function Profile({ onUpdateUser, onSignOut }) {
       >
         <Name values={values} handleChange={handleChange} errors={errors} authPage={false} />
         <Email values={values} handleChange={handleChange} errors={errors} authPage={false} />
+        {isSuccess && <SuccessPopup isSuccess={isSuccess}/>}
       </Form>
     </section>
   );

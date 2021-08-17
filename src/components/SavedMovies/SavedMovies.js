@@ -5,13 +5,13 @@ import FilterCheckBox from '../FilterCheckBox/FilterCheckBox';
 // import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function SavedMovies({moviesListShown}) {
+function SavedMovies({isMoviesListShown}) {
   return (
     <section className="saved-movies page__container">
       <SearchForm/>
       <FilterCheckBox/>
       {/* <Preloader/> */}
-      <MoviesCardList moviesListShown={moviesListShown}/>
+      <MoviesCardList isMoviesListShown={isMoviesListShown}/>
     </section>
   );
 }

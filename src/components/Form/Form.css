@@ -129,10 +129,20 @@
 
 @media screen and (max-width: 520px) {
   .form {
-    padding: 70px 30px 40px;
+    padding: 30px 30px 10px;
   }
   .form__auth-page {
     padding: 50px 30px 30px;
+    min-height: calc(100vh - 38px - 56px);
+  }
+}
+
+@media screen and (max-height: 520px) {
+  .form {
+    padding: 10px 0 10px;
+  }
+  .form__auth-page {
+    padding: 20px 14px 10px 0;
     min-height: calc(100vh - 38px - 56px);
   }
 }

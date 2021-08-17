@@ -54,15 +54,21 @@
     padding-right: 14px;
   }
   .header_place_auth {
-    padding-top: 56px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 56px 0 0;
     justify-content: center;
   }
   .header__logo-link_place_auth {
     display: flex;
     width: 100%;
   }
-  .header__logo-image_place_auth {
+}
+
+@media screen and (max-height: 350px) {
+  .header_place_auth {
+    padding-top: 10px;
+    min-height: unset;
+  }
+  .header {
+    min-height: 56px;
   }
 }

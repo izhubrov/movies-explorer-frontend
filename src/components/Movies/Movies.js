@@ -5,13 +5,13 @@ import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
 // import Preloader from '../Preloader/Preloader';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ moviesListShown, onShowMoreMovies, allMoviesAreShown }) {
+function Movies({ isMoviesListShown, onShowMoreMovies, isAllMoviesAreShown }) {
   return (
     <section className="movies page__container">
       <SearchForm />
       <FilterCheckBox />
       {/* <Preloader/> */}
-      <MoviesCardList moviesListShown={moviesListShown} onShowMoreMovies={onShowMoreMovies} allMoviesAreShown={allMoviesAreShown}/>
+      <MoviesCardList isMoviesListShown={isMoviesListShown} onShowMoreMovies={onShowMoreMovies} isAllMoviesAreShown={isAllMoviesAreShown}/>
     </section>
   );
 }
