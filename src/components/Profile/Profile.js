@@ -1,22 +1,55 @@
+import React from 'react';
 import "./Profile.css";
 import Form from "../Form/Form";
 import Name from "../Form/Name/Name";
 import Email from "../Form/Email/Email";
+import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
-function Profile({ onSubmit, onSignOut }) {
+function Profile({ onUpdateUser, onSignOut }) {
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const currentUser = React.useContext(CurrentUserContext);
+
+  const [isInputsEqualCurrent,setisInputsEqualCurrent] = React.useState(false);
+
+  React.useEffect(() => {
+    resetForm(currentUser);
+  }, []);
+
+  React.useEffect(()=>{
+    const {name, email} = currentUser;
+    if (!values.name && !values.email) return;
+    if ((name === values.name.trim()) && (email === values.email.trim())) {
+      setisInputsEqualCurrent(true);
+    } else {
+      setisInputsEqualCurrent(false);
+    }
+  },[values]);
+
+  function handleUpdateUser(evt) {
+    evt.preventDefault();
+    onUpdateUser(values);
+  }
+
+  function handleSignOut(evt) {
+    evt.preventDefault();
+    onSignOut();
+  }
+
   return (
     <section className="profile page__container">
       <Form
-        onSubmit={onSubmit}
+        onSubmit={handleUpdateUser}
         authPage={false}
         title={"Привет, Виталий!"}
         buttonSubmitText="Редактировать"
-        onbottomLinkClick={onSignOut}
+        onbottomLinkClick={handleSignOut}
         bottomLinkText="Выйти из аккаунта"
         onBottomLinkRedirect="/"
+        buttonSubmitState={isInputsEqualCurrent ? false : isValid}
       >
-        <Name />
-        <Email />
+        <Name values={values} handleChange={handleChange} errors={errors} authPage={false} />
+        <Email values={values} handleChange={handleChange} errors={errors} authPage={false} />
       </Form>
     </section>
   );

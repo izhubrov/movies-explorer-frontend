@@ -3,7 +3,6 @@ import "./SubmitButton.css";
 
 
 function SubmitButton({buttonSubmitText, authPage, buttonSubmitState}) {
-
   return (
     <button
       type="submit"

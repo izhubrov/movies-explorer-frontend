@@ -29,7 +29,7 @@
 .form__input-container {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #e8e8e8;
 }
 
@@ -94,10 +94,11 @@
 }
 
 .form__input-error {
-  /* visibility: hidden; */
+  visibility: hidden;
   font-size: 10px;
   width: 100%;
   font-weight: 400;
+  min-height: 30px;
   line-height: 1.21;
   font-family: inherit;
   color: #ee3465;

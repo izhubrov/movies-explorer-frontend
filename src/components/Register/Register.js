@@ -6,7 +6,7 @@ import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Register({ onSubmit }) {
+function Register({ onSignUp }) {
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
@@ -14,10 +14,15 @@ function Register({ onSubmit }) {
     resetForm();
   }, []);
 
+  function handleSignUp(evt) {
+    evt.preventDefault();
+    onSignUp(values);
+  }
+
   return (
     <section className="register page__container">
       <Form
-        onSubmit={onSubmit}
+        onSubmit={handleSignUp}
         authPage={true}
         title={"Добро пожаловать!"}
         buttonSubmitText="Зарегистрироваться"

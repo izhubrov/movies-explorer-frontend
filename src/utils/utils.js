@@ -1,5 +1,4 @@
-const images = [
-  {
+const images = [{
     _id: '1',
     name: '33 слова о дизайне',
     link: '/images/1.jpg',
@@ -158,4 +157,24 @@ const images = [
 
 ];
 
-export default images;
+const nameRegExp = /^[a-zA-Zа-яА-ЯёЁ\- ]+$/;
+const passwordRegExp = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const customMessages = {
+  'name': 'Введен недопустимый символ. Разрешены к использованию буквы, дефис и пробел.',
+  'email': 'Введен некорректный адрес электронной почты.',
+  'password': 'Слишком слабый пароль. Необходимо использовать латинские буквы, как минимум 1 цифру, спецсимвол, прописную и заглавные буквы.'
+}
+
+// const baseUrl = "https://api.izhubrov-mov-explorer.nomoredomains.monster";
+const baseUrl = "http://localhost:3001";
+
+export {
+  images,
+  nameRegExp,
+  passwordRegExp,
+  emailRegExp,
+  customMessages,
+  baseUrl
+};

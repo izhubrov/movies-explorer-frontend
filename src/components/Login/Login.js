@@ -1,22 +1,36 @@
+import React from 'react';
 import "./Login.css";
 import Form from "../Form/Form";
 import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
+import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Login({ onSubmit }) {
+function Login({ onSignIn }) {
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+
+  React.useEffect(() => {
+    resetForm();
+  }, []);
+
+  function handleSignIn(evt) {
+    evt.preventDefault();
+    onSignIn(values);
+  }
+
   return (
     <section className="register page__container">
       <Form
-        onSubmit={onSubmit}
+        onSubmit={handleSignIn}
         authPage={true}
         title={"Рады видеть!"}
         buttonSubmitText="Войти"
         authBottomText="Ещё не зарегистрированы?"
         bottomLinkText="Регистрация"
         onBottomLinkRedirect="/sign-up"
+        buttonSubmitState={isValid}
       >
-        <Email authPage={true} />
-        <Password authPage={true} />
+        <Email values={values} handleChange={handleChange} errors={errors} authPage={true} />
+        <Password values={values} handleChange={handleChange} errors={errors} authPage={true} />
       </Form>
     </section>
   );

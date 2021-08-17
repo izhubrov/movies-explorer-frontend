@@ -11,7 +11,10 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
-import movies from "../../utils/utils";
+import { images } from "../../utils/utils";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute";
+import mainApi from "../../utils/mainApi";
 let numberOfPackages = 0;
 
 function App() {
@@ -19,9 +22,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [moviesListShown, setMoviesListShown] = React.useState([]);
   const [allMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
 
   React.useEffect(() => {
-    setMoviesListShown(movies.filter((movie, index) => index < 12));
+    setMoviesListShown(images.filter((movie, index) => index < 12));
   }, []);
 
   React.useEffect(()=>{
@@ -32,7 +36,7 @@ function App() {
     numberOfPackages++;
     setMoviesListShown([
       ...moviesListShown,
-      ...movies.filter(
+      ...images.filter(
         (movie, index) =>
           index >= (12 * numberOfPackages) && index < (12 * (numberOfPackages + 1))
       ),
@@ -40,47 +44,110 @@ function App() {
   }
 
   function checkCountOfShownMovies() {
-    if (moviesListShown.length === movies.length) setAllMoviesAreShown(true);
+    if (moviesListShown.length === images.length) setAllMoviesAreShown(true);
   }
 
-  function handleSignIn() {
-    setIsLoggedIn(true);
-    history.push("/movies");
+
+  function handleCheckToken() {
+    // setIsLoading(true);
+    mainApi
+      .checkToken()
+      .then((res) => {
+        setCurrentUser(res);
+        setIsLoggedIn(true);
+        // setIsLoading(false);
+        history.push("/movies");
+      })
+      .catch(() => {
+        // setIsLoading(false);
+        // if (isLoggedIn !== null) {
+        //   setIsSuccessInfoToolTip(false);
+        //   setInfoToolTipPopupOpen(true);
+        // }
+      });
   }
 
-  function handleSignUp() {
-    handleSignIn();
+  function handleSignIn(data) {
+    mainApi
+      .signIn(data)
+      .then(() => {
+        handleCheckToken();
+      })
+      .catch(async (err) => {
+        // const newErr = await err;
+        // setErrorPopup(newErr.message, true);
+        // setTimeout(() => setErrorPopup(newErr.message, false), 5000);
+        console.log(err);
+      });
+  }
+
+  function handleSignUp(data) {
+    mainApi
+      .signUp(data)
+      .then((res) => {
+        setCurrentUser(res);
+        handleSignIn(data);
+      })
+      .catch(async (err) => {
+        // const newErr = await err;
+        // setErrorPopup(newErr.message, true);
+        // setTimeout(() => setErrorPopup(newErr.message, false), 5000);
+        console.log(err);
+      });
   }
 
   function handleSignOut() {
-    setIsLoggedIn(false);
-    history.push("/");
+    mainApi
+    .signOut(currentUser.email)
+    .then(() => {
+      setIsLoggedIn(null);
+      history.push("/");
+      setCurrentUser({ email: "", password: "", name: "" });
+      // setIsLoading(false);
+    })
+    .catch(() => {
+      // setIsSuccessInfoToolTip(false);
+      // setInfoToolTipPopupOpen(true);
+    });
   }
 
   function handleEditProfile() {}
 
   return (
     <div className="page">
+      <CurrentUserContext.Provider value={currentUser}>
       <Header isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/">
           <Main />
         </Route>
         <Route exact path="/sign-up">
-          <Register onSubmit={handleSignUp} />
+          <Register onSignUp={handleSignUp} />
         </Route>
         <Route exact path="/sign-in">
-          <Login onSubmit={handleSignIn} />
+          <Login onSignIn={handleSignIn} />
         </Route>
-        <Route exact path="/profile">
-          <Profile onSubmit={handleEditProfile} onSignOut={handleSignOut} />
-        </Route>
-        <Route exact path="/movies">
-          <Movies moviesListShown={moviesListShown} onShowMoreMovies={handleShowMovies} allMoviesAreShown={allMoviesAreShown} />
-        </Route>
-        <Route exact path="/saved-movies">
-          <SavedMovies moviesListShown={moviesListShown}/>
-        </Route>
+        <ProtectedRoute
+          exact path="/profile"
+          isLoggedIn={isLoggedIn}
+          component={Profile}
+          onUpdateUser={handleEditProfile}
+          onSignOut={handleSignOut}
+        />
+        <ProtectedRoute
+          exact path="/movies"
+          isLoggedIn={isLoggedIn}
+          component={Movies}
+          moviesListShown={moviesListShown}
+          onShowMoreMovies={handleShowMovies}
+          allMoviesAreShown={allMoviesAreShown}
+        />
+        <ProtectedRoute
+          exact path="/saved-movies"
+          isLoggedIn={isLoggedIn}
+          component={SavedMovies}
+          moviesListShown={moviesListShown}
+        />
         <Route path="/404">
           <NotFound />
         </Route>
@@ -90,6 +157,7 @@ function App() {
       <Footer />
 
       <ErrorPopup errorText={"Некорректно введен адрес электронной почты"} isActive={false} />
+      </CurrentUserContext.Provider>
     </div>
   );
 }
