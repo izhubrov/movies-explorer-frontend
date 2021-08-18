@@ -1,0 +1,27 @@
+.error-search-form {
+  visibility: hidden;
+  font-size: 11px;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.21;
+  font-family: inherit;
+  color: #ee3465;
+  padding: 6px 0 0 22px;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.error-search-form_active {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+}
+
+@media screen and (max-width: 520px) {
+  .error-search-form {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+}

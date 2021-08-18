@@ -3,18 +3,21 @@ import './MoviesCardList.css';
 import MoviesCard from './MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCardList({ isMoviesListShown, onShowMoreMovies, isAllMoviesAreShown }) {
+function MoviesCardList({shownMovies, onShowMoreMovies, isAllMoviesAreShown, isErrorMoviesServer, isFinishSearching }) {
   const location = useLocation();
   const isLocationMovies = location.pathname === '/movies';
-
   return (
     <section className="movies-card-list">
-      {!isMoviesListShown.length && <p className="subtitle">К сожалению, по вашему запросу ничего не найдено.</p>}
+      {isFinishSearching && shownMovies.length === 0 && <p className="text">Ничего не найдено</p>}
+      {isErrorMoviesServer && <p className="text">Во время запроса произошла ошибка.
+       Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз
+       </p>
+      }
       <ul className="movies-card-list__container">
         {
-          isMoviesListShown.map((movie) => {
+          shownMovies.map((movie) => {
             return (
-              <MoviesCard movie={movie} key={movie._id}/>
+              <MoviesCard movie={movie} key={movie.id}/>
             );
           })
         }

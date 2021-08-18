@@ -11,37 +11,44 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
-import SuccessPopup from "../SuccessPopup/SuccessPopup";
-import { images } from "../../utils/utils";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import mainApi from "../../utils/mainApi";
+import moviesApi from "../../utils/moviesApi";
+import Preloader from "../Preloader/Preloader";
 let numberOfPackages = 0;
 
 function App() {
   const history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
-  const [isMoviesListShown, setMoviesListShown] = React.useState([]);
+  const [shownMovies, setShownMovies] = React.useState([]);
   const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
   const [isCurrentUser, setCurrentUser] = React.useState({});
   const [isError, setError] = React.useState({ errorText: "", isActive: false });
   const [isSuccess, setSuccess] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [moviesItems, setMoviesItems] = React.useState([]);
+  const [filteredMoviesItems, setFilteredMoviesItems] = React.useState([]);
+  const [isFinishSearching, setIsFinishSearching] = React.useState(false);
+  const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
 
 
   React.useEffect(() => {
-    setMoviesListShown(images.filter((movie, index) => index < 12));
+    setIsLoading(false);
+    handleCheckToken();
+    setMoviesItems(JSON.parse(localStorage.getItem("movies")));
   }, []);
 
   React.useEffect(()=>{
+    setShownMovies(filteredMoviesItems.filter((movie, index) => index < 12));
     checkCountOfShownMovies();
-  },[isMoviesListShown]);
+  },[filteredMoviesItems]);
 
   function handleShowMovies() {
     numberOfPackages++;
-    setMoviesListShown([
-      ...isMoviesListShown,
-      ...images.filter(
+    setShownMovies([
+      ...shownMovies,
+      ...filteredMoviesItems.filter(
         (movie, index) =>
           index >= (12 * numberOfPackages) && index < (12 * (numberOfPackages + 1))
       ),
@@ -49,7 +56,7 @@ function App() {
   }
 
   function checkCountOfShownMovies() {
-    if (isMoviesListShown.length === images.length) setAllMoviesAreShown(true);
+    if (shownMovies.length === filteredMoviesItems.length) setAllMoviesAreShown(true);
   }
 
 
@@ -65,7 +72,9 @@ function App() {
       })
       .catch(async (err) => {
         setIsLoading(false);
-        await handleShowError(err);
+        if (isLoggedIn !== null) {
+          await handleShowError(err);
+        }
       });
   }
 
@@ -119,6 +128,33 @@ function App() {
     });
   }
 
+  function handleSearchMovies(searchedMovie) {
+    if (localStorage.getItem("movies") === null) {
+      handleGetMovies();
+    } else {
+      setFilteredMoviesItems(moviesItems.filter((item) => {
+        return Object.values(item).find((features) => {
+          return (
+            typeof features === 'string' &&
+            features.toLowerCase().includes(searchedMovie.toLowerCase()));
+        });
+      }));
+      setIsFinishSearching(true);
+    }
+  }
+
+  function handleGetMovies() {
+    moviesApi
+    .getMovies()
+    .then((res) => {
+      setMoviesItems(res);
+      localStorage.setItem("movies", JSON.stringify(res));
+    })
+    .catch(async (err) => {
+      await handleShowError(err);
+    });
+  }
+
   async function handleShowError(err) {
     const newErr = await err;
     setErrorPopupFields(newErr.message, true);
@@ -155,15 +191,18 @@ function App() {
           exact path="/movies"
           isLoggedIn={isLoggedIn}
           component={Movies}
-          isMoviesListShown={isMoviesListShown}
+          onSearchMovies={handleSearchMovies}
+          shownMovies={shownMovies}
           onShowMoreMovies={handleShowMovies}
           isAllMoviesAreShown={isAllMoviesAreShown}
+          isErrorMoviesServer={isErrorMoviesServer}
+          isFinishSearching={isFinishSearching}
         />
         <ProtectedRoute
           exact path="/saved-movies"
           isLoggedIn={isLoggedIn}
           component={SavedMovies}
-          isMoviesListShown={isMoviesListShown}
+          shownMovies={shownMovies}
         />
         <Route path="/404">
           <NotFound />

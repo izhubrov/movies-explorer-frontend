@@ -2,16 +2,16 @@ import React from "react";
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
-// import Preloader from '../Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ isMoviesListShown, onShowMoreMovies, isAllMoviesAreShown }) {
+function Movies({ onSearchMovies, shownMovies, onShowMoreMovies, isAllMoviesAreShown, isErrorMoviesServer, isFinishSearching }) {
   return (
     <section className="movies page__container">
-      <SearchForm />
+      <SearchForm onSearchMovies={onSearchMovies}/>
       <FilterCheckBox />
-      {/* <Preloader/> */}
-      <MoviesCardList isMoviesListShown={isMoviesListShown} onShowMoreMovies={onShowMoreMovies} isAllMoviesAreShown={isAllMoviesAreShown}/>
+      {shownMovies.length === 0 && <Preloader/>}
+      <MoviesCardList shownMovies={shownMovies} onShowMoreMovies={onShowMoreMovies} isAllMoviesAreShown={isAllMoviesAreShown} isErrorMoviesServer={isErrorMoviesServer} isFinishSearching={isFinishSearching}/>
     </section>
   );
 }

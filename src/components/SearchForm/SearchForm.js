@@ -1,11 +1,26 @@
 import React from "react";
 import "./SearchForm.css";
+import ErrorSearchForm from "./ErrorSearchForm/ErrorSearchForm";
 
-function SearchForm() {
+function SearchForm({onSearchMovies}) {
   const [isFocused, setFocused] = React.useState(false);
+  const [isEmptyQuery, setEmptyQuery] = React.useState(false);
+  const [searchedMovieInput, setSearchedMovieInput] = React.useState('');
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    const searchedMovie = searchedMovieInput.trim();
+    if (searchedMovie.length === 0) {
+      setEmptyQuery(true);
+      setTimeout(()=>setEmptyQuery(false),3000);
+    } else {
+      setEmptyQuery(false);
+      onSearchMovies(searchedMovie);
+    }
+  }
+
+  function handleChange(evt) {
+    setSearchedMovieInput(evt.target.value);
   }
 
   function handleFocus() {
@@ -15,7 +30,6 @@ function SearchForm() {
   function handleLeave() {
     setFocused(false);
   }
-
 
   return (
     <form
@@ -28,11 +42,13 @@ function SearchForm() {
         <input
           type="text"
           name="film"
+          value={searchedMovieInput}
           placeholder="Фильм"
           className="search-form__input"
           required
           onFocus={handleFocus}
           onBlur={handleLeave}
+          onChange={handleChange}
         />
         <button
           type="submit"
@@ -40,7 +56,7 @@ function SearchForm() {
         >
         </button>
       </label>
-
+      <ErrorSearchForm isEmptyQuery={isEmptyQuery} />
     </form>
   );
 }

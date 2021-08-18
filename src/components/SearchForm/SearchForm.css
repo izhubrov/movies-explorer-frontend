@@ -1,5 +1,7 @@
 .search-form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-form__field {
