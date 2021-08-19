@@ -3,10 +3,10 @@ import './MoviesCardList.css';
 import MoviesCard from './MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCardList({shownMovies, onShowMoreMovies, isAllMoviesAreShown, isErrorMoviesServer, isFinishSearching }) {
+function MoviesCardList({shownMovies, onShowMoreMovies, isAllMoviesAreShown, isErrorMoviesServer, isFinishSearching, savedMovies, onAddToSaved, onRemoveFromSaved }) {
   const location = useLocation();
   const isLocationMovies = location.pathname === '/movies';
-  return (
+  return ( isFinishSearching &&
     <section className="movies-card-list">
       {isFinishSearching && shownMovies.length === 0 && <p className="text">Ничего не найдено</p>}
       {isErrorMoviesServer && <p className="text">Во время запроса произошла ошибка.
@@ -17,7 +17,7 @@ function MoviesCardList({shownMovies, onShowMoreMovies, isAllMoviesAreShown, isE
         {
           shownMovies.map((movie) => {
             return (
-              <MoviesCard movie={movie} key={movie.id}/>
+              <MoviesCard movie={movie} key={movie.id} savedMovies={savedMovies} onAddToSaved={onAddToSaved} onRemoveFromSaved={onRemoveFromSaved}/>
             );
           })
         }

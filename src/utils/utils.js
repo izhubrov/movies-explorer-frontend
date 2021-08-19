@@ -13,6 +13,18 @@ const baseUrl = "http://localhost:3001";
 const serverUrl = "https://api.nomoreparties.co"
 const moviesUrl = "https://api.nomoreparties.co/beatfilm-movies";
 
+const initialCountOfShownMovies= {
+  '1280': 12,
+  '1043': 8,
+  '480': 5,
+}
+
+const additionalCountOfShownMovies= {
+  '1280': 3,
+  '1043': 2,
+  '480': 2,
+}
+
 export {
   nameRegExp,
   passwordRegExp,
@@ -20,5 +32,7 @@ export {
   customMessages,
   baseUrl,
   moviesUrl,
-  serverUrl
+  serverUrl,
+  initialCountOfShownMovies,
+  additionalCountOfShownMovies
 };

@@ -10,7 +10,6 @@ import SuccessPopup from "../SuccessPopup/SuccessPopup";
 function Profile({ onUpdateUser, onSignOut, isSuccess }) {
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
   const currentUser = React.useContext(CurrentUserContext);
-
   const [isInputsEqualCurrent,setisInputsEqualCurrent] = React.useState(false);
 
   React.useEffect(() => {

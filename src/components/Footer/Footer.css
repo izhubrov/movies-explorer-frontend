@@ -85,3 +85,9 @@
     align-items: center;
   }
 }
+
+@media screen and (max-height: 520px) {
+  .footer {
+    padding-top: 40px;
+  }
+}

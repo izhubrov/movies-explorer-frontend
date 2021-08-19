@@ -1,4 +1,4 @@
-import { baseUrl } from "./utils.js";
+import { baseUrl,moviesUrl } from "./utils.js";
 class MainApi {
   constructor(baseUrl) {
     this._baseUrl = baseUrl;
@@ -77,6 +77,44 @@ class MainApi {
       },
     }).then(this._checkResponse);
   }
+
+  getSavedMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
+      credentials: 'include',
+    }).then(this._checkResponse);
+  }
+
+  saveMovie(movie) {
+    const {country, director, duration, year, description, trailerLink, nameRU, nameEN,  } = movie;
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "country": country,
+        "director": director,
+        "duration": duration,
+        "year": year,
+        "description": description,
+        "image": `${moviesUrl}+${movie.image.url}`,
+        "trailer": trailerLink,
+        "nameRU": nameRU,
+        "nameEN": nameEN,
+        "thumbnail": `${moviesUrl}+${movie.image.formats.thumbnail.url}`,
+        "movieId": movie.id,
+        }),
+    }).then(this._checkResponse);
+  }
+
+  removeFromSavedMovie(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: "DELETE",
+      credentials: 'include',
+    }).then(this._checkResponse);
+  }
+
 }
 
 const mainApi = new MainApi(baseUrl);

@@ -15,8 +15,8 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import mainApi from "../../utils/mainApi";
 import moviesApi from "../../utils/moviesApi";
+import { initialCountOfShownMovies, additionalCountOfShownMovies} from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
-let numberOfPackages = 0;
 
 function App() {
   const history = useHistory();
@@ -28,37 +28,32 @@ function App() {
   const [isSuccess, setSuccess] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [moviesItems, setMoviesItems] = React.useState([]);
-  const [filteredMoviesItems, setFilteredMoviesItems] = React.useState([]);
+  const [filteredMoviesItems, setFilteredMoviesItems] = React.useState();
   const [isFinishSearching, setIsFinishSearching] = React.useState(false);
   const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
-
+  const [width, setWidth] = React.useState('');
+  const [savedMovies, setSavedMovies] = React.useState([]);
 
   React.useEffect(() => {
     setIsLoading(false);
     handleCheckToken();
+    getSavedMovies();
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
+    handleCheckDeviceWidth();
+    handleChangeDeviceWidth();
   }, []);
 
   React.useEffect(()=>{
-    setShownMovies(filteredMoviesItems.filter((movie, index) => index < 12));
-    checkCountOfShownMovies();
+    filteredMoviesItems && handleShowInitialMovies();
   },[filteredMoviesItems]);
 
-  function handleShowMovies() {
-    numberOfPackages++;
-    setShownMovies([
-      ...shownMovies,
-      ...filteredMoviesItems.filter(
-        (movie, index) =>
-          index >= (12 * numberOfPackages) && index < (12 * (numberOfPackages + 1))
-      ),
-    ]);
-  }
+  React.useEffect(()=>{
+    shownMovies.length !== 0 && checkCountOfShownMovies();
+  },[shownMovies]);
 
-  function checkCountOfShownMovies() {
-    if (shownMovies.length === filteredMoviesItems.length) setAllMoviesAreShown(true);
-  }
-
+  React.useEffect(()=>{
+    filteredMoviesItems && handleShowMoviesInResize();
+  },[width])
 
   function handleCheckToken() {
     setIsLoading(true);
@@ -132,6 +127,8 @@ function App() {
     if (localStorage.getItem("movies") === null) {
       handleGetMovies();
     } else {
+      setShownMovies([]);
+      setFilteredMoviesItems([]);
       setFilteredMoviesItems(moviesItems.filter((item) => {
         return Object.values(item).find((features) => {
           return (
@@ -149,6 +146,90 @@ function App() {
     .then((res) => {
       setMoviesItems(res);
       localStorage.setItem("movies", JSON.stringify(res));
+    })
+    .catch(async (err) => {
+      await handleShowError(err);
+    });
+  }
+
+  function handleCheckDeviceWidth() {
+    return window.innerWidth >= 1280 ? setWidth('1280') : window.innerWidth > 480 ? setWidth('1043') : setWidth('480');
+  }
+
+  function handleChangeDeviceWidth() {
+    function getDeviceWidth() {
+      setTimeout(handleCheckDeviceWidth,2000);
+    }
+    window.addEventListener('resize', getDeviceWidth);
+    return ()=>{
+      window.removeEventListener('resize', getDeviceWidth)
+    }
+  }
+
+  function handleShowInitialMovies() {
+    setShownMovies([...filteredMoviesItems.filter((movie,index) => index < initialCountOfShownMovies[width])]);
+  }
+
+  function handleShowMoviesInResize() {
+    let alreadyShownMovies = shownMovies.length;
+    setShownMovies([]);
+    if (alreadyShownMovies < initialCountOfShownMovies[width]) {
+      alreadyShownMovies = initialCountOfShownMovies[width];
+    } else {
+      alreadyShownMovies = Math.ceil(alreadyShownMovies / additionalCountOfShownMovies[width]) * additionalCountOfShownMovies[width];
+    }
+    setShownMovies([...filteredMoviesItems.filter((movie,index) => index < alreadyShownMovies)]);
+  }
+
+  function handleShowAdditionalMovies() {
+    setShownMovies([
+      ...shownMovies,
+      ...filteredMoviesItems.filter(
+        (movie, index) =>
+          index >= shownMovies.length &&
+          index < shownMovies.length + additionalCountOfShownMovies[width]
+      ),
+    ]);
+  }
+
+  function checkCountOfShownMovies() {
+    if (shownMovies.length === filteredMoviesItems.length) {
+      setAllMoviesAreShown(true);
+    } else {
+      setAllMoviesAreShown(false);
+    }
+  }
+
+  function getSavedMovies() {
+    mainApi
+    .getSavedMovies()
+    .then((res) => {
+      setSavedMovies(res);
+      setTimeout(() => setSuccess(false), 3000);
+    })
+    .catch(async (err) => {
+      await handleShowError(err);
+    });
+  }
+
+  function handleSaveMovie(movie) {
+    mainApi
+    .saveMovie(movie)
+    .then((savedMovie) => {
+      setSavedMovies([...savedMovies, savedMovie]);
+      setTimeout(() => setSuccess(false), 3000);
+    })
+    .catch(async (err) => {
+      await handleShowError(err);
+    });
+  }
+
+  function handleRemoveFromSavedMovie(movieId) {
+    mainApi
+    .removeFromSavedMovie(movieId)
+    .then(() => {
+      setSavedMovies(savedMovies.filter((item) => item.id !== movieId));
+      setTimeout(() => setSuccess(false), 3000);
     })
     .catch(async (err) => {
       await handleShowError(err);
@@ -193,10 +274,13 @@ function App() {
           component={Movies}
           onSearchMovies={handleSearchMovies}
           shownMovies={shownMovies}
-          onShowMoreMovies={handleShowMovies}
+          onShowMoreMovies={handleShowAdditionalMovies}
           isAllMoviesAreShown={isAllMoviesAreShown}
           isErrorMoviesServer={isErrorMoviesServer}
           isFinishSearching={isFinishSearching}
+          savedMovies={savedMovies}
+          onAddToSaved={handleSaveMovie}
+          onRemoveFromSaved={handleRemoveFromSavedMovie}
         />
         <ProtectedRoute
           exact path="/saved-movies"
