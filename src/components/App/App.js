@@ -15,7 +15,10 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import mainApi from "../../utils/mainApi";
 import moviesApi from "../../utils/moviesApi";
-import { initialCountOfShownMovies, additionalCountOfShownMovies} from "../../utils/utils";
+import {
+  initialCountOfShownMovies,
+  additionalCountOfShownMovies,
+} from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
 
 function App() {
@@ -24,14 +27,19 @@ function App() {
   const [shownMovies, setShownMovies] = React.useState([]);
   const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
   const [isCurrentUser, setCurrentUser] = React.useState({});
-  const [isError, setError] = React.useState({ errorText: "", isActive: false });
+  const [isError, setError] = React.useState({
+    errorText: "",
+    isActive: false,
+  });
   const [isSuccess, setSuccess] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [moviesItems, setMoviesItems] = React.useState([]);
-  const [filteredMoviesItems, setFilteredMoviesItems] = React.useState();
+  const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
+  const [savedSearchedMoviesItems, setSavedSearchedMoviesItems] = React.useState();
   const [isFinishSearching, setIsFinishSearching] = React.useState(false);
+  const [isFinishSavedSearching, setIsFinishSavedSearching] = React.useState(false);
   const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
-  const [width, setWidth] = React.useState('');
+  const [width, setWidth] = React.useState("");
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   React.useEffect(() => {
@@ -43,17 +51,22 @@ function App() {
     handleChangeDeviceWidth();
   }, []);
 
-  React.useEffect(()=>{
-    filteredMoviesItems && handleShowInitialMovies();
-  },[filteredMoviesItems]);
+  React.useEffect(() => {
+    searchedMoviesItems && handleShowInitialMovies();
+  }, [searchedMoviesItems]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     shownMovies.length !== 0 && checkCountOfShownMovies();
-  },[shownMovies]);
+  }, [shownMovies]);
+
+  React.useEffect(() => {
+    searchedMoviesItems && handleShowMoviesInResize();
+  }, [width]);
 
   React.useEffect(()=>{
-    filteredMoviesItems && handleShowMoviesInResize();
-  },[width])
+    setSavedSearchedMoviesItems(savedMovies);
+    setIsFinishSavedSearching(true);
+  },[savedMovies])
 
   function handleCheckToken() {
     setIsLoading(true);
@@ -98,29 +111,29 @@ function App() {
 
   function handleSignOut() {
     mainApi
-    .signOut(isCurrentUser.email)
-    .then(() => {
-      setIsLoggedIn(null);
-      history.push("/");
-      setCurrentUser({ email: "", password: "", name: "" });
-      setIsLoading(false);
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .signOut(isCurrentUser.email)
+      .then(() => {
+        setIsLoggedIn(null);
+        history.push("/");
+        setCurrentUser({ email: "", password: "", name: "" });
+        setIsLoading(false);
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function handleEditProfile(data) {
     mainApi
-    .editProfile(data)
-    .then((res) => {
-      setCurrentUser(res);
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .editProfile(data)
+      .then((res) => {
+        setCurrentUser(res);
+        setSuccess(true);
+        setTimeout(() => setSuccess(false), 3000);
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function handleSearchMovies(searchedMovie) {
@@ -128,46 +141,84 @@ function App() {
       handleGetMovies();
     } else {
       setShownMovies([]);
-      setFilteredMoviesItems([]);
-      setFilteredMoviesItems(moviesItems.filter((item) => {
-        return Object.values(item).find((features) => {
-          return (
-            typeof features === 'string' &&
-            features.toLowerCase().includes(searchedMovie.toLowerCase()));
-        });
-      }));
+      setSearchedMoviesItems([]);
+      setSearchedMoviesItems(
+        moviesItems.filter((item) => {
+          return Object.values(item).find((features) => {
+            return (
+              typeof features === "string" &&
+              features.toLowerCase().includes(searchedMovie.toLowerCase())
+            );
+          });
+        })
+      );
       setIsFinishSearching(true);
     }
   }
 
+  function handleSearchSavedMovies(searchedMovie) {
+    setIsFinishSavedSearching(false);
+    setShownMovies([]);
+    setSavedSearchedMoviesItems([]);
+    setSavedSearchedMoviesItems(
+      savedSearchedMoviesItems.filter((item) => {
+        return Object.values(item).find((features) => {
+          return (
+            typeof features === "string" &&
+            features.toLowerCase().includes(searchedMovie.toLowerCase())
+          );
+        });
+      })
+    );
+    setIsFinishSavedSearching(true);
+  }
+
+  function handleClearMoviesInput() {
+    setSearchedMoviesItems([]);
+    setIsFinishSearching(false);
+  }
+
+  function handleClearSavedMoviesInput() {
+    setSavedSearchedMoviesItems([]);
+    setSavedSearchedMoviesItems(savedMovies);
+  }
+
   function handleGetMovies() {
     moviesApi
-    .getMovies()
-    .then((res) => {
-      setMoviesItems(res);
-      localStorage.setItem("movies", JSON.stringify(res));
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .getMovies()
+      .then((res) => {
+        setMoviesItems(res);
+        localStorage.setItem("movies", JSON.stringify(res));
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function handleCheckDeviceWidth() {
-    return window.innerWidth >= 1280 ? setWidth('1280') : window.innerWidth > 480 ? setWidth('1043') : setWidth('480');
+    return window.innerWidth >= 1280
+      ? setWidth("1280")
+      : window.innerWidth > 480
+      ? setWidth("1043")
+      : setWidth("480");
   }
 
   function handleChangeDeviceWidth() {
     function getDeviceWidth() {
-      setTimeout(handleCheckDeviceWidth,2000);
+      setTimeout(handleCheckDeviceWidth, 2000);
     }
-    window.addEventListener('resize', getDeviceWidth);
-    return ()=>{
-      window.removeEventListener('resize', getDeviceWidth)
-    }
+    window.addEventListener("resize", getDeviceWidth);
+    return () => {
+      window.removeEventListener("resize", getDeviceWidth);
+    };
   }
 
   function handleShowInitialMovies() {
-    setShownMovies([...filteredMoviesItems.filter((movie,index) => index < initialCountOfShownMovies[width])]);
+    setShownMovies([
+      ...searchedMoviesItems.filter(
+        (movie, index) => index < initialCountOfShownMovies[width]
+      ),
+    ]);
   }
 
   function handleShowMoviesInResize() {
@@ -176,15 +227,21 @@ function App() {
     if (alreadyShownMovies < initialCountOfShownMovies[width]) {
       alreadyShownMovies = initialCountOfShownMovies[width];
     } else {
-      alreadyShownMovies = Math.ceil(alreadyShownMovies / additionalCountOfShownMovies[width]) * additionalCountOfShownMovies[width];
+      alreadyShownMovies =
+        Math.ceil(alreadyShownMovies / additionalCountOfShownMovies[width]) *
+        additionalCountOfShownMovies[width];
     }
-    setShownMovies([...filteredMoviesItems.filter((movie,index) => index < alreadyShownMovies)]);
+    setShownMovies([
+      ...searchedMoviesItems.filter(
+        (movie, index) => index < alreadyShownMovies
+      ),
+    ]);
   }
 
   function handleShowAdditionalMovies() {
     setShownMovies([
       ...shownMovies,
-      ...filteredMoviesItems.filter(
+      ...searchedMoviesItems.filter(
         (movie, index) =>
           index >= shownMovies.length &&
           index < shownMovies.length + additionalCountOfShownMovies[width]
@@ -193,7 +250,7 @@ function App() {
   }
 
   function checkCountOfShownMovies() {
-    if (shownMovies.length === filteredMoviesItems.length) {
+    if (shownMovies.length === searchedMoviesItems.length) {
       setAllMoviesAreShown(true);
     } else {
       setAllMoviesAreShown(false);
@@ -202,38 +259,38 @@ function App() {
 
   function getSavedMovies() {
     mainApi
-    .getSavedMovies()
-    .then((res) => {
-      setSavedMovies(res);
-      setTimeout(() => setSuccess(false), 3000);
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .getSavedMovies()
+      .then((res) => {
+        setSavedMovies(res);
+        setTimeout(() => setSuccess(false), 3000);
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function handleSaveMovie(movie) {
     mainApi
-    .saveMovie(movie)
-    .then((savedMovie) => {
-      setSavedMovies([...savedMovies, savedMovie]);
-      setTimeout(() => setSuccess(false), 3000);
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .saveMovie(movie)
+      .then((savedMovie) => {
+        setSavedMovies([...savedMovies, savedMovie]);
+        setTimeout(() => setSuccess(false), 3000);
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function handleRemoveFromSavedMovie(movieId) {
     mainApi
-    .removeFromSavedMovie(movieId)
-    .then(() => {
-      setSavedMovies(savedMovies.filter((item) => item.id !== movieId));
-      setTimeout(() => setSuccess(false), 3000);
-    })
-    .catch(async (err) => {
-      await handleShowError(err);
-    });
+      .removeFromSavedMovie(movieId)
+      .then(() => {
+        setSavedMovies(savedMovies.filter((item) => item.movieId !== movieId));
+        setTimeout(() => setSuccess(false), 3000);
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   async function handleShowError(err) {
@@ -249,54 +306,64 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={isCurrentUser}>
-      <Header isLoggedIn={isLoggedIn} />
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route exact path="/sign-up">
-          <Register onSignUp={handleSignUp} />
-        </Route>
-        <Route exact path="/sign-in">
-          <Login onSignIn={handleSignIn} />
-        </Route>
-        <ProtectedRoute
-          exact path="/profile"
-          isLoggedIn={isLoggedIn}
-          component={Profile}
-          onUpdateUser={handleEditProfile}
-          onSignOut={handleSignOut}
-          isSuccess={isSuccess}
-        />
-        <ProtectedRoute
-          exact path="/movies"
-          isLoggedIn={isLoggedIn}
-          component={Movies}
-          onSearchMovies={handleSearchMovies}
-          shownMovies={shownMovies}
-          onShowMoreMovies={handleShowAdditionalMovies}
-          isAllMoviesAreShown={isAllMoviesAreShown}
-          isErrorMoviesServer={isErrorMoviesServer}
-          isFinishSearching={isFinishSearching}
-          savedMovies={savedMovies}
-          onAddToSaved={handleSaveMovie}
-          onRemoveFromSaved={handleRemoveFromSavedMovie}
-        />
-        <ProtectedRoute
-          exact path="/saved-movies"
-          isLoggedIn={isLoggedIn}
-          component={SavedMovies}
-          shownMovies={shownMovies}
-        />
-        <Route path="/404">
-          <NotFound />
-        </Route>
-        <Redirect to="/404" />
-      </Switch>
+        <Header isLoggedIn={isLoggedIn} />
+        <Switch>
+          <Route exact path="/">
+            <Main />
+          </Route>
+          <Route exact path="/sign-up">
+            <Register onSignUp={handleSignUp} />
+          </Route>
+          <Route exact path="/sign-in">
+            <Login onSignIn={handleSignIn} />
+          </Route>
+          <ProtectedRoute
+            exact
+            path="/profile"
+            isLoggedIn={isLoggedIn}
+            component={Profile}
+            onUpdateUser={handleEditProfile}
+            onSignOut={handleSignOut}
+            isSuccess={isSuccess}
+          />
+          <ProtectedRoute
+            exact
+            path="/movies"
+            isLoggedIn={isLoggedIn}
+            component={Movies}
+            onSearchMovies={handleSearchMovies}
+            onClearInput={handleClearMoviesInput}
+            shownMovies={shownMovies}
+            onShowMoreMovies={handleShowAdditionalMovies}
+            isAllMoviesAreShown={isAllMoviesAreShown}
+            isErrorMoviesServer={isErrorMoviesServer}
+            isFinishSearching={isFinishSearching}
+            savedMovies={savedMovies}
+            onAddToSaved={handleSaveMovie}
+            onRemoveFromSaved={handleRemoveFromSavedMovie}
+          />
+          <ProtectedRoute
+            exact
+            path="/saved-movies"
+            isLoggedIn={isLoggedIn}
+            component={SavedMovies}
+            onSearchMovies={handleSearchSavedMovies}
+            onClearInput={handleClearSavedMoviesInput}
+            shownMovies={savedSearchedMoviesItems}
+            isFinishSearching={isFinishSavedSearching}
+            savedMovies={savedMovies}
+            onAddToSaved={handleSaveMovie}
+            onRemoveFromSaved={handleRemoveFromSavedMovie}
+          />
+          <Route path="/404">
+            <NotFound />
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
 
-      <Footer />
+        <Footer />
 
-      <ErrorPopup errorText={isError.errorText} isActive={isError.isActive} />
+        <ErrorPopup errorText={isError.errorText} isActive={isError.isActive} />
       </CurrentUserContext.Provider>
     </div>
   );

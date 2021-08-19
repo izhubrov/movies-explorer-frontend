@@ -115,6 +115,14 @@
   justify-self: end;
 }
 
+.btn-close_place_search-form {
+  width: 13px;
+  height: 13px;
+  margin-right: 29px;
+  display: none;
+  justify-self: end;
+}
+
 .btn-close_place_saved-movies {
   width: 7px;
   height: 7px;
@@ -130,6 +138,16 @@
   top: 0;
   content: ' ';
   width: 3px;
+  height: 100%;
+  background-color: #000;
+}
+
+.btn-close_place_search-form::before, .btn-close_place_search-form::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  width: 1px;
   height: 100%;
   background-color: #000;
 }

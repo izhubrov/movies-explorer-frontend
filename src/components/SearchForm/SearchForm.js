@@ -2,25 +2,35 @@ import React from "react";
 import "./SearchForm.css";
 import ErrorSearchForm from "./ErrorSearchForm/ErrorSearchForm";
 
-function SearchForm({onSearchMovies}) {
+function SearchForm({ onSearchMovies, onClearInput }) {
   const [isFocused, setFocused] = React.useState(false);
   const [isEmptyQuery, setEmptyQuery] = React.useState(false);
   const [searchedMovieInput, setSearchedMovieInput] = React.useState('');
+  const [isClearInput, setClearInput] = React.useState(false);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     const searchedMovie = searchedMovieInput.trim();
-    if (searchedMovie.length === 0) {
-      setEmptyQuery(true);
-      setTimeout(()=>setEmptyQuery(false),3000);
+    if (!isClearInput) {
+      if (searchedMovie.length === 0) {
+        setEmptyQuery(true);
+        setTimeout(()=>setEmptyQuery(false),3000);
+      } else {
+        setEmptyQuery(false);
+        onSearchMovies(searchedMovie);
+        setClearInput(true);
+      }
     } else {
-      setEmptyQuery(false);
-      onSearchMovies(searchedMovie);
+      setSearchedMovieInput("");
+      onClearInput();
+      setClearInput(false);
     }
+
   }
 
   function handleChange(evt) {
     setSearchedMovieInput(evt.target.value);
+    setClearInput(false);
   }
 
   function handleFocus() {
@@ -52,7 +62,7 @@ function SearchForm({onSearchMovies}) {
         />
         <button
           type="submit"
-          className="search-form__btn-submit"
+          className={`${!isClearInput ? "search-form__btn-submit" : "btn-close btn-close_place_search-form btn-close_active"}`}
         >
         </button>
       </label>
