@@ -14,6 +14,7 @@ function SearchForm({ onSearchMovies, onClearInput }) {
     if (!isClearInput) {
       if (searchedMovie.length === 0) {
         setEmptyQuery(true);
+        setSearchedMovieInput("");
         setTimeout(()=>setEmptyQuery(false),3000);
       } else {
         setEmptyQuery(false);
@@ -25,12 +26,14 @@ function SearchForm({ onSearchMovies, onClearInput }) {
       onClearInput();
       setClearInput(false);
     }
-
   }
 
   function handleChange(evt) {
     setSearchedMovieInput(evt.target.value);
     setClearInput(false);
+    if (evt.target.value === '') {
+      onClearInput();
+    }
   }
 
   function handleFocus() {

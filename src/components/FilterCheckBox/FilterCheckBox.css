@@ -46,7 +46,7 @@
 .filter-checkbox__pseudo-item::before {
   content: "";
   position: absolute;
-  display: flex;
+  display: none;
   width: 14px;
   height: 14px;
   background-color: #2BE080;
@@ -60,7 +60,7 @@
 .filter-checkbox__pseudo-item::after {
   content: "";
   position: absolute;
-  display: none;
+  display: flex;
   width: 14px;
   height: 14px;
   background-color: #F5F5F5;
@@ -72,11 +72,11 @@
 }
 
 .filter-checkbox__input:checked + .filter-checkbox__pseudo-item::before {
-  display: none;
+  display: flex;
 }
 
 .filter-checkbox__input:checked + .filter-checkbox__pseudo-item::after {
-  display: flex;
+  display: none;
 }
 
 @media screen and (max-width: 918px) {

@@ -19,7 +19,6 @@ import {
   initialCountOfShownMovies,
   additionalCountOfShownMovies,
 } from "../../utils/utils";
-import Preloader from "../Preloader/Preloader";
 
 function App() {
   const history = useHistory();
@@ -32,23 +31,25 @@ function App() {
     isActive: false,
   });
   const [isSuccess, setSuccess] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
   const [moviesItems, setMoviesItems] = React.useState([]);
   const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
+  const [searchInputValue, setSearchInputValue] = React.useState("");
+  const [isSavedSearchOrFilter, setIsSavedSearchOrFilter] = React.useState(false);
   const [savedSearchedMoviesItems, setSavedSearchedMoviesItems] = React.useState();
-  const [isFinishSearching, setIsFinishSearching] = React.useState(false);
+  const [isFinishSearching, setIsFinishSearching] = React.useState(null);
   const [isFinishSavedSearching, setIsFinishSavedSearching] = React.useState(false);
   const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
+  const [isShortMoviesFilterOn, setShortMoviesFilterOn] = React.useState(null);
   const [width, setWidth] = React.useState("");
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   React.useEffect(() => {
-    setIsLoading(false);
     handleCheckToken();
     getSavedMovies();
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
+    setSearchInputValue("");
   }, []);
 
   React.useEffect(() => {
@@ -66,20 +67,29 @@ function App() {
   React.useEffect(()=>{
     setSavedSearchedMoviesItems(savedMovies);
     setIsFinishSavedSearching(true);
-  },[savedMovies])
+  },[savedMovies]);
+
+  React.useEffect(()=>{
+    if (localStorage.getItem("movies") === null) {
+      handleGetMovies();
+    }
+    searchInputValue && handleSearchMovies(searchInputValue);
+  },[searchInputValue, isShortMoviesFilterOn])
+
+  React.useEffect(()=>{
+    if (isSavedSearchOrFilter) handleSearchSavedMovies(searchInputValue);
+    if (isSavedSearchOrFilter && !isShortMoviesFilterOn && !searchInputValue) handleClearSavedMoviesInput();
+  },[isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue])
 
   function handleCheckToken() {
-    setIsLoading(true);
     mainApi
       .checkToken()
       .then((res) => {
         setCurrentUser(res);
         setIsLoggedIn(true);
-        setIsLoading(false);
         history.push("/movies");
       })
       .catch(async (err) => {
-        setIsLoading(false);
         if (isLoggedIn !== null) {
           await handleShowError(err);
         }
@@ -116,7 +126,6 @@ function App() {
         setIsLoggedIn(null);
         history.push("/");
         setCurrentUser({ email: "", password: "", name: "" });
-        setIsLoading(false);
       })
       .catch(async (err) => {
         await handleShowError(err);
@@ -136,51 +145,68 @@ function App() {
       });
   }
 
-  function handleSearchMovies(searchedMovie) {
-    if (localStorage.getItem("movies") === null) {
-      handleGetMovies();
-    } else {
-      setShownMovies([]);
-      setSearchedMoviesItems([]);
-      setSearchedMoviesItems(
-        moviesItems.filter((item) => {
-          return Object.values(item).find((features) => {
-            return (
-              typeof features === "string" &&
-              features.toLowerCase().includes(searchedMovie.toLowerCase())
-            );
-          });
-        })
-      );
-      setIsFinishSearching(true);
+  function handleInnerSearching(movie) {
+    function handleSearchingWithoutFilter() {
+      return Object.values(movie).find((features) => {
+        return (
+          typeof features === "string" &&
+          features.toLowerCase().includes(searchInputValue.toLowerCase())
+        );
+      });
     }
+    return (isShortMoviesFilterOn ? (movie.duration <=40 && handleSearchingWithoutFilter()) : handleSearchingWithoutFilter());
   }
 
-  function handleSearchSavedMovies(searchedMovie) {
-    setIsFinishSavedSearching(false);
+  function handleSetSearchInputValue(searchedMovie) {
+    setSearchInputValue(searchedMovie);
     setShownMovies([]);
+    setSearchedMoviesItems([]);
     setSavedSearchedMoviesItems([]);
+  }
+
+  function handleSetSavedSearchInputValue(searchedMovie) {
+    setIsFinishSavedSearching(false);
+    setSavedSearchedMoviesItems([]);
+    setIsSavedSearchOrFilter(true);
+    handleSetSearchInputValue(searchedMovie);
+  }
+
+  function handleSearchMovies() {
+    setSearchedMoviesItems(
+      moviesItems.filter((movie) => handleInnerSearching(movie))
+    );
+    setIsFinishSearching(true);
+  }
+
+  function handleSearchSavedMovies() {
     setSavedSearchedMoviesItems(
-      savedSearchedMoviesItems.filter((item) => {
-        return Object.values(item).find((features) => {
-          return (
-            typeof features === "string" &&
-            features.toLowerCase().includes(searchedMovie.toLowerCase())
-          );
-        });
-      })
+      savedMovies.filter((movie) => handleInnerSearching(movie))
     );
     setIsFinishSavedSearching(true);
   }
 
   function handleClearMoviesInput() {
     setSearchedMoviesItems([]);
+    setSearchInputValue("");
     setIsFinishSearching(false);
   }
 
   function handleClearSavedMoviesInput() {
-    setSavedSearchedMoviesItems([]);
-    setSavedSearchedMoviesItems(savedMovies);
+    setSearchInputValue("");
+    setIsSavedSearchOrFilter(true);
+  }
+
+  function handleFilterMovies() {
+    setShortMoviesFilterOn(!isShortMoviesFilterOn);
+  }
+
+  function handleFilterSavedMovies() {
+    setIsSavedSearchOrFilter(true);
+    handleFilterMovies();
+  }
+
+  function handleSetFilterToInitial() {
+    setShortMoviesFilterOn(null);
   }
 
   function handleGetMovies() {
@@ -331,8 +357,10 @@ function App() {
             path="/movies"
             isLoggedIn={isLoggedIn}
             component={Movies}
-            onSearchMovies={handleSearchMovies}
+            onSearchMovies={handleSetSearchInputValue}
             onClearInput={handleClearMoviesInput}
+            onFilterMovies={handleFilterMovies}
+            onSetFilterToInitial={handleSetFilterToInitial}
             shownMovies={shownMovies}
             onShowMoreMovies={handleShowAdditionalMovies}
             isAllMoviesAreShown={isAllMoviesAreShown}
@@ -347,8 +375,10 @@ function App() {
             path="/saved-movies"
             isLoggedIn={isLoggedIn}
             component={SavedMovies}
-            onSearchMovies={handleSearchSavedMovies}
+            onSearchMovies={handleSetSavedSearchInputValue}
             onClearInput={handleClearSavedMoviesInput}
+            onFilterMovies={handleFilterSavedMovies}
+            onSetFilterToInitial={handleSetFilterToInitial}
             shownMovies={savedSearchedMoviesItems}
             isFinishSearching={isFinishSavedSearching}
             savedMovies={savedMovies}

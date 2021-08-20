@@ -8,6 +8,8 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 function Movies({
   onSearchMovies,
   onClearInput,
+  onFilterMovies,
+  onSetFilterToInitial,
   shownMovies,
   onShowMoreMovies,
   isAllMoviesAreShown,
@@ -17,10 +19,16 @@ function Movies({
   onAddToSaved,
   onRemoveFromSaved,
 }) {
+
+  React.useEffect(()=>{
+    onClearInput();
+    onSetFilterToInitial();
+  },[]);
+
   return (
     <section className="movies page__container">
       <SearchForm onSearchMovies={onSearchMovies} onClearInput={onClearInput}/>
-      <FilterCheckBox />
+      <FilterCheckBox onFilterMovies={onFilterMovies}/>
       {!isFinishSearching && <Preloader />}
       <MoviesCardList
         shownMovies={shownMovies}
