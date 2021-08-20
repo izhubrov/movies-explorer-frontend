@@ -333,9 +333,11 @@ function App() {
   }
 
   async function handleShowError(err) {
-    const newErr = await err;
-    setErrorPopupFields(newErr.message, true);
-    setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
+    if (isLoggedIn !== null) {
+      const newErr = await err;
+      setErrorPopupFields(newErr.message, true);
+      setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
+    }
   }
 
   function setErrorPopupFields(message, active) {
