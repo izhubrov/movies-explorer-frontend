@@ -10,6 +10,7 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
+import ArrowTop from "../ArrowTop/ArrowTop";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
@@ -42,11 +43,13 @@ function App() {
   const [isShortMoviesFilterOn, setShortMoviesFilterOn] = React.useState(null);
   const [width, setWidth] = React.useState("");
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
 
   React.useEffect(() => {
     handleCheckToken();
     getSavedMovies();
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
+    window.innerWidth > 1024 && handleCheckScrollTop();
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
     setSearchInputValue("");
@@ -239,6 +242,16 @@ function App() {
     };
   }
 
+  function handleCheckScrollTop() {
+    function checkScroll() {
+     setTimeout(()=> window.pageYOffset > 300 ? setIsActiveArrowTop(true) : setIsActiveArrowTop(false),500);
+    }
+    window.addEventListener("scroll", checkScroll)
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+    };
+  }
+
   function handleShowInitialMovies() {
     setShownMovies([
       ...searchedMoviesItems.filter(
@@ -390,6 +403,8 @@ function App() {
           </Route>
           <Redirect to="/404" />
         </Switch>
+
+        <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
 
         <Footer />
 
