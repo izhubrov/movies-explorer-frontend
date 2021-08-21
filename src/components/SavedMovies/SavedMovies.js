@@ -4,6 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import ArrowTop from "../ArrowTop/ArrowTop";
 
 function SavedMovies({
   shownMovies,
@@ -15,11 +16,14 @@ function SavedMovies({
   isFinishSearching,
   onAddToSaved,
   onRemoveFromSaved,
+  onScroll,
+  isActiveArrowTop
 }) {
 
   React.useEffect(()=>{
     onClearInput();
     onSetFilterToInitial();
+    window.innerWidth > 900 && onScroll();
   },[]);
 
   return (
@@ -34,6 +38,7 @@ function SavedMovies({
         onRemoveFromSaved={onRemoveFromSaved}
         isFinishSearching={isFinishSearching}
       />
+      <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
     </section>
   );
 }

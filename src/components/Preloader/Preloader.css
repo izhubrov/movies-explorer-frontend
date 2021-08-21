@@ -30,6 +30,15 @@
   padding: 20px;
 }
 
+.preloader_fullwidth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+}
+
 .preloader__container {
   width: 100px;
   height: 100px;

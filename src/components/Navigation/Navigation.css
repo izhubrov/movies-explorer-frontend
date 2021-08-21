@@ -23,6 +23,8 @@
   padding: 22px 22px 92px;
   max-width: 520px;
   position: absolute;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
   z-index: 1;
   top: 0;
   right: 0;
@@ -120,47 +122,74 @@
 }
 
 .navigation__btn-menu {
-  height: 28px;
+  width: 28px;
+  height: 23px;
   background-color: transparent;
   cursor: pointer;
-  transition: opacity 0.3s;
-  padding: 0;
-  transform: rotate(90deg);
+  transition: opacity 0.25s;
   display: none;
+  align-self: center;
   margin-right: 8px;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .navigation__btn-menu:hover {
-  opacity: 0.6;
-}
-
-.navigation__btn-menu_inactive {
-  display: none;
+  opacity: 0.4;
 }
 
 .navigation__burger-line {
   background-color: #000;
-  margin-right: 7px;
-  width: 3px;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
   box-sizing: border-box;
 }
 
-.navigation__burger-line:last-of-type {
-    margin-right: 0;
+.navigation__burger-line:nth-child(1) {
+  top: 0;
+}
+
+.navigation__burger-line:nth-child(2) {
+  top: 10px;
+}
+
+.navigation__burger-line:nth-child(3) {
+  top: 20px;
 }
 
 @media screen and (max-width: 918px) {
-
   .navigation__container_inactive {
     display: none;
+    opacity: 0;
   }
-
   .navigation__btn-menu {
     display: flex;
     margin-left: auto;
   }
   .navigation__btn-menu_inactive {
-    display: none;
+    position: absolute;
+    top: 20px;
+    right: 17px;
+    width: 18px;
+  }
+
+  .navigation__btn-menu_inactive .navigation__burger-line:nth-child(1) {
+    top: 10px;
+    transform: rotate(135deg);
+  }
+  .navigation__btn-menu_inactive .navigation__burger-line:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+  }
+  .navigation__btn-menu_inactive .navigation__burger-line:nth-child(2) {
+    top: 10px;
+    transform: rotate(-135deg);
   }
 }
 
@@ -173,14 +202,28 @@
     padding-bottom: 7px;
   }
   .navigation__btn-menu {
-    height: 22px;
-    margin-right: 8px;
+    width: 22px;
+    height: 21px;
+    margin-right: 9px;
   }
+
+  .navigation__btn-menu_inactive {
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    width: 18px;
+  }
+
   .navigation__burger-line {
-    background-color: #000;
-    margin-right: 6.5px;
-    width: 2.5px;
-    box-sizing: border-box;
+    height: 2.5px;
+  }
+  .navigation__burger-line:nth-child(2) {
+    top: 8px;
+    height: 2.5px;
+  }
+  .navigation__burger-line:nth-child(3) {
+    top: 16px;
+    height: 2.5px;
   }
 }
 

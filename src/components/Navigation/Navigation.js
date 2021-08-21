@@ -41,7 +41,7 @@ function Navigation({ isLoggedIn }) {
 
   return (
     <div className={`navigation ${isColumnMenu ? "overlay overlay_active" : ""}`}>
-      <nav className={`navigation__container appear ${(!isColumnMenu && isLoggedIn) ? "navigation__container_inactive" : ""} ${isColumnMenu ? "navigation__container_type_column" : ""} `}>
+      <nav className={`navigation__container ${(!isColumnMenu && isLoggedIn) ? "navigation__container_inactive" : ""} ${isColumnMenu ? "navigation__container_type_column appear" : ""} `}>
           {!isLoggedIn && isLocationMain &&
             <div className="navigation__auth-container">
               <NavLink className="navigation__item" to={"/sign-up"}>Регистрация</NavLink>

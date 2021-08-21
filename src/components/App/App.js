@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useHistory, Redirect } from "react-router-dom";
+import { Route, Switch, useHistory, Redirect, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -10,8 +10,8 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
-import ArrowTop from "../ArrowTop/ArrowTop";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import Preloader from "../Preloader/Preloader";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import mainApi from "../../utils/mainApi";
@@ -44,12 +44,15 @@ function App() {
   const [width, setWidth] = React.useState("");
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
+  const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const location = useLocation();
+  const isLocationMain = location.pathname === '/';
 
   React.useEffect(() => {
     handleCheckToken();
     getSavedMovies();
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
-    window.innerWidth > 1024 && handleCheckScrollTop();
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
     setSearchInputValue("");
@@ -85,14 +88,17 @@ function App() {
   },[isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue])
 
   function handleCheckToken() {
+    setIsLoading(true);
     mainApi
       .checkToken()
       .then((res) => {
         setCurrentUser(res);
+        setIsLoading(false);
         setIsLoggedIn(true);
         history.push("/movies");
       })
       .catch(async (err) => {
+        setIsLoading(false);
         if (isLoggedIn !== null) {
           await handleShowError(err);
         }
@@ -128,6 +134,7 @@ function App() {
       .then(() => {
         setIsLoggedIn(null);
         history.push("/");
+        setIsLoading(false);
         setCurrentUser({ email: "", password: "", name: "" });
       })
       .catch(async (err) => {
@@ -242,8 +249,9 @@ function App() {
     };
   }
 
-  function handleCheckScrollTop() {
+  function handleCheckScroll() {
     function checkScroll() {
+     isLocationMain && window.pageYOffset > 250 ? setIsActiveAboutProject(true) : setIsActiveAboutProject(false);
      setTimeout(()=> window.pageYOffset > 300 ? setIsActiveArrowTop(true) : setIsActiveArrowTop(false),500);
     }
     window.addEventListener("scroll", checkScroll)
@@ -304,7 +312,9 @@ function App() {
         setTimeout(() => setSuccess(false), 3000);
       })
       .catch(async (err) => {
-        await handleShowError(err);
+        if (isLoggedIn !== null) {
+          await handleShowError(err);
+        }
       });
   }
 
@@ -333,11 +343,9 @@ function App() {
   }
 
   async function handleShowError(err) {
-    if (isLoggedIn !== null) {
-      const newErr = await err;
-      setErrorPopupFields(newErr.message, true);
-      setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
-    }
+    const newErr = await err;
+    setErrorPopupFields(newErr.message, true);
+    setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
   }
 
   function setErrorPopupFields(message, active) {
@@ -350,13 +358,13 @@ function App() {
         <Header isLoggedIn={isLoggedIn} />
         <Switch>
           <Route exact path="/">
-            <Main />
+            <Main onScroll={handleCheckScroll} isActiveArrowTop={isActiveArrowTop} isActiveAboutProject={isActiveAboutProject} isLoading={isLoading}/>
           </Route>
           <Route exact path="/sign-up">
             <Register onSignUp={handleSignUp} />
           </Route>
           <Route exact path="/sign-in">
-            <Login onSignIn={handleSignIn} />
+            <Login onSignIn={handleSignIn} isLoading={isLoading}/>
           </Route>
           <ProtectedRoute
             exact
@@ -384,6 +392,8 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
+            onScroll={handleCheckScroll}
+            isActiveArrowTop={isActiveArrowTop}
           />
           <ProtectedRoute
             exact
@@ -399,6 +409,8 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
+            onScroll={handleCheckScroll}
+            isActiveArrowTop={isActiveArrowTop}
           />
           <Route path="/404">
             <NotFound />
@@ -406,10 +418,7 @@ function App() {
           <Redirect to="/404" />
         </Switch>
 
-        <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
-
         <Footer />
-
         <ErrorPopup errorText={isError.errorText} isActive={isError.isActive} />
       </CurrentUserContext.Provider>
     </div>

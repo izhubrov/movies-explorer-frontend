@@ -4,8 +4,9 @@ import Form from "../Form/Form";
 import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
+import Preloader from "../Preloader/Preloader";
 
-function Login({ onSignIn }) {
+function Login({ onSignIn, isLoading }) {
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   React.useEffect(() => {
@@ -18,6 +19,9 @@ function Login({ onSignIn }) {
   }
 
   return (
+    <>
+    <Preloader isLoading={isLoading}/>
+    {!isLoading &&
     <section className="register page__container">
       <Form
         onSubmit={handleSignIn}
@@ -33,6 +37,8 @@ function Login({ onSignIn }) {
         <Password values={values} handleChange={handleChange} errors={errors} authPage={true} />
       </Form>
     </section>
+    }
+    </>
   );
 }
 
