@@ -20,7 +20,7 @@ function Register({ onSignUp }) {
   }
 
   return (
-    <section className="register page__container">
+    <section className="register appear page__container">
       <Form
         onSubmit={handleSignUp}
         authPage={true}

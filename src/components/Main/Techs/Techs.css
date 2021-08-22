@@ -39,7 +39,6 @@
 .techs__item {
   width: 100%;
   margin: 0;
-  padding: 21px 12px 22px;
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 400px;
@@ -49,6 +48,27 @@
   justify-content: center;
   background-color: #E8E8E8;
   border-radius: 10px;
+  position: relative;
+  top: -40px;
+  left: -100px;
+}
+
+.techs__item:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(52, 86, 243, 0.7);
+}
+
+.techs__item_active {
+  left: 0;
+  top: 0;
+}
+
+.techs__link {
+  width: 100%;
+  padding: 21px 12px 22px;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
 }
 
 @media screen and (max-width: 918px) {

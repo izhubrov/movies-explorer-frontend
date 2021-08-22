@@ -1,5 +1,11 @@
 import React from "react";
-import { Route, Switch, useHistory, Redirect, useLocation } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useHistory,
+  Redirect,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -11,7 +17,6 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
-import Preloader from "../Preloader/Preloader";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
 import mainApi from "../../utils/mainApi";
@@ -35,10 +40,13 @@ function App() {
   const [moviesItems, setMoviesItems] = React.useState([]);
   const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
   const [searchInputValue, setSearchInputValue] = React.useState("");
-  const [isSavedSearchOrFilter, setIsSavedSearchOrFilter] = React.useState(false);
-  const [savedSearchedMoviesItems, setSavedSearchedMoviesItems] = React.useState();
+  const [isSavedSearchOrFilter, setIsSavedSearchOrFilter] =
+    React.useState(false);
+  const [savedSearchedMoviesItems, setSavedSearchedMoviesItems] =
+    React.useState();
   const [isFinishSearching, setIsFinishSearching] = React.useState(null);
-  const [isFinishSavedSearching, setIsFinishSavedSearching] = React.useState(false);
+  const [isFinishSavedSearching, setIsFinishSavedSearching] =
+    React.useState(false);
   const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
   const [isShortMoviesFilterOn, setShortMoviesFilterOn] = React.useState(null);
   const [width, setWidth] = React.useState("");
@@ -46,17 +54,29 @@ function App() {
   const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
   const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isActiveFirstPeriodAboutProject, setIsActiveFirstPeriodAboutProject] =
+    React.useState(false);
+  const [
+    isActiveSecondPeriodAboutProject,
+    setIsActiveSecondPeriodAboutProject,
+  ] = React.useState(false);
+  const [isActiveTechs, setIsActiveTechs] = React.useState(false);
+  const [isActiveAboutMe, setIsActiveAboutMe] = React.useState(false);
+  const [countOfTechs, setCountOfTechs] = React.useState(0);
   const location = useLocation();
-  const isLocationMain = location.pathname === '/';
+  const isLocationMain = location.pathname === "/";
 
   React.useEffect(() => {
     handleCheckToken();
-    getSavedMovies();
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
     setSearchInputValue("");
   }, []);
+
+  React.useEffect(() => {
+    getSavedMovies();
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     searchedMoviesItems && handleShowInitialMovies();
@@ -70,22 +90,51 @@ function App() {
     searchedMoviesItems && handleShowMoviesInResize();
   }, [width]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setSavedSearchedMoviesItems(savedMovies);
     setIsFinishSavedSearching(true);
-  },[savedMovies]);
+  }, [savedMovies]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (localStorage.getItem("movies") === null) {
       handleGetMovies();
     }
     searchInputValue && handleSearchMovies(searchInputValue);
-  },[searchInputValue, isShortMoviesFilterOn])
+  }, [searchInputValue, isShortMoviesFilterOn]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (isSavedSearchOrFilter) handleSearchSavedMovies(searchInputValue);
-    if (isSavedSearchOrFilter && !isShortMoviesFilterOn && !searchInputValue) handleClearSavedMoviesInput();
-  },[isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue])
+    if (isSavedSearchOrFilter && !isShortMoviesFilterOn && !searchInputValue)
+      handleClearSavedMoviesInput();
+  }, [isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue]);
+
+  React.useEffect(() => {
+    if (isActiveAboutProject) {
+      setTimeout(() => setIsActiveFirstPeriodAboutProject(true), 300);
+      setTimeout(() => setIsActiveSecondPeriodAboutProject(true), 500);
+    } else {
+      setIsActiveFirstPeriodAboutProject(false);
+      setIsActiveSecondPeriodAboutProject(false);
+    }
+  }, [isActiveAboutProject]);
+
+  React.useEffect(() => {
+    if (isActiveTechs) {
+      let i = 1;
+      const timerTechs = setTimeout(function showTechs() {
+        if (i > 7) {
+          clearTimeout(timerTechs);
+          return;
+        }
+        setCountOfTechs(countOfTechs + i);
+        i++;
+        setTimeout(showTechs, 120);
+      }, 100);
+      return () => clearTimeout(timerTechs);
+    } else {
+      setCountOfTechs(0);
+    }
+  }, [isActiveTechs]);
 
   function handleCheckToken() {
     setIsLoading(true);
@@ -136,6 +185,7 @@ function App() {
         history.push("/");
         setIsLoading(false);
         setCurrentUser({ email: "", password: "", name: "" });
+        setSavedMovies([]);
       })
       .catch(async (err) => {
         await handleShowError(err);
@@ -164,7 +214,9 @@ function App() {
         );
       });
     }
-    return (isShortMoviesFilterOn ? (movie.duration <=40 && handleSearchingWithoutFilter()) : handleSearchingWithoutFilter());
+    return isShortMoviesFilterOn
+      ? movie.duration <= 40 && handleSearchingWithoutFilter()
+      : handleSearchingWithoutFilter();
   }
 
   function handleSetSearchInputValue(searchedMovie) {
@@ -251,10 +303,32 @@ function App() {
 
   function handleCheckScroll() {
     function checkScroll() {
-     isLocationMain && window.pageYOffset > 250 ? setIsActiveAboutProject(true) : setIsActiveAboutProject(false);
-     setTimeout(()=> window.pageYOffset > 300 ? setIsActiveArrowTop(true) : setIsActiveArrowTop(false),500);
+      if (isLocationMain && window.pageYOffset > 300) {
+        setIsActiveAboutProject(true);
+      } else {
+        setIsActiveAboutProject(false);
+      }
+      if (isLocationMain && window.pageYOffset > 870) {
+        setIsActiveTechs(true);
+      } else {
+        setIsActiveTechs(false);
+      }
+      if (isLocationMain && window.pageYOffset > 1650) {
+        setIsActiveAboutMe(true);
+      } else {
+        setIsActiveAboutMe(false);
+      }
+
+      window.innerWidth > 900 &&
+        setTimeout(
+          () =>
+            window.pageYOffset > 300
+              ? setIsActiveArrowTop(true)
+              : setIsActiveArrowTop(false),
+          500
+        );
     }
-    window.addEventListener("scroll", checkScroll)
+    window.addEventListener("scroll", checkScroll);
     return () => {
       window.removeEventListener("scroll", checkScroll);
     };
@@ -358,13 +432,25 @@ function App() {
         <Header isLoggedIn={isLoggedIn} />
         <Switch>
           <Route exact path="/">
-            <Main onScroll={handleCheckScroll} isActiveArrowTop={isActiveArrowTop} isActiveAboutProject={isActiveAboutProject} isLoading={isLoading}/>
+            <Main
+              onScroll={handleCheckScroll}
+              isActiveArrowTop={isActiveArrowTop}
+              isActiveAboutProject={isActiveAboutProject}
+              isActiveFirstPeriodAboutProject={isActiveFirstPeriodAboutProject}
+              isActiveSecondPeriodAboutProject={
+                isActiveSecondPeriodAboutProject
+              }
+              isActiveTechs={isActiveTechs}
+              isActiveAboutMe={isActiveAboutMe}
+              countOfTechs={countOfTechs}
+              isLoading={isLoading}
+            />
           </Route>
           <Route exact path="/sign-up">
             <Register onSignUp={handleSignUp} />
           </Route>
           <Route exact path="/sign-in">
-            <Login onSignIn={handleSignIn} isLoading={isLoading}/>
+            <Login onSignIn={handleSignIn} isLoading={isLoading} />
           </Route>
           <ProtectedRoute
             exact

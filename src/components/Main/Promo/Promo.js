@@ -10,8 +10,8 @@ function Promo() {
   }
 
   return (
-    <div className="theme-dark appear">
-      <section className="promo page__container">
+    <div className="theme-dark">
+      <section className="promo appear page__container">
         <div className="promo__container">
           <h1 className="title promo__title">
             Учебный проект студента факультета Веб-разработки.

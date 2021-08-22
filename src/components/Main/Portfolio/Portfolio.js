@@ -2,12 +2,12 @@ import React from "react";
 import "./Portfolio.css";
 import arrow from "../../../images/arrow.svg";
 
-function Portfolio() {
+function Portfolio({isActivePortfolio}) {
   return (
     <section className="portfolio page__container">
-      <h2 className="portfolio__title">Портфолио</h2>
-      <ul className="portfolio__container">
-            <li className="portfolio__item">
+      <h2 className={`portfolio__title inactive ${isActivePortfolio ? "active" : ""}`}>Портфолио</h2>
+      <ul className={`portfolio__container inactive ${isActivePortfolio ? "active" : ""}`}>
+            <li className="portfolio__item appear">
               <p className="portfolio__link-text">Научиться учиться</p>
               <a
                 className="portfolio__link"
@@ -18,7 +18,7 @@ function Portfolio() {
                 <img className="portfolio__arrow-icon" alt="Иконка стрелки" src={arrow}></img>
               </a>
             </li>
-            <li className="portfolio__item">
+            <li className="portfolio__item appear">
               <p className="portfolio__link-text">Путешествия по России</p>
               <a
                 className="portfolio__link"
@@ -29,7 +29,7 @@ function Portfolio() {
                 <img className="portfolio__arrow-icon" alt="Иконка стрелки" src={arrow}></img>
               </a>
             </li>
-            <li className="portfolio__item">
+            <li className="portfolio__item appear">
               <p className="portfolio__link-text">Проект Место</p>
               <a
                 className="portfolio__link"

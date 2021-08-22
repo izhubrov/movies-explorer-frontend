@@ -8,40 +8,50 @@ import AboutMe from "./AboutMe/AboutMe";
 import Portfolio from "./Portfolio/Portfolio";
 import Preloader from "../Preloader/Preloader";
 
+function Main({
+  onScroll,
+  isActiveArrowTop,
+  isActiveAboutProject,
+  isActiveFirstPeriodAboutProject,
+  isActiveSecondPeriodAboutProject,
+  isActiveTechs,
+  isActiveAboutMe,
+  countOfTechs,
+  isLoading,
+}) {
+  const [isActivePortfolio, setIsActivePortfolio] = React.useState(false);
 
-function Main({ onScroll, isActiveArrowTop, isActiveAboutProject, isLoading }) {
-  const [isActiveFirstPeriod, setIsActiveFirstPeriod] = React.useState(false);
-  const [isActiveSecondPeriod, setIsActiveSecondPeriod] = React.useState(false);
-  console.log(isLoading)
-
-  React.useEffect(()=>{
+  React.useEffect(() => {
     onScroll();
-  },[])
+  }, []);
 
-  React.useEffect(()=>{
-    const timer1 = setTimeout(()=>setIsActiveFirstPeriod(true),800);
-    const timer2 = setTimeout(()=>setIsActiveSecondPeriod(true),900);
-    return ()=> {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+  function handleActivatePortfolio(status) {
+    if (status) {
+      setIsActivePortfolio(true);
+    } else {
+      setIsActivePortfolio(false);
     }
-  },[isActiveAboutProject])
+  }
 
   return (
     <>
-    { isLoading && <Preloader isLoading={isLoading}/>}
-    {!isLoading &&
-    <main className="main">
-      <Promo/>
-      <AboutProject isActiveAboutProject={isActiveAboutProject} isActiveFirstPeriod={isActiveFirstPeriod} isActiveSecondPeriod={isActiveSecondPeriod}/>
-      <Techs/>
-      <AboutMe/>
-      <Portfolio/>
-      <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
-    </main>
-    }
+      {isLoading && <Preloader isLoading={isLoading} />}
+      {!isLoading && (
+        <main className="main">
+          <Promo />
+          <AboutProject
+            isActiveAboutProject={isActiveAboutProject}
+            isActiveFirstPeriodAboutProject={isActiveFirstPeriodAboutProject}
+            isActiveSecondPeriodAboutProject={isActiveSecondPeriodAboutProject}
+          />
+          <Techs isActiveTechs={isActiveTechs} countOfTechs={countOfTechs}/>
+          <AboutMe isActiveAboutMe={isActiveAboutMe} onActivatePortfolio={handleActivatePortfolio}/>
+          <Portfolio isActivePortfolio={isActivePortfolio}/>
+          <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
+        </main>
+      )}
     </>
- );
+  );
 }
 
 export default Main;

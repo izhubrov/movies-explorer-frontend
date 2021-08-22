@@ -1,3 +1,25 @@
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(15%);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  75% {
+    transform: translateY(15%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .portfolio {
   padding: 0 70px 125px;
   max-width: 1280px;
@@ -29,7 +51,7 @@
   align-items: center;
   width: 100%;
   padding-bottom: 19px;
-  border-bottom: 1px solid #E6E6E6;
+  border-bottom: 1px solid #e6e6e6;
 }
 
 .portfolio__link-text {
@@ -37,12 +59,16 @@
   font-size: 28px;
   line-height: 1.78;
   font-weight: 400;
-  letter-spacing: -.04em;;
+  letter-spacing: -0.04em;
 }
 .portfolio__link {
   text-decoration: none;
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  padding: 25px 0 25px 25px;
+  display: block;
   height: 17px;
+  animation: bounce 2s infinite ease-in-out;
+  animation-fill-mode: both;
 }
 
 .portfolio__link:hover {

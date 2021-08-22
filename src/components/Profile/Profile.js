@@ -41,7 +41,7 @@ function Profile({ onUpdateUser, onSignOut, isSuccess }) {
   }
 
   return (
-    <section className="profile page__container">
+    <section className="profile appear page__container">
       <Form
         onSubmit={handleUpdateUser}
         authPage={false}

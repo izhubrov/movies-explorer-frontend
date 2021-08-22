@@ -26,7 +26,6 @@ function Movies({
   React.useEffect(()=>{
     onClearInput();
     onSetFilterToInitial();
-    window.innerWidth > 900 && onScroll();
   },[]);
 
   return (

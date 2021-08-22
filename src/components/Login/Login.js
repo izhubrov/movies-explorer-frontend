@@ -4,7 +4,6 @@ import Form from "../Form/Form";
 import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
-import Preloader from "../Preloader/Preloader";
 
 function Login({ onSignIn, isLoading }) {
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
@@ -20,9 +19,8 @@ function Login({ onSignIn, isLoading }) {
 
   return (
     <>
-    <Preloader isLoading={isLoading}/>
     {!isLoading &&
-    <section className="register page__container">
+    <section className="login appear page__container">
       <Form
         onSubmit={handleSignIn}
         authPage={true}

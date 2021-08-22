@@ -1,3 +1,11 @@
+@keyframes width-BG {
+  from {
+    width: 30%;
+  }
+  to {
+    width: 100%;
+  }
+}
 .about-project {
   padding: 110px 70px;
   display: flex;
@@ -28,29 +36,50 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 4fr;
+  position: relative;
 }
 
 .about-project__period {
-  padding: 10px 0;
-  font-size: 14px;
-  line-height: 1.21;
-  font-weight: 400;
   text-align: center;
   margin: 0;
   order: -1;
-  margin-bottom: 14px;
-  background-color: #3456f3;
-  color: #fff;
   min-width: 100px;
+  position: relative;
+  display: flex;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.about-project__period_type_frontend {
-  background-color: #f2f2f2;
+.about-project__period_filled::after {
+  content: "1 неделя";
+  padding: 10px 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: #fff;
+  background-color: #3456f3;
+  animation: width-BG 2s ease-in-out;
+}
+
+.about-project__period_filled-frontend::after {
+  content: "4 недели";
+  padding: 10px 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
   color: #000;
+  background-color: #f2f2f2;
+  animation: width-BG 2s ease-in-out;
 }
 
 .about-project__tag {
   margin: 0;
+  padding-top: 14px;
   font-size: 14px;
   line-height: 1.214;
   font-weight: 400;
@@ -67,7 +96,6 @@
     padding-bottom: 93px;
     column-gap: 30px;
   }
-
   .about-project__subsubtitle {
     padding-bottom: 22px;
   }
@@ -86,13 +114,21 @@
   }
 
   .about-project__period {
-    margin-bottom: 10px;
     font-size: 11px;
+  }
+
+  .about-project__period_filled::after {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .about-project__period_filled-frontend::after {
     padding-top: 11px;
     padding-bottom: 11px;
   }
 
   .about-project__tag {
+    padding-top: 10px;
     font-size: 11px;
   }
 
