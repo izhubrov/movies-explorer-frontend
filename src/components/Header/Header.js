@@ -14,27 +14,31 @@ function Header({ isLoggedIn, isLoading }) {
 
   return (
     <>
-    { isLoading && <Preloader isLoading={isLoading}/>}
-    {!isLoading &&
-    <div className={`${isLocationMain ? "theme-dark" : ""}`}>
-      <header
-        className={`header ${
-          isLocationRegisterOrLogin ? "header_place_auth" : ""
-        } page__container`}
-      >
-        <NavLink className="header__logo-link" to={"/"}>
-          <img
-            className={`header__logo-image ${
-              isLocationRegisterOrLogin ? "header__logo-image_place_auth" : ""
-            } appear`}
-            src={headerLogo}
-            alt="Логотип сайта"
-          />
-        </NavLink>
-        {!isLocationRegisterOrLogin && <Navigation isLoggedIn={isLoggedIn} />}
-      </header>
-    </div>
-    }
+      {isLoading && <Preloader isLoading={isLoading} />}
+      {!isLoading && (
+        <div className={`${isLocationMain ? "theme-dark" : ""}`}>
+          <header
+            className={`header ${
+              isLocationRegisterOrLogin ? "header_place_auth" : ""
+            } page__container`}
+          >
+            <NavLink className="header__logo-link" to={"/"}>
+              <img
+                className={`header__logo-image ${
+                  isLocationRegisterOrLogin
+                    ? "header__logo-image_place_auth"
+                    : ""
+                } appear`}
+                src={headerLogo}
+                alt="Логотип сайта"
+              />
+            </NavLink>
+            {!isLocationRegisterOrLogin && (
+              <Navigation isLoggedIn={isLoggedIn} />
+            )}
+          </header>
+        </div>
+      )}
     </>
   );
 }

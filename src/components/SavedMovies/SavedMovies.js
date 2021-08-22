@@ -16,7 +16,6 @@ function SavedMovies({
   isFinishSearching,
   onAddToSaved,
   onRemoveFromSaved,
-  onScroll,
   isActiveArrowTop
 }) {
 

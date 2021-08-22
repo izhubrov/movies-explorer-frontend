@@ -18,9 +18,11 @@ function MoviesCardList({
   return (
     isFinishSearching && (
       <section className="movies-card-list">
-        {isFinishSearching && shownMovies.length === 0 && (isLocationMovies || savedMovies.length !== 0) && (
-          <p className="text">Ничего не найдено</p>
-        )}
+        {isFinishSearching &&
+          shownMovies.length === 0 &&
+          (isLocationMovies || savedMovies.length !== 0) && (
+            <p className="text">Ничего не найдено</p>
+          )}
         {!isLocationMovies && savedMovies.length === 0 && (
           <p className="text">Список сохраненных фильмов пуст</p>
         )}

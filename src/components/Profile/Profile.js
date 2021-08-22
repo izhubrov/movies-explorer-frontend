@@ -1,29 +1,30 @@
-import React from 'react';
+import React from "react";
 import "./Profile.css";
 import Form from "../Form/Form";
 import Name from "../Form/Name/Name";
 import Email from "../Form/Email/Email";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
-import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
 function Profile({ onUpdateUser, onSignOut, isSuccess }) {
-  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
   const currentUser = React.useContext(CurrentUserContext);
-  const [isInputsEqualCurrent,setisInputsEqualCurrent] = React.useState(false);
+  const [isInputsEqualCurrent, setisInputsEqualCurrent] = React.useState(false);
 
   React.useEffect(() => {
     resetForm(currentUser);
   }, []);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     checkInputsToEqualCurrent();
-  },[values]);
+  }, [values]);
 
   function checkInputsToEqualCurrent() {
-    const {name, email} = currentUser;
+    const { name, email } = currentUser;
     if (!values.name && !values.email) return;
-    if ((name === values.name.trim()) && (email === values.email.trim())) {
+    if (name === values.name.trim() && email === values.email.trim()) {
       setisInputsEqualCurrent(true);
     } else {
       setisInputsEqualCurrent(false);
@@ -52,9 +53,19 @@ function Profile({ onUpdateUser, onSignOut, isSuccess }) {
         onBottomLinkRedirect="/"
         buttonSubmitState={isInputsEqualCurrent ? false : isValid}
       >
-        <Name values={values} handleChange={handleChange} errors={errors} authPage={false} />
-        <Email values={values} handleChange={handleChange} errors={errors} authPage={false} />
-        {isSuccess && <SuccessPopup isSuccess={isSuccess}/>}
+        <Name
+          values={values}
+          handleChange={handleChange}
+          errors={errors}
+          authPage={false}
+        />
+        <Email
+          values={values}
+          handleChange={handleChange}
+          errors={errors}
+          authPage={false}
+        />
+        {isSuccess && <SuccessPopup isSuccess={isSuccess} />}
       </Form>
     </section>
   );

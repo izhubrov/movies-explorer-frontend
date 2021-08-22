@@ -12,11 +12,8 @@ function Main({
   onScroll,
   isActiveArrowTop,
   isActiveAboutProject,
-  isActiveFirstPeriodAboutProject,
-  isActiveSecondPeriodAboutProject,
   isActiveTechs,
   isActiveAboutMe,
-  countOfTechs,
   isLoading,
 }) {
   const [isActivePortfolio, setIsActivePortfolio] = React.useState(false);
@@ -39,14 +36,13 @@ function Main({
       {!isLoading && (
         <main className="main">
           <Promo />
-          <AboutProject
-            isActiveAboutProject={isActiveAboutProject}
-            isActiveFirstPeriodAboutProject={isActiveFirstPeriodAboutProject}
-            isActiveSecondPeriodAboutProject={isActiveSecondPeriodAboutProject}
+          <AboutProject isActiveAboutProject={isActiveAboutProject} />
+          <Techs isActiveTechs={isActiveTechs} />
+          <AboutMe
+            isActiveAboutMe={isActiveAboutMe}
+            onActivatePortfolio={handleActivatePortfolio}
           />
-          <Techs isActiveTechs={isActiveTechs} countOfTechs={countOfTechs}/>
-          <AboutMe isActiveAboutMe={isActiveAboutMe} onActivatePortfolio={handleActivatePortfolio}/>
-          <Portfolio isActivePortfolio={isActivePortfolio}/>
+          <Portfolio isActivePortfolio={isActivePortfolio} />
           <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
         </main>
       )}

@@ -13,9 +13,8 @@ function Form({
   onbottomLinkClick,
   bottomLinkText,
   onBottomLinkRedirect,
-  buttonSubmitState
+  buttonSubmitState,
 }) {
-
   return (
     <form
       className={`form ${authPage ? "form__auth-page" : ""} `}
@@ -25,14 +24,18 @@ function Form({
       <Title authPage={authPage} title={title} />
       {children}
       <>
-        <SubmitButton buttonSubmitText={buttonSubmitText} authPage={authPage} buttonSubmitState={buttonSubmitState} />
+        <SubmitButton
+          buttonSubmitText={buttonSubmitText}
+          authPage={authPage}
+          buttonSubmitState={buttonSubmitState}
+        />
         <RedirectBottom
           authPage={authPage}
           authBottomText={authBottomText}
           onbottomLinkClick={onbottomLinkClick}
           bottomLinkText={bottomLinkText}
           onBottomLinkRedirect={onBottomLinkRedirect}
-          />
+        />
       </>
       <></>
     </form>

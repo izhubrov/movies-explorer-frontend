@@ -17,14 +17,14 @@ function AboutMe({ isActiveAboutMe, onActivatePortfolio }) {
     let currentPos = 0;
     if (isActiveAboutMe) {
       const id = setInterval(() => {
-        setAboutMeText(aboutMeText => aboutMeText + text[currentPos] );
+        setAboutMeText((aboutMeText) => aboutMeText + text[currentPos]);
         currentPos += 1;
-        if (currentPos === Math.round(text.length/4)) {
+        if (currentPos === Math.round(text.length / 4)) {
           onActivatePortfolio(true);
         }
         if (currentPos === text.length) {
-          clearInterval(id)
-        };
+          clearInterval(id);
+        }
       }, 30);
       return () => clearInterval(id);
     } else {

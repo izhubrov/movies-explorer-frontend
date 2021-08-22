@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 import "./SubmitButton.css";
 
-
-function SubmitButton({buttonSubmitText, authPage, buttonSubmitState}) {
+function SubmitButton({ buttonSubmitText, authPage, buttonSubmitState }) {
   return (
     <button
       type="submit"
-      className={`submit-button ${authPage ? "submit-button_place_auth" : ""} ${!buttonSubmitState ? "submit-button_inactive" : ""}`}
+      className={`submit-button ${authPage ? "submit-button_place_auth" : ""} ${
+        !buttonSubmitState ? "submit-button_inactive" : ""
+      }`}
       disabled={!buttonSubmitState ? true : ""}
     >
       {buttonSubmitText}

@@ -58,7 +58,9 @@ function MoviesCard({ movie, savedMovies, onAddToSaved, onRemoveFromSaved }) {
       >
         <img
           className="movies-card__image"
-          src={`${!isLocationSavedMovies ? serverUrl+movie.image.url : movie.image}`}
+          src={`${
+            !isLocationSavedMovies ? serverUrl + movie.image.url : movie.image
+          }`}
           alt={`Изображение ${movie.nameRU}`}
         />
         <span className="movies-card__tag">Смотреть трейлер</span>

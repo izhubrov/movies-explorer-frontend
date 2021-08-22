@@ -54,15 +54,8 @@ function App() {
   const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
   const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isActiveFirstPeriodAboutProject, setIsActiveFirstPeriodAboutProject] =
-    React.useState(false);
-  const [
-    isActiveSecondPeriodAboutProject,
-    setIsActiveSecondPeriodAboutProject,
-  ] = React.useState(false);
   const [isActiveTechs, setIsActiveTechs] = React.useState(false);
   const [isActiveAboutMe, setIsActiveAboutMe] = React.useState(false);
-  const [countOfTechs, setCountOfTechs] = React.useState(0);
   const location = useLocation();
   const isLocationMain = location.pathname === "/";
 
@@ -108,33 +101,6 @@ function App() {
       handleClearSavedMoviesInput();
   }, [isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue]);
 
-  React.useEffect(() => {
-    if (isActiveAboutProject) {
-      setTimeout(() => setIsActiveFirstPeriodAboutProject(true), 300);
-      setTimeout(() => setIsActiveSecondPeriodAboutProject(true), 500);
-    } else {
-      setIsActiveFirstPeriodAboutProject(false);
-      setIsActiveSecondPeriodAboutProject(false);
-    }
-  }, [isActiveAboutProject]);
-
-  React.useEffect(() => {
-    if (isActiveTechs) {
-      let i = 1;
-      const timerTechs = setTimeout(function showTechs() {
-        if (i > 7) {
-          clearTimeout(timerTechs);
-          return;
-        }
-        setCountOfTechs(countOfTechs + i);
-        i++;
-        setTimeout(showTechs, 120);
-      }, 100);
-      return () => clearTimeout(timerTechs);
-    } else {
-      setCountOfTechs(0);
-    }
-  }, [isActiveTechs]);
 
   function handleCheckToken() {
     setIsLoading(true);
@@ -271,69 +237,6 @@ function App() {
     setShortMoviesFilterOn(null);
   }
 
-  function handleGetMovies() {
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        setMoviesItems(res);
-        localStorage.setItem("movies", JSON.stringify(res));
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleCheckDeviceWidth() {
-    return window.innerWidth >= 1280
-      ? setWidth("1280")
-      : window.innerWidth > 480
-      ? setWidth("1043")
-      : setWidth("480");
-  }
-
-  function handleChangeDeviceWidth() {
-    function getDeviceWidth() {
-      setTimeout(handleCheckDeviceWidth, 2000);
-    }
-    window.addEventListener("resize", getDeviceWidth);
-    return () => {
-      window.removeEventListener("resize", getDeviceWidth);
-    };
-  }
-
-  function handleCheckScroll() {
-    function checkScroll() {
-      if (isLocationMain && window.pageYOffset > 300) {
-        setIsActiveAboutProject(true);
-      } else {
-        setIsActiveAboutProject(false);
-      }
-      if (isLocationMain && window.pageYOffset > 870) {
-        setIsActiveTechs(true);
-      } else {
-        setIsActiveTechs(false);
-      }
-      if (isLocationMain && window.pageYOffset > 1650) {
-        setIsActiveAboutMe(true);
-      } else {
-        setIsActiveAboutMe(false);
-      }
-
-      window.innerWidth > 900 &&
-        setTimeout(
-          () =>
-            window.pageYOffset > 300
-              ? setIsActiveArrowTop(true)
-              : setIsActiveArrowTop(false),
-          500
-        );
-    }
-    window.addEventListener("scroll", checkScroll);
-    return () => {
-      window.removeEventListener("scroll", checkScroll);
-    };
-  }
-
   function handleShowInitialMovies() {
     setShownMovies([
       ...searchedMoviesItems.filter(
@@ -376,6 +279,18 @@ function App() {
     } else {
       setAllMoviesAreShown(false);
     }
+  }
+
+  function handleGetMovies() {
+    moviesApi
+      .getMovies()
+      .then((res) => {
+        setMoviesItems(res);
+        localStorage.setItem("movies", JSON.stringify(res));
+      })
+      .catch(async (err) => {
+        await handleShowError(err);
+      });
   }
 
   function getSavedMovies() {
@@ -426,6 +341,52 @@ function App() {
     setError({ errorText: message, isActive: active });
   }
 
+  function handleCheckDeviceWidth() {
+    return window.innerWidth >= 1280
+      ? setWidth("1280")
+      : window.innerWidth > 480
+      ? setWidth("1043")
+      : setWidth("480");
+  }
+
+  function handleChangeDeviceWidth() {
+    function getDeviceWidth() {
+      setTimeout(handleCheckDeviceWidth, 2000);
+    }
+    window.addEventListener("resize", getDeviceWidth);
+    return () => {
+      window.removeEventListener("resize", getDeviceWidth);
+    };
+  }
+
+  function handleCheckScroll() {
+    function checkScroll() {
+      if (isLocationMain) {
+        window.pageYOffset > 300
+          ? setIsActiveAboutProject(true)
+          : setIsActiveAboutProject(false);
+        window.pageYOffset > 870
+          ? setIsActiveTechs(true)
+          : setIsActiveTechs(false);
+        window.pageYOffset > 1650
+          ? setIsActiveAboutMe(true)
+          : setIsActiveAboutMe(false);
+      }
+      window.innerWidth > 900 &&
+        setTimeout(
+          () =>
+            window.pageYOffset > 300
+              ? setIsActiveArrowTop(true)
+              : setIsActiveArrowTop(false),
+          500
+        );
+    }
+    window.addEventListener("scroll", checkScroll);
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+    };
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={isCurrentUser}>
@@ -436,13 +397,8 @@ function App() {
               onScroll={handleCheckScroll}
               isActiveArrowTop={isActiveArrowTop}
               isActiveAboutProject={isActiveAboutProject}
-              isActiveFirstPeriodAboutProject={isActiveFirstPeriodAboutProject}
-              isActiveSecondPeriodAboutProject={
-                isActiveSecondPeriodAboutProject
-              }
               isActiveTechs={isActiveTechs}
               isActiveAboutMe={isActiveAboutMe}
-              countOfTechs={countOfTechs}
               isLoading={isLoading}
             />
           </Route>
@@ -478,7 +434,6 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
-            onScroll={handleCheckScroll}
             isActiveArrowTop={isActiveArrowTop}
           />
           <ProtectedRoute
@@ -495,7 +450,6 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
-            onScroll={handleCheckScroll}
             isActiveArrowTop={isActiveArrowTop}
           />
           <Route path="/404">

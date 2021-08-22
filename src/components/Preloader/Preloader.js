@@ -1,7 +1,7 @@
 import React from "react";
 import "./Preloader.css";
 
-function Preloader({isLoading}) {
+function Preloader({ isLoading }) {
   return (
     <div className={`${isLoading ? "preloader_fullwidth" : "preloader"}`}>
       <div className="preloader__container">

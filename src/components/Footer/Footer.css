@@ -15,8 +15,8 @@
   text-align: center;
   padding-bottom: 20px;
   margin-bottom: 20px;
-  color: #A0A0A0;
-  border-bottom: 1px solid #E8E8E8;
+  color: #a0a0a0;
+  border-bottom: 1px solid #e8e8e8;
   margin: 0 0 20px;
 }
 
@@ -28,12 +28,12 @@
 
 .footer__copyrights {
   margin: 0;
-  color: #A0A0A0;
+  color: #a0a0a0;
 }
 
 .footer__socials {
   display: grid;
-  grid-template-columns: repeat(3,max-content);
+  grid-template-columns: repeat(3, max-content);
   column-gap: 20px;
   list-style: none;
   padding: 0;
@@ -46,7 +46,7 @@
 }
 
 .footer__social-link {
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   color: #000;
   text-decoration: none;
 }

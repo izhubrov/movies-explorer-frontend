@@ -40,7 +40,7 @@
 
 .about-me__socials {
   display: grid;
-  grid-template-columns: repeat(2,max-content);
+  grid-template-columns: repeat(2, max-content);
   column-gap: 20px;
   list-style: none;
   padding: 0;
@@ -53,7 +53,7 @@
 }
 
 .about-me__social-link {
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   color: #000;
   font-size: 14px;
   line-height: 1.21;
@@ -112,7 +112,6 @@
 }
 
 @media screen and (max-width: 660px) {
-
   .about-me__title {
     padding-top: 40px;
   }

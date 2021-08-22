@@ -18,7 +18,7 @@
 }
 
 .header__logo-link {
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .header__logo-link:hover {
@@ -37,7 +37,6 @@
 .header__logo-image_place_auth {
   margin: 0;
 }
-
 
 @media screen and (max-width: 918px) {
   .header {

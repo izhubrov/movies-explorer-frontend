@@ -1,6 +1,6 @@
 .arrowTop {
-  background:#3456F3;
-  box-shadow:0 0 2px rgba(0,0,0,0.4);
+  background: #3456f3;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   position: fixed;
   border-radius: 5px;
   right: 20px;
@@ -8,7 +8,7 @@
   text-align: center;
   overflow: hidden;
   opacity: 0;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
   visibility: hidden;
   display: flex;
@@ -39,7 +39,7 @@
   overflow: hidden;
   width: 7px;
   height: 7px;
-  border-top: 5px solid #DDDEE3;
-  border-right: 5px solid #DDDEE3;
+  border-top: 5px solid #dddee3;
+  border-right: 5px solid #dddee3;
   transform: rotate(-45deg);
 }
