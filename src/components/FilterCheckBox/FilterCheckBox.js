@@ -1,10 +1,16 @@
 import React from "react";
 import "./FilterCheckBox.css";
 
-function FilterCheckBox({ onFilterMovies }) {
+function FilterCheckBox({ onFilterMovies, isShortMoviesFilterOn }) {
+  const [checked, setChecked] = React.useState("");
+
   function handleSetCheckbox() {
     onFilterMovies();
   }
+
+  React.useEffect(()=>{
+    isShortMoviesFilterOn ? setChecked("checked") : setChecked("");
+  },[isShortMoviesFilterOn])
 
   return (
     <div className="filter-checkbox">
@@ -15,7 +21,8 @@ function FilterCheckBox({ onFilterMovies }) {
           name="short-film"
           id="short-film"
           value="true"
-          onClick={handleSetCheckbox}
+          onChange={handleSetCheckbox}
+          checked={checked}
         />
         <span
           className="filter-checkbox__pseudo-item"

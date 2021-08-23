@@ -64,6 +64,7 @@ function App() {
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
+    setShortMoviesFilterOn(localStorage.getItem("filteredMovies") || false);
     setSearchInputValue("");
   }, []);
 
@@ -76,7 +77,10 @@ function App() {
   }, [searchedMoviesItems]);
 
   React.useEffect(() => {
-    shownMovies.length !== 0 && checkCountOfShownMovies();
+    if (shownMovies.length !== 0) {
+      checkCountOfShownMovies();
+      setIsFinishSearching(true);
+    }
   }, [shownMovies]);
 
   React.useEffect(() => {
@@ -87,6 +91,17 @@ function App() {
     setSavedSearchedMoviesItems(savedMovies);
     setIsFinishSavedSearching(true);
   }, [savedMovies]);
+
+  React.useEffect(() => {
+    console.log(isShortMoviesFilterOn);
+    setSearchedMoviesItems(
+      isShortMoviesFilterOn
+        ? JSON.parse(localStorage.getItem("searchedMovies")).filter(
+            (movie) => movie.duration <= 40
+          )
+        : JSON.parse(localStorage.getItem("searchedMovies")) || []
+    );
+  }, [isShortMoviesFilterOn]);
 
   React.useEffect(() => {
     if (localStorage.getItem("movies") === null) {
@@ -101,7 +116,6 @@ function App() {
       handleClearSavedMoviesInput();
   }, [isSavedSearchOrFilter, isShortMoviesFilterOn, searchInputValue]);
 
-
   function handleCheckToken() {
     setIsLoading(true);
     mainApi
@@ -110,7 +124,10 @@ function App() {
         setCurrentUser(res);
         setIsLoading(false);
         setIsLoggedIn(true);
-        if (location.pathname==='/sign-up' || location.pathname==='/sign-in') {
+        if (
+          location.pathname === "/sign-up" ||
+          location.pathname === "/sign-in"
+        ) {
           history.push("/movies");
         } else {
           history.push(location.pathname);
@@ -156,6 +173,9 @@ function App() {
         setIsLoading(false);
         setCurrentUser({ email: "", password: "", name: "" });
         setSavedMovies([]);
+        localStorage.removeItem("filteredMovies");
+        localStorage.removeItem("searchedMovies");
+        localStorage.removeItem("movies");
       })
       .catch(async (err) => {
         await handleShowError(err);
@@ -176,17 +196,12 @@ function App() {
   }
 
   function handleInnerSearching(movie) {
-    function handleSearchingWithoutFilter() {
-      return Object.values(movie).find((features) => {
-        return (
-          typeof features === "string" &&
-          features.toLowerCase().includes(searchInputValue.toLowerCase())
-        );
-      });
-    }
-    return isShortMoviesFilterOn
-      ? movie.duration <= 40 && handleSearchingWithoutFilter()
-      : handleSearchingWithoutFilter();
+    return Object.values(movie).find((features) => {
+      return (
+        typeof features === "string" &&
+        features.toLowerCase().includes(searchInputValue.toLowerCase())
+      );
+    });
   }
 
   function handleSetSearchInputValue(searchedMovie) {
@@ -204,9 +219,18 @@ function App() {
   }
 
   function handleSearchMovies() {
-    setSearchedMoviesItems(
-      moviesItems.filter((movie) => handleInnerSearching(movie))
+    let searchedMovies = moviesItems.filter((movie) =>
+      handleInnerSearching(movie)
     );
+    if (isShortMoviesFilterOn) {
+      const filteredSearchedMovies = searchedMovies.filter(
+        (movie) => movie.duration <= 40
+      );
+      setSearchedMoviesItems(filteredSearchedMovies);
+    } else {
+      localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
+      setSearchedMoviesItems(searchedMovies);
+    }
     setIsFinishSearching(true);
   }
 
@@ -230,18 +254,16 @@ function App() {
 
   function handleFilterMovies() {
     setShortMoviesFilterOn(!isShortMoviesFilterOn);
+    localStorage.setItem("filteredMovies", !isShortMoviesFilterOn);
   }
 
   function handleFilterSavedMovies() {
     setIsSavedSearchOrFilter(true);
-    handleFilterMovies();
-  }
-
-  function handleSetFilterToInitial() {
-    setShortMoviesFilterOn(null);
+    setShortMoviesFilterOn(!isShortMoviesFilterOn);
   }
 
   function handleShowInitialMovies() {
+    console.log(searchedMoviesItems);
     setShownMovies([
       ...searchedMoviesItems.filter(
         (movie, index) => index < initialCountOfShownMovies[width]
@@ -430,7 +452,8 @@ function App() {
             onSearchMovies={handleSetSearchInputValue}
             onClearInput={handleClearMoviesInput}
             onFilterMovies={handleFilterMovies}
-            onSetFilterToInitial={handleSetFilterToInitial}
+            // onSetFilterToInitial={handleSetFilterToInitial}
+            isShortMoviesFilterOn={isShortMoviesFilterOn}
             shownMovies={shownMovies}
             onShowMoreMovies={handleShowAdditionalMovies}
             isAllMoviesAreShown={isAllMoviesAreShown}
@@ -449,7 +472,7 @@ function App() {
             onSearchMovies={handleSetSavedSearchInputValue}
             onClearInput={handleClearSavedMoviesInput}
             onFilterMovies={handleFilterSavedMovies}
-            onSetFilterToInitial={handleSetFilterToInitial}
+            // onSetFilterToInitial={handleSetFilterToInitial}
             shownMovies={savedSearchedMoviesItems}
             isFinishSearching={isFinishSavedSearching}
             savedMovies={savedMovies}

@@ -23,7 +23,6 @@ function SearchForm({ onSearchMovies, onClearInput }) {
       }
     } else {
       setSearchedMovieInput("");
-      onClearInput();
       setClearInput(false);
     }
   }
@@ -31,9 +30,6 @@ function SearchForm({ onSearchMovies, onClearInput }) {
   function handleChange(evt) {
     setSearchedMovieInput(evt.target.value);
     setClearInput(false);
-    if (evt.target.value === '') {
-      onClearInput();
-    }
   }
 
   function handleFocus() {

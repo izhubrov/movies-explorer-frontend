@@ -11,6 +11,7 @@ function Movies({
   onClearInput,
   onFilterMovies,
   onSetFilterToInitial,
+  isShortMoviesFilterOn,
   shownMovies,
   onShowMoreMovies,
   isAllMoviesAreShown,
@@ -22,14 +23,13 @@ function Movies({
   isActiveArrowTop,
 }) {
   React.useEffect(() => {
-    onClearInput();
-    onSetFilterToInitial();
+    // onClearInput();
+    // onSetFilterToInitial();
   }, []);
-
   return (
     <section className="movies page__container">
       <SearchForm onSearchMovies={onSearchMovies} onClearInput={onClearInput} />
-      <FilterCheckBox onFilterMovies={onFilterMovies} />
+      <FilterCheckBox onFilterMovies={onFilterMovies} isShortMoviesFilterOn={isShortMoviesFilterOn}/>
       {!isFinishSearching && <Preloader />}
       <MoviesCardList
         shownMovies={shownMovies}
