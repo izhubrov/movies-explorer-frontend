@@ -110,7 +110,11 @@ function App() {
         setCurrentUser(res);
         setIsLoading(false);
         setIsLoggedIn(true);
-        history.push("/movies");
+        if (location.pathname==='/sign-up' || location.pathname==='/sign-in') {
+          history.push("/movies");
+        } else {
+          history.push(location.pathname);
+        }
       })
       .catch(async (err) => {
         setIsLoading(false);
@@ -400,6 +404,7 @@ function App() {
               isActiveTechs={isActiveTechs}
               isActiveAboutMe={isActiveAboutMe}
               isLoading={isLoading}
+              isLoggedIn={isLoggedIn}
             />
           </Route>
           <Route exact path="/sign-up">
