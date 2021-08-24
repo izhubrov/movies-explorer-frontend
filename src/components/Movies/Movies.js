@@ -8,9 +8,7 @@ import ArrowTop from "../ArrowTop/ArrowTop";
 
 function Movies({
   onSearchMovies,
-  onClearInput,
   onFilterMovies,
-  onSetFilterToInitial,
   isShortMoviesFilterOn,
   shownMovies,
   onShowMoreMovies,
@@ -22,13 +20,10 @@ function Movies({
   onRemoveFromSaved,
   isActiveArrowTop,
 }) {
-  React.useEffect(() => {
-    // onClearInput();
-    // onSetFilterToInitial();
-  }, []);
+
   return (
     <section className="movies page__container">
-      <SearchForm onSearchMovies={onSearchMovies} onClearInput={onClearInput} />
+      <SearchForm onSearchMovies={onSearchMovies}/>
       <FilterCheckBox onFilterMovies={onFilterMovies} isShortMoviesFilterOn={isShortMoviesFilterOn}/>
       {!isFinishSearching && <Preloader />}
       <MoviesCardList

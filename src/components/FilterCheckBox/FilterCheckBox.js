@@ -1,16 +1,27 @@
 import React from "react";
 import "./FilterCheckBox.css";
+import {useLocation} from 'react-router-dom';
 
-function FilterCheckBox({ onFilterMovies, isShortMoviesFilterOn }) {
-  const [checked, setChecked] = React.useState("");
+function FilterCheckBox({ onFilterMovies, isShortMoviesFilterOn, isShortSavedMoviesFilterOn }) {
+  const [isFilterOn, setFilterOn] = React.useState(false);
+  const location = useLocation();
+  const locationMovies = location.pathname === '/movies';
 
   function handleSetCheckbox() {
     onFilterMovies();
+    setFilterOn(!isFilterOn);
   }
 
+  console.log(isFilterOn);
+
   React.useEffect(()=>{
-    isShortMoviesFilterOn ? setChecked("checked") : setChecked("");
-  },[isShortMoviesFilterOn])
+    if (locationMovies) {
+      isShortMoviesFilterOn ? setFilterOn(true) : setFilterOn(false);
+    } else {
+      isShortSavedMoviesFilterOn ? setFilterOn(true) : setFilterOn(false);
+    }
+
+  },[])
 
   return (
     <div className="filter-checkbox">
@@ -20,9 +31,9 @@ function FilterCheckBox({ onFilterMovies, isShortMoviesFilterOn }) {
           className="filter-checkbox__input"
           name="short-film"
           id="short-film"
-          value="true"
+          value={isFilterOn}
           onChange={handleSetCheckbox}
-          checked={checked}
+          checked={isFilterOn}
         />
         <span
           className="filter-checkbox__pseudo-item"

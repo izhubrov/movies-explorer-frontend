@@ -12,7 +12,7 @@ function SavedMovies({
   onSearchMovies,
   onClearInput,
   onFilterMovies,
-  onSetFilterToInitial,
+  isShortSavedMoviesFilterOn,
   isFinishSearching,
   onAddToSaved,
   onRemoveFromSaved,
@@ -21,13 +21,12 @@ function SavedMovies({
 
   React.useEffect(()=>{
     onClearInput();
-    onSetFilterToInitial();
   },[]);
 
   return (
     <section className="saved-movies page__container">
       <SearchForm onSearchMovies={onSearchMovies} onClearInput={onClearInput}/>
-      <FilterCheckBox onFilterMovies={onFilterMovies}/>
+      <FilterCheckBox onFilterMovies={onFilterMovies} isShortSavedMoviesFilterOn={isShortSavedMoviesFilterOn}/>
       {!isFinishSearching && <Preloader />}
       <MoviesCardList
         shownMovies={shownMovies}

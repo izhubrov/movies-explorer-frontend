@@ -1,12 +1,16 @@
 import React from "react";
+import { useLocation } from "react-router";
 import "./SearchForm.css";
 import ErrorSearchForm from "./ErrorSearchForm/ErrorSearchForm";
+
 
 function SearchForm({ onSearchMovies, onClearInput }) {
   const [isFocused, setFocused] = React.useState(false);
   const [isEmptyQuery, setEmptyQuery] = React.useState(false);
   const [searchedMovieInput, setSearchedMovieInput] = React.useState('');
   const [isClearInput, setClearInput] = React.useState(false);
+  const location = useLocation();
+  const isLocationSavedMovies = location.pathname === '/saved-movies';
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -24,6 +28,7 @@ function SearchForm({ onSearchMovies, onClearInput }) {
     } else {
       setSearchedMovieInput("");
       setClearInput(false);
+      if(isLocationSavedMovies) onClearInput();
     }
   }
 
