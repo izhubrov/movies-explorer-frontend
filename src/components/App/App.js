@@ -104,6 +104,7 @@ function App() {
     setErrorMoviesServer,
     setSavedMovies,
     handleShowError,
+    setIsFinishSearching
   });
 
   React.useEffect(() => {

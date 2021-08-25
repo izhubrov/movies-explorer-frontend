@@ -1,8 +1,15 @@
 import mainApi from "./mainApi";
 import moviesApi from "./moviesApi";
 
-export default function useGetSaveAndRemoveMovies({isLoggedIn, savedMovies,setMoviesItems,setErrorMoviesServer,setSavedMovies,handleShowError}) {
-
+export default function useGetSaveAndRemoveMovies({
+  isLoggedIn,
+  savedMovies,
+  setMoviesItems,
+  setErrorMoviesServer,
+  setSavedMovies,
+  handleShowError,
+  setIsFinishSearching
+}) {
   function handleSetMoviesToLocalStorage() {
     if (localStorage.getItem("movies") === null) {
       handleGetMovies();
@@ -15,9 +22,10 @@ export default function useGetSaveAndRemoveMovies({isLoggedIn, savedMovies,setMo
       .then((res) => {
         setMoviesItems(res);
         localStorage.setItem("movies", JSON.stringify(res));
-        setTimeout(()=> setErrorMoviesServer(false),3000);
+        setTimeout(() => setErrorMoviesServer(false), 3000);
       })
       .catch(async (err) => {
+        setIsFinishSearching(true);
         setErrorMoviesServer(true);
       });
   }
@@ -61,6 +69,6 @@ export default function useGetSaveAndRemoveMovies({isLoggedIn, savedMovies,setMo
     handleSetMoviesToLocalStorage,
     getSavedMovies,
     handleSaveMovie,
-    handleRemoveFromSavedMovie
-  }
+    handleRemoveFromSavedMovie,
+  };
 }

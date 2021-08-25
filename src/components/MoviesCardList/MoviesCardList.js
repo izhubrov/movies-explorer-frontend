@@ -24,7 +24,7 @@ function MoviesCardList({
             или сервер недоступен. Подождите немного и попробуйте ещё раз
           </p>
         )}
-        {isErrorMoviesServer === false && isFinishSearching &&
+        {isErrorMoviesServer === false  &&
           shownMovies.length === 0 &&
           (isLocationMovies || savedMovies.length !== 0) && (
             <p className="text">Ничего не найдено</p>
