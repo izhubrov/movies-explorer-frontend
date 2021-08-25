@@ -21,7 +21,6 @@
 .error-popup_opened {
   visibility: visible;
   opacity: 1;
-  margin: 0;
 }
 
 .error-popup__title {
