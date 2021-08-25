@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
 export default function useErrorPopup() {
-
   const [isError, setError] = React.useState({
     errorText: "",
     isActive: false,
@@ -19,6 +18,6 @@ export default function useErrorPopup() {
 
   return {
     isError,
-    handleShowError
-  }
+    handleShowError,
+  };
 }

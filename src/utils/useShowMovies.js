@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
   initialCountOfShownMovies,
-  additionalCountOfShownMovies
+  additionalCountOfShownMovies,
 } from "./utils";
 
-export default function useShowMovies({width, searchedMoviesItems}) {
-
+export default function useShowMovies({ width, searchedMoviesItems }) {
   const [shownMovies, setShownMovies] = React.useState([]);
   const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
 
@@ -59,6 +58,6 @@ export default function useShowMovies({width, searchedMoviesItems}) {
     handleShowInitialMovies,
     handleShowMoviesInResize,
     handleShowAdditionalMovies,
-    checkCountOfShownMovies
-  }
+    checkCountOfShownMovies,
+  };
 }

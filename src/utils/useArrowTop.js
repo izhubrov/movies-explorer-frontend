@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function useArrowTop() {
   const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
@@ -6,9 +6,9 @@ export default function useArrowTop() {
   function checkArrowTop() {
     if (window.innerWidth > 900) {
       if (window.pageYOffset > 300) {
-        setIsActiveArrowTop(true)
+        setIsActiveArrowTop(true);
       } else {
-        setIsActiveArrowTop(false)
+        setIsActiveArrowTop(false);
       }
     }
   }

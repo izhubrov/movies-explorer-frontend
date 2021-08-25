@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function useDeviceWidth() {
   const [width, setWidth] = React.useState("");
@@ -25,5 +25,5 @@ export default function useDeviceWidth() {
     width,
     handleCheckDeviceWidth,
     handleChangeDeviceWidth,
-  }
+  };
 }

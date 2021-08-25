@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -34,7 +30,8 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
-  const {width, handleCheckDeviceWidth, handleChangeDeviceWidth} = useDeviceWidth();
+  const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
+    useDeviceWidth();
   const {
     searchedMoviesItems,
     searchedSavedMoviesItems,
@@ -58,7 +55,7 @@ function App() {
     savedMovies,
     setIsFinishSavedSearching,
     setErrorMoviesServer,
-  })
+  });
 
   const {
     shownMovies,
@@ -68,7 +65,7 @@ function App() {
     handleShowMoviesInResize,
     handleShowAdditionalMovies,
     checkCountOfShownMovies,
-  } = useShowMovies({width, searchedMoviesItems});
+  } = useShowMovies({ width, searchedMoviesItems });
 
   const { isError, handleShowError } = useErrorPopup();
 
@@ -93,20 +90,20 @@ function App() {
     setSearchInputValue,
     setShortMoviesFilterOn,
     setIsFinishSearching,
-    setIsFinishSavedSearching,
+    setIsFinishSavedSearching
   );
 
   const {
     handleSetMoviesToLocalStorage,
     getSavedMovies,
     handleSaveMovie,
-    handleRemoveFromSavedMovie
+    handleRemoveFromSavedMovie,
   } = useGetSaveAndRemoveMovies({
     savedMovies,
     setMoviesItems,
     setErrorMoviesServer,
     setSavedMovies,
-    handleShowError
+    handleShowError,
   });
 
   React.useEffect(() => {
@@ -114,8 +111,12 @@ function App() {
     setMoviesItems(JSON.parse(localStorage.getItem("movies")));
     handleCheckDeviceWidth();
     handleChangeDeviceWidth();
-    setShortMoviesFilterOn(JSON.parse(localStorage.getItem("isShortMoviesFilterOn")) || false);
-    setShortSavedMoviesFilterOn(JSON.parse(localStorage.getItem("isShortSavedMoviesFilterOn")) || false);
+    setShortMoviesFilterOn(
+      JSON.parse(localStorage.getItem("isShortMoviesFilterOn")) || false
+    );
+    setShortSavedMoviesFilterOn(
+      JSON.parse(localStorage.getItem("isShortSavedMoviesFilterOn")) || false
+    );
     setSearchInputValue("");
   }, []);
 
@@ -138,10 +139,10 @@ function App() {
     searchedMoviesItems && handleShowMoviesInResize();
   }, [width]);
 
-  React.useEffect(()=>{
-    searchInputValue && handleSetMoviesToLocalStorage()
+  React.useEffect(() => {
+    searchInputValue && handleSetMoviesToLocalStorage();
     handleSearchMovies();
-  },[moviesItems, searchInputValue, isShortMoviesFilterOn])
+  }, [moviesItems, searchInputValue, isShortMoviesFilterOn]);
 
   React.useEffect(() => {
     if (Array.isArray(savedMovies)) {
@@ -155,16 +156,17 @@ function App() {
         <Header isLoggedIn={isLoggedIn} />
         <Switch>
           <Route exact path="/">
-            <Main
-              isLoading={isLoading}
-              isLoggedIn={isLoggedIn}
-            />
+            <Main isLoading={isLoading} isLoggedIn={isLoggedIn} />
           </Route>
           <Route exact path="/sign-up">
             <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled} />
           </Route>
           <Route exact path="/sign-in">
-            <Login onSignIn={handleSignIn} isFormDisabled={isFormDisabled} isLoading={isLoading} />
+            <Login
+              onSignIn={handleSignIn}
+              isFormDisabled={isFormDisabled}
+              isLoading={isLoading}
+            />
           </Route>
           <ProtectedRoute
             exact

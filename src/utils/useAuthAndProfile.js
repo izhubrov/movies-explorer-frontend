@@ -1,6 +1,6 @@
-import React from 'react';
-import { useLocation, useHistory } from 'react-router';
-import mainApi from './mainApi';
+import React from "react";
+import { useLocation, useHistory } from "react-router";
+import mainApi from "./mainApi";
 
 export default function useAuthAndProfile(
   setIsLoading,
@@ -15,14 +15,12 @@ export default function useAuthAndProfile(
   setSearchInputValue,
   setShortMoviesFilterOn,
   setIsFinishSearching,
-  setIsFinishSavedSearching,
-  ) {
-
+  setIsFinishSavedSearching
+) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isSuccess, setSuccess] = React.useState(false);
   const location = useLocation();
   const history = useHistory();
-
 
   function handleCheckToken() {
     setIsLoading(true);
@@ -127,6 +125,6 @@ export default function useAuthAndProfile(
     handleSignIn,
     handleSignUp,
     handleSignOut,
-    handleEditProfile
+    handleEditProfile,
   };
 }
