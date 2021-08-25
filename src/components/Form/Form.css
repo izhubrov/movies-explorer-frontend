@@ -21,6 +21,7 @@
   justify-content: stretch;
   flex-direction: column;
   padding: 0;
+  min-height: 145px;
   margin: 0;
   border: none;
   font-family: inherit;
