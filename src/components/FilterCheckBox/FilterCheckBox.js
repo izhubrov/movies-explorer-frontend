@@ -12,8 +12,6 @@ function FilterCheckBox({ onFilterMovies, isShortMoviesFilterOn, isShortSavedMov
     setFilterOn(!isFilterOn);
   }
 
-  console.log(isFilterOn);
-
   React.useEffect(()=>{
     if (locationMovies) {
       isShortMoviesFilterOn ? setFilterOn(true) : setFilterOn(false);

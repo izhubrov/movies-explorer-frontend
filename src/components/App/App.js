@@ -2,9 +2,7 @@ import React from "react";
 import {
   Route,
   Switch,
-  useHistory,
   Redirect,
-  useLocation,
 } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
@@ -19,45 +17,97 @@ import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
-import mainApi from "../../utils/mainApi";
-import moviesApi from "../../utils/moviesApi";
-import {
-  initialCountOfShownMovies,
-  additionalCountOfShownMovies,
-} from "../../utils/utils";
+import useDeviceWidth from "../../utils/useDeviceWidth";
+import useAuthAndProfile from "../../utils/useAuthAndProfile";
+import useSearchAndFilter from "../../utils/useSearchAndFilter";
+import useShowMovies from "../../utils/useShowMovies";
+import useGetSaveAndRemoveMovies from "../../utils/useGetSaveAndRemoveMovies";
+import useErrorPopup from "../../utils/useErrorPopup";
 
 function App() {
-  const history = useHistory();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(null);
-  const [shownMovies, setShownMovies] = React.useState([]);
-  const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
   const [isCurrentUser, setCurrentUser] = React.useState({});
-  const [isError, setError] = React.useState({
-    errorText: "",
-    isActive: false,
-  });
-  const [isSuccess, setSuccess] = React.useState(false);
-  const [moviesItems, setMoviesItems] = React.useState([]);
-  const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
-  const [searchInputValue, setSearchInputValue] = React.useState("");
-  const [savedSearchInputValue, setSavedSearchInputValue] = React.useState("");
-  const [searchedSavedMoviesItems, setSearchedSavedMoviesItems] =
-    React.useState();
   const [isFinishSearching, setIsFinishSearching] = React.useState(null);
   const [isFinishSavedSearching, setIsFinishSavedSearching] =
     React.useState(false);
-  const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(false);
-  const [isShortMoviesFilterOn, setShortMoviesFilterOn] = React.useState(null);
-  const [isShortSavedMoviesFilterOn, setShortSavedMoviesFilterOn] = React.useState(null);
-  const [width, setWidth] = React.useState("");
+  const [moviesItems, setMoviesItems] = React.useState([]);
+  const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(null);
   const [savedMovies, setSavedMovies] = React.useState([]);
-  const [isActiveArrowTop, setIsActiveArrowTop] = React.useState(false);
-  const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isActiveTechs, setIsActiveTechs] = React.useState(false);
-  const [isActiveAboutMe, setIsActiveAboutMe] = React.useState(false);
-  const location = useLocation();
-  const isLocationMain = location.pathname === "/";
+  const [isFormDisabled, setIsFormDisabled] = React.useState(false);
+  const {width, handleCheckDeviceWidth, handleChangeDeviceWidth} = useDeviceWidth();
+  const {
+    searchedMoviesItems,
+    searchedSavedMoviesItems,
+    searchInputValue,
+    savedSearchInputValue,
+    isShortMoviesFilterOn,
+    isShortSavedMoviesFilterOn,
+    handleSearchMovies,
+    handleSearchSavedMovies,
+    handleFilterMovies,
+    handleFilterSavedMovies,
+    handleSetSearchInputValue,
+    handleSetSavedSearchInputValue,
+    handleClearSavedMoviesInput,
+    setSearchInputValue,
+    setSearchedMoviesItems,
+    setShortMoviesFilterOn,
+    setShortSavedMoviesFilterOn,
+  } = useSearchAndFilter({
+    moviesItems,
+    savedMovies,
+    setIsFinishSavedSearching,
+    setErrorMoviesServer,
+  })
+
+  const {
+    shownMovies,
+    isAllMoviesAreShown,
+    setShownMovies,
+    handleShowInitialMovies,
+    handleShowMoviesInResize,
+    handleShowAdditionalMovies,
+    checkCountOfShownMovies,
+  } = useShowMovies({width, searchedMoviesItems});
+
+  const { isError, handleShowError } = useErrorPopup();
+
+  const {
+    isLoggedIn,
+    isSuccess,
+    handleCheckToken,
+    handleSignIn,
+    handleSignUp,
+    handleSignOut,
+    handleEditProfile,
+  } = useAuthAndProfile(
+    setIsLoading,
+    setCurrentUser,
+    handleShowError,
+    setIsFormDisabled,
+    isCurrentUser,
+    setMoviesItems,
+    setSavedMovies,
+    setSearchedMoviesItems,
+    setShownMovies,
+    setSearchInputValue,
+    setShortMoviesFilterOn,
+    setIsFinishSearching,
+    setIsFinishSavedSearching,
+  );
+
+  const {
+    handleSetMoviesToLocalStorage,
+    getSavedMovies,
+    handleSaveMovie,
+    handleRemoveFromSavedMovie
+  } = useGetSaveAndRemoveMovies({
+    savedMovies,
+    setMoviesItems,
+    setErrorMoviesServer,
+    setSavedMovies,
+    handleShowError
+  });
 
   React.useEffect(() => {
     handleCheckToken();
@@ -89,339 +139,15 @@ function App() {
   }, [width]);
 
   React.useEffect(()=>{
-    if (Array.isArray(moviesItems) && moviesItems.length !== 0) {
-      setSearchedMoviesItems(
-        isShortMoviesFilterOn
-          ? JSON.parse(localStorage.getItem("searchedMovies")).filter(
-              (movie) => movie.duration <= 40
-            )
-          : JSON.parse(localStorage.getItem("searchedMovies")) || []
-      );
-      searchInputValue && handleSearchMovies(searchInputValue);
-    }
+    searchInputValue && handleSetMoviesToLocalStorage()
+    handleSearchMovies();
   },[moviesItems, searchInputValue, isShortMoviesFilterOn])
-
-  React.useEffect(() => {
-    if (searchInputValue) {
-      handleSetMoviesToLocalStorage(searchInputValue)
-    }
-  }, [searchInputValue, isShortMoviesFilterOn]);
 
   React.useEffect(() => {
     if (Array.isArray(savedMovies)) {
       handleSearchSavedMovies(savedSearchInputValue);
     }
   }, [isShortSavedMoviesFilterOn, savedSearchInputValue, savedMovies]);
-
-  function handleCheckToken() {
-    setIsLoading(true);
-    mainApi
-      .checkToken()
-      .then((res) => {
-        setCurrentUser(res);
-        setIsLoading(false);
-        setIsLoggedIn(true);
-        if (
-          location.pathname === "/sign-up" ||
-          location.pathname === "/sign-in"
-        ) {
-          history.push("/movies");
-        } else {
-          history.push(location.pathname);
-        }
-      })
-      .catch(async (err) => {
-        setIsLoading(false);
-        if (isLoggedIn !== null) {
-          await handleShowError(err);
-        }
-      });
-  }
-
-  function handleSignIn(data) {
-    mainApi
-      .signIn(data)
-      .then(() => {
-        handleCheckToken();
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleSignUp(data) {
-    mainApi
-      .signUp(data)
-      .then((res) => {
-        setCurrentUser(res);
-        handleSignIn(data);
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleSignOut() {
-    mainApi
-      .signOut(isCurrentUser.email)
-      .then(() => {
-        setIsLoggedIn(null);
-        history.push("/");
-        setIsLoading(false);
-        setCurrentUser({ email: "", password: "", name: "" });
-        setMoviesItems([]);
-        setSavedMovies([]);
-        setSearchedMoviesItems([]);
-        setShownMovies([]);
-        setSearchInputValue("");
-        setShortMoviesFilterOn(false);
-        setIsFinishSearching(false);
-        setIsFinishSavedSearching(false);
-        localStorage.removeItem("isShortMoviesFilterOn");
-        localStorage.removeItem("isShortSavedMoviesFilterOn");
-        localStorage.removeItem("searchedMovies");
-        localStorage.removeItem("movies");
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleEditProfile(data) {
-    mainApi
-      .editProfile(data)
-      .then((res) => {
-        setCurrentUser(res);
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleSetSearchInputValue(searchedMovie) {
-    setSearchInputValue(searchedMovie);
-  }
-
-  function handleSetSavedSearchInputValue(searchedMovie) {
-    setSavedSearchInputValue(searchedMovie);
-  }
-
-  function handleClearSavedMoviesInput() {
-    setSavedSearchInputValue("");
-  }
-
-  function handleSetMoviesToLocalStorage() {
-    if (localStorage.getItem("movies") === null) {
-      handleGetMovies();
-    }
-  }
-
-  function handleInnerSearching(movie, isMoviesPageSearching) {
-    const input = isMoviesPageSearching ? searchInputValue : savedSearchInputValue;
-    return Object.values(movie).find((features) => {
-      return (
-        typeof features === "string" &&
-        features.toLowerCase().includes(input.toLowerCase())
-      );
-    });
-  }
-
-  function handleSearchMovies() {
-    let searchedMovies = moviesItems.filter((movie) =>
-      handleInnerSearching(movie, true)
-    );
-    if (isShortMoviesFilterOn) {
-      const filteredSearchedMovies = searchedMovies.filter(
-        (movie) => movie.duration <= 40
-      );
-      setSearchedMoviesItems(filteredSearchedMovies);
-    } else {
-      localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
-      setSearchedMoviesItems(searchedMovies);
-    }
-    setIsFinishSearching(true);
-  }
-
-  function handleSearchSavedMovies() {
-    let searchedSavedMovies = savedMovies.filter((movie) =>
-      handleInnerSearching(movie, false)
-    );
-    console.log(searchedSavedMovies);
-    if (isShortSavedMoviesFilterOn) {
-      const filteredSearchedSavedMovies = searchedSavedMovies.filter(
-        (movie) => movie.duration <= 40
-      );
-      setSearchedSavedMoviesItems(filteredSearchedSavedMovies);
-    } else {
-      setSearchedSavedMoviesItems(searchedSavedMovies);
-    }
-
-    setIsFinishSavedSearching(true);
-  }
-
-  function handleFilterMovies() {
-    setShortMoviesFilterOn(!isShortMoviesFilterOn);
-    localStorage.setItem("isShortMoviesFilterOn", !isShortMoviesFilterOn);
-  }
-
-  function handleFilterSavedMovies() {
-    setShortSavedMoviesFilterOn(!isShortSavedMoviesFilterOn);
-    localStorage.setItem("isShortSavedMoviesFilterOn", !isShortSavedMoviesFilterOn);
-  }
-
-  function handleShowInitialMovies() {
-    setShownMovies([
-      ...searchedMoviesItems.filter(
-        (movie, index) => index < initialCountOfShownMovies[width]
-      ),
-    ]);
-  }
-
-  function handleShowMoviesInResize() {
-    let alreadyShownMovies = shownMovies.length;
-    setShownMovies([]);
-    if (alreadyShownMovies < initialCountOfShownMovies[width]) {
-      alreadyShownMovies = initialCountOfShownMovies[width];
-    } else {
-      alreadyShownMovies =
-        Math.ceil(alreadyShownMovies / additionalCountOfShownMovies[width]) *
-        additionalCountOfShownMovies[width];
-    }
-    setShownMovies([
-      ...searchedMoviesItems.filter(
-        (movie, index) => index < alreadyShownMovies
-      ),
-    ]);
-  }
-
-  function handleShowAdditionalMovies() {
-    setShownMovies([
-      ...shownMovies,
-      ...searchedMoviesItems.filter(
-        (movie, index) =>
-          index >= shownMovies.length &&
-          index < shownMovies.length + additionalCountOfShownMovies[width]
-      ),
-    ]);
-  }
-
-  function checkCountOfShownMovies() {
-    if (shownMovies.length === searchedMoviesItems.length) {
-      setAllMoviesAreShown(true);
-    } else {
-      setAllMoviesAreShown(false);
-    }
-  }
-
-  function handleGetMovies() {
-    console.log('затем сюда')
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        console.log(res);
-        setMoviesItems(res);
-        localStorage.setItem("movies", JSON.stringify(res));
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function getSavedMovies() {
-    mainApi
-      .getSavedMovies()
-      .then((res) => {
-        setSavedMovies(res);
-        setTimeout(() => setSuccess(false), 3000);
-      })
-      .catch(async (err) => {
-        if (isLoggedIn !== null) {
-          await handleShowError(err);
-        }
-      });
-  }
-
-  function handleSaveMovie(movie) {
-    mainApi
-      .saveMovie(movie)
-      .then((savedMovie) => {
-        setSavedMovies([...savedMovies, savedMovie]);
-        setTimeout(() => setSuccess(false), 3000);
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  function handleRemoveFromSavedMovie(movieId) {
-    mainApi
-      .removeFromSavedMovie(movieId)
-      .then(() => {
-        setSavedMovies(savedMovies.filter((item) => item.movieId !== movieId));
-        setTimeout(() => setSuccess(false), 3000);
-      })
-      .catch(async (err) => {
-        await handleShowError(err);
-      });
-  }
-
-  async function handleShowError(err) {
-    const newErr = await err;
-    setErrorPopupFields(newErr.message, true);
-    setTimeout(() => setErrorPopupFields(newErr.message, false), 3000);
-  }
-
-  function setErrorPopupFields(message, active) {
-    setError({ errorText: message, isActive: active });
-  }
-
-  function handleCheckDeviceWidth() {
-    return window.innerWidth >= 1280
-      ? setWidth("1280")
-      : window.innerWidth > 480
-      ? setWidth("1043")
-      : setWidth("480");
-  }
-
-  function handleChangeDeviceWidth() {
-    function getDeviceWidth() {
-      setTimeout(handleCheckDeviceWidth, 2000);
-    }
-    window.addEventListener("resize", getDeviceWidth);
-    return () => {
-      window.removeEventListener("resize", getDeviceWidth);
-    };
-  }
-
-  function handleCheckScroll() {
-    function checkScroll() {
-      if (isLocationMain) {
-        window.pageYOffset > 300
-          ? setIsActiveAboutProject(true)
-          : setIsActiveAboutProject(false);
-        window.pageYOffset > 870
-          ? setIsActiveTechs(true)
-          : setIsActiveTechs(false);
-        window.pageYOffset > 1650
-          ? setIsActiveAboutMe(true)
-          : setIsActiveAboutMe(false);
-      }
-      window.innerWidth > 900 &&
-        setTimeout(
-          () =>
-            window.pageYOffset > 300
-              ? setIsActiveArrowTop(true)
-              : setIsActiveArrowTop(false),
-          500
-        );
-    }
-    window.addEventListener("scroll", checkScroll);
-    return () => {
-      window.removeEventListener("scroll", checkScroll);
-    };
-  }
 
   return (
     <div className="page">
@@ -430,20 +156,15 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Main
-              onScroll={handleCheckScroll}
-              isActiveArrowTop={isActiveArrowTop}
-              isActiveAboutProject={isActiveAboutProject}
-              isActiveTechs={isActiveTechs}
-              isActiveAboutMe={isActiveAboutMe}
               isLoading={isLoading}
               isLoggedIn={isLoggedIn}
             />
           </Route>
           <Route exact path="/sign-up">
-            <Register onSignUp={handleSignUp} />
+            <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled} />
           </Route>
           <Route exact path="/sign-in">
-            <Login onSignIn={handleSignIn} isLoading={isLoading} />
+            <Login onSignIn={handleSignIn} isFormDisabled={isFormDisabled} isLoading={isLoading} />
           </Route>
           <ProtectedRoute
             exact
@@ -453,6 +174,7 @@ function App() {
             onUpdateUser={handleEditProfile}
             onSignOut={handleSignOut}
             isSuccess={isSuccess}
+            isFormDisabled={isFormDisabled}
           />
           <ProtectedRoute
             exact
@@ -470,7 +192,6 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
-            isActiveArrowTop={isActiveArrowTop}
           />
           <ProtectedRoute
             exact
@@ -480,13 +201,13 @@ function App() {
             onSearchMovies={handleSetSavedSearchInputValue}
             onClearInput={handleClearSavedMoviesInput}
             onFilterMovies={handleFilterSavedMovies}
+            isErrorMoviesServer={isErrorMoviesServer}
             isShortSavedMoviesFilterOn={isShortSavedMoviesFilterOn}
             shownMovies={searchedSavedMoviesItems}
             isFinishSearching={isFinishSavedSearching}
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
-            isActiveArrowTop={isActiveArrowTop}
           />
           <Route path="/404">
             <NotFound />

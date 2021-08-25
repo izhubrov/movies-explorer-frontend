@@ -35,6 +35,7 @@ function Password({ authPage, values, handleChange, errors }) {
           }`}
           required
           minLength="8"
+          autoComplete="on"
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleLeave}

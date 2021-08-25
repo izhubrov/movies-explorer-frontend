@@ -18,20 +18,21 @@ function MoviesCardList({
   return (
     isFinishSearching && (
       <section className="movies-card-list">
-        {isFinishSearching &&
-          shownMovies.length === 0 &&
-          (isLocationMovies || savedMovies.length !== 0) && (
-            <p className="text">Ничего не найдено</p>
-          )}
-        {!isLocationMovies && savedMovies.length === 0 && (
-          <p className="text">Список сохраненных фильмов пуст</p>
-        )}
-        {isErrorMoviesServer && (
+        {isErrorMoviesServer === true && (
           <p className="text">
             Во время запроса произошла ошибка. Возможно, проблема с соединением
             или сервер недоступен. Подождите немного и попробуйте ещё раз
           </p>
         )}
+        {isErrorMoviesServer === false && isFinishSearching &&
+          shownMovies.length === 0 &&
+          (isLocationMovies || savedMovies.length !== 0) && (
+            <p className="text">Ничего не найдено</p>
+          )}
+        {isErrorMoviesServer === false && !isLocationMovies && savedMovies.length === 0 && (
+          <p className="text">Список сохраненных фильмов пуст</p>
+        )}
+
         <ul className="movies-card-list__container">
           {shownMovies.map((movie) => {
             return (

@@ -7,19 +7,36 @@ import Techs from "./Techs/Techs";
 import AboutMe from "./AboutMe/AboutMe";
 import Portfolio from "./Portfolio/Portfolio";
 import Preloader from "../Preloader/Preloader";
+import useArrowTop from "../../utils/useArrowTop";
 
 function Main({
-  onScroll,
-  isActiveArrowTop,
-  isActiveAboutProject,
-  isActiveTechs,
-  isActiveAboutMe,
   isLoading,
 }) {
   const [isActivePortfolio, setIsActivePortfolio] = React.useState(false);
+  const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
+  const [isActiveTechs, setIsActiveTechs] = React.useState(false);
+  const [isActiveAboutMe, setIsActiveAboutMe] = React.useState(false);
+  const {isActiveArrowTop, checkArrowTop } = useArrowTop();
+
 
   React.useEffect(() => {
-    onScroll();
+    function checkScroll() {
+      window.pageYOffset > 300
+        ? setIsActiveAboutProject(true)
+        : setIsActiveAboutProject(false)
+      window.pageYOffset > 870
+        ? setIsActiveTechs(true)
+        : setIsActiveTechs(false);
+      window.pageYOffset > 1650
+        ? setIsActiveAboutMe(true)
+        : setIsActiveAboutMe(false);
+      checkArrowTop();
+    }
+
+    window.addEventListener("scroll", checkScroll);
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+    };
   }, []);
 
   function handleActivatePortfolio(status) {

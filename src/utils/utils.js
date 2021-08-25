@@ -25,6 +25,8 @@ const additionalCountOfShownMovies= {
   '480': 2,
 }
 
+const shortMovieDuration = 40;
+
 export {
   nameRegExp,
   passwordRegExp,
@@ -34,5 +36,6 @@ export {
   moviesUrl,
   serverUrl,
   initialCountOfShownMovies,
-  additionalCountOfShownMovies
+  additionalCountOfShownMovies,
+  shortMovieDuration
 };

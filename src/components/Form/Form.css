@@ -4,7 +4,7 @@
   grid-template-columns: 100%;
   min-height: calc(100vh - 74px);
   box-sizing: border-box;
-  grid-template-rows: repeat(3, auto) 1fr;
+  grid-template-rows: repeat(2, auto) 1fr;
   justify-content: center;
   font-family: inherit;
   padding: 74px 0 70px;
@@ -13,6 +13,17 @@
 .form__auth-page {
   padding: 40px 0 70px;
   min-height: calc(100vh - 108px);
+}
+
+.form__set {
+  width: 100%;
+  display: flex;
+  justify-content: stretch;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-family: inherit;
 }
 
 .form__field {
@@ -28,6 +39,7 @@
 
 .form__input-container {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   padding-bottom: 10px;
   border-bottom: 1px solid #e8e8e8;

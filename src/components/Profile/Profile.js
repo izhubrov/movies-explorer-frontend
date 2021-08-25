@@ -7,7 +7,7 @@ import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
-function Profile({ onUpdateUser, onSignOut, isSuccess }) {
+function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const currentUser = React.useContext(CurrentUserContext);
@@ -19,7 +19,7 @@ function Profile({ onUpdateUser, onSignOut, isSuccess }) {
 
   React.useEffect(() => {
     checkInputsToEqualCurrent();
-  }, [values]);
+  }, [values, currentUser]);
 
   function checkInputsToEqualCurrent() {
     const { name, email } = currentUser;
@@ -52,6 +52,7 @@ function Profile({ onUpdateUser, onSignOut, isSuccess }) {
         bottomLinkText="Выйти из аккаунта"
         onBottomLinkRedirect="/"
         buttonSubmitState={isInputsEqualCurrent ? false : isValid}
+        isFormDisabled={isFormDisabled}
       >
         <Name
           values={values}

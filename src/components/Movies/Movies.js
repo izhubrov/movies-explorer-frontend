@@ -5,6 +5,7 @@ import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import ArrowTop from "../ArrowTop/ArrowTop";
+import useArrowTop from "../../utils/useArrowTop";
 
 function Movies({
   onSearchMovies,
@@ -18,8 +19,16 @@ function Movies({
   savedMovies,
   onAddToSaved,
   onRemoveFromSaved,
-  isActiveArrowTop,
 }) {
+
+  const {isActiveArrowTop, checkArrowTop } = useArrowTop();
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", checkArrowTop);
+    return () => {
+      window.removeEventListener("scroll", checkArrowTop);
+    };
+  }, []);
 
   return (
     <section className="movies page__container">

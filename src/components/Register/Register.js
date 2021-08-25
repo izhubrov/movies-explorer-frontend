@@ -6,7 +6,7 @@ import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Register({ onSignUp }) {
+function Register({ onSignUp, isFormDisabled }) {
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
@@ -29,7 +29,8 @@ function Register({ onSignUp }) {
         authBottomText="Уже зарегистрированы?"
         bottomLinkText="Войти"
         onBottomLinkRedirect="/sign-in"
-        buttonSubmitState={isValid}
+        buttonSubmitState={!isFormDisabled&&isValid}
+        isFormDisabled={isFormDisabled}
       >
         <Name values={values} handleChange={handleChange} errors={errors} authPage={true} />
         <Email values={values} handleChange={handleChange} errors={errors} authPage={true} />

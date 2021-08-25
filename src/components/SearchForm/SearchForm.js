@@ -39,6 +39,7 @@ function SearchForm({ onSearchMovies, onClearInput }) {
 
   function handleFocus() {
     setFocused(true);
+    return true;
   }
 
   function handleLeave() {
@@ -60,6 +61,7 @@ function SearchForm({ onSearchMovies, onClearInput }) {
           placeholder="Фильм"
           className="search-form__input"
           required
+          autoFocus={true}
           onFocus={handleFocus}
           onBlur={handleLeave}
           onChange={handleChange}
