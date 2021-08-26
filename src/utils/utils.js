@@ -10,9 +10,10 @@ const customMessages = {
   password:
     "Слишком слабый пароль. Необходимо использовать латинские буквы, как минимум 1 цифру, спецсимвол, прописную и заглавные буквы.",
 };
-
-const baseUrl = "https://api.izhubrov-mov-explorer.nomoredomains.monster";
-// const baseUrl = "http://localhost:3001";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.izhubrov-mov-explorer.nomoredomains.monster"
+    : "http://localhost:3001";
 const serverUrl = "https://api.nomoreparties.co";
 const moviesUrl = "https://api.nomoreparties.co/beatfilm-movies";
 

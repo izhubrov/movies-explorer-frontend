@@ -32,6 +32,24 @@ function App() {
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
   const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
     useDeviceWidth();
+
+
+  const { isError, handleShowError } = useErrorPopup();
+
+  const {
+    handleSetMoviesToLocalStorage,
+    getSavedMovies,
+    handleSaveMovie,
+    handleRemoveFromSavedMovie,
+  } = useGetSaveAndRemoveMovies({
+    savedMovies,
+    setMoviesItems,
+    setErrorMoviesServer,
+    setSavedMovies,
+    handleShowError,
+    setIsFinishSearching
+  });
+
   const {
     searchedMoviesItems,
     searchedSavedMoviesItems,
@@ -53,6 +71,7 @@ function App() {
   } = useSearchAndFilter({
     moviesItems,
     savedMovies,
+    setIsFinishSearching,
     setIsFinishSavedSearching,
     setErrorMoviesServer,
   });
@@ -66,8 +85,6 @@ function App() {
     handleShowAdditionalMovies,
     checkCountOfShownMovies,
   } = useShowMovies({ width, searchedMoviesItems });
-
-  const { isError, handleShowError } = useErrorPopup();
 
   const {
     isLoggedIn,
@@ -92,20 +109,6 @@ function App() {
     setIsFinishSearching,
     setIsFinishSavedSearching
   );
-
-  const {
-    handleSetMoviesToLocalStorage,
-    getSavedMovies,
-    handleSaveMovie,
-    handleRemoveFromSavedMovie,
-  } = useGetSaveAndRemoveMovies({
-    savedMovies,
-    setMoviesItems,
-    setErrorMoviesServer,
-    setSavedMovies,
-    handleShowError,
-    setIsFinishSearching
-  });
 
   React.useEffect(() => {
     handleCheckToken();

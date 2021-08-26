@@ -4,6 +4,7 @@ import { shortMovieDuration } from "./utils";
 export default function useSearchAndFilter({
   moviesItems,
   savedMovies,
+  setIsFinishSearching,
   setIsFinishSavedSearching,
   setErrorMoviesServer,
 }) {
@@ -55,6 +56,7 @@ export default function useSearchAndFilter({
         localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
       setSearchedMoviesItems(searchedMovies);
     }
+    setIsFinishSearching(true);
   }
 
   function handleSearchSavedMovies() {

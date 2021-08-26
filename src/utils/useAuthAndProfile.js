@@ -30,6 +30,10 @@ export default function useAuthAndProfile(
         setCurrentUser(res);
         setIsLoading(false);
         setIsLoggedIn(true);
+        setIsFinishSearching(false);
+        setShownMovies([]);
+        setMoviesItems([]);
+        setSavedMovies([]);
         if (
           location.pathname === "/sign-up" ||
           location.pathname === "/sign-in"
