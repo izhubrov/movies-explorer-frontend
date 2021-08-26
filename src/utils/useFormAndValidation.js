@@ -11,9 +11,9 @@ export function useFormAndValidation() {
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(true);
 
-  useEffect(()=>{
-    setIsValid(!Object.values(errors).some(error => error.length !== 0))
-  },[errors])
+  useEffect(() => {
+    setIsValid(!Object.values(errors).some((error) => error.length !== 0));
+  }, [errors]);
 
   function setCustomErrors({ name, value }) {
     if (name === "name" && value.length >= 2 && !nameRegExp.test(value)) {

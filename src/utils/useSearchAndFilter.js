@@ -5,7 +5,7 @@ export default function useSearchAndFilter({
   moviesItems,
   savedMovies,
   setErrorMoviesServer,
-  setIsFinishSearching
+  setIsFinishSearching,
 }) {
   const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
   const [searchInputValue, setSearchInputValue] = React.useState("");
@@ -29,8 +29,11 @@ export default function useSearchAndFilter({
   }
 
   function handleSearchingFilter(inputData, isMoviesPageSearching) {
-    return inputData && inputData.filter((movie) =>
-      handleInnerSearching(movie, isMoviesPageSearching)
+    return (
+      inputData &&
+      inputData.filter((movie) =>
+        handleInnerSearching(movie, isMoviesPageSearching)
+      )
     );
   }
 
@@ -40,9 +43,10 @@ export default function useSearchAndFilter({
 
   function handleSearchMovies() {
     let searchedMovies = JSON.parse(localStorage.getItem("searchedMovies"));
-    const inputData = moviesItems.length !==0
-      ? moviesItems
-      : JSON.parse(localStorage.getItem("movies"));
+    const inputData =
+      moviesItems.length !== 0
+        ? moviesItems
+        : JSON.parse(localStorage.getItem("movies"));
     if (searchInputValue) {
       searchedMovies = handleSearchingFilter(inputData, true);
     }
@@ -56,7 +60,6 @@ export default function useSearchAndFilter({
     } else {
       searchInputValue &&
         localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
-      console.log(searchedMovies);
       setSearchedMoviesItems(searchedMovies);
     }
   }
@@ -120,6 +123,6 @@ export default function useSearchAndFilter({
     setSearchedMoviesItems,
     setShortMoviesFilterOn,
     setShortSavedMoviesFilterOn,
-    handleFinishSearching
+    handleFinishSearching,
   };
 }

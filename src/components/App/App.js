@@ -31,7 +31,6 @@ function App() {
   const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
     useDeviceWidth();
 
-
   const { isError, handleShowError } = useErrorPopup();
 
   const {
@@ -103,7 +102,7 @@ function App() {
     setShownMovies,
     setSearchInputValue,
     setShortMoviesFilterOn,
-    setIsFinishSearching,
+    setIsFinishSearching
   );
 
   React.useEffect(() => {
@@ -146,7 +145,9 @@ function App() {
 
   React.useEffect(() => {
     searchInputValue && handleSetMoviesToLocalStorage();
-    ((moviesItems && moviesItems.length !== 0) || (localStorage.getItem("movies") !== null)) && handleSearchMovies();
+    ((moviesItems && moviesItems.length !== 0) ||
+      localStorage.getItem("movies") !== null) &&
+      handleSearchMovies();
   }, [moviesItems, searchInputValue, isShortMoviesFilterOn]);
 
   React.useEffect(() => {

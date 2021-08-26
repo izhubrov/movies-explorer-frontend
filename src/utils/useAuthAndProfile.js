@@ -14,7 +14,7 @@ export default function useAuthAndProfile(
   setShownMovies,
   setSearchInputValue,
   setShortMoviesFilterOn,
-  setIsFinishSearching,
+  setIsFinishSearching
 ) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isSuccess, setSuccess] = React.useState(false);
