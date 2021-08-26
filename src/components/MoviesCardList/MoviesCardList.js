@@ -7,16 +7,25 @@ function MoviesCardList({
   shownMovies,
   onShowMoreMovies,
   isAllMoviesAreShown,
-  isErrorMoviesServer,
   isFinishSearching,
+  isErrorMoviesServer,
+  onFinishSearching,
   savedMovies,
   onAddToSaved,
   onRemoveFromSaved,
 }) {
   const location = useLocation();
   const isLocationMovies = location.pathname === "/movies";
+
+  React.useEffect(() => {
+    if (isLocationMovies) {
+      isErrorMoviesServer && onFinishSearching();
+      isErrorMoviesServer && shownMovies === null && onFinishSearching();
+      shownMovies !== null && onFinishSearching();
+    }
+  }, [isErrorMoviesServer, shownMovies])
   return (
-    isFinishSearching && (
+    (isFinishSearching || !isLocationMovies) && (
       <section className="movies-card-list">
         {isErrorMoviesServer === true && (
           <p className="text">
@@ -24,7 +33,7 @@ function MoviesCardList({
             или сервер недоступен. Подождите немного и попробуйте ещё раз
           </p>
         )}
-        {isErrorMoviesServer === false  &&
+        {isErrorMoviesServer === false && shownMovies &&
           shownMovies.length === 0 &&
           (isLocationMovies || savedMovies.length !== 0) && (
             <p className="text">Ничего не найдено</p>
@@ -34,7 +43,7 @@ function MoviesCardList({
         )}
 
         <ul className="movies-card-list__container">
-          {shownMovies.map((movie) => {
+          {shownMovies && (shownMovies.map((movie) => {
             return (
               <MoviesCard
                 movie={movie}
@@ -44,9 +53,9 @@ function MoviesCardList({
                 onRemoveFromSaved={onRemoveFromSaved}
               />
             );
-          })}
+          }))}
         </ul>
-        {isLocationMovies && !isAllMoviesAreShown && shownMovies.length !== 0 && (
+        {isLocationMovies && !isAllMoviesAreShown && shownMovies && shownMovies.length !== 0 && (
           <button
             onClick={onShowMoreMovies}
             type="button"

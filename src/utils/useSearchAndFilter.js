@@ -4,9 +4,8 @@ import { shortMovieDuration } from "./utils";
 export default function useSearchAndFilter({
   moviesItems,
   savedMovies,
-  setIsFinishSearching,
-  setIsFinishSavedSearching,
   setErrorMoviesServer,
+  setIsFinishSearching
 }) {
   const [searchedMoviesItems, setSearchedMoviesItems] = React.useState();
   const [searchInputValue, setSearchInputValue] = React.useState("");
@@ -30,7 +29,7 @@ export default function useSearchAndFilter({
   }
 
   function handleSearchingFilter(inputData, isMoviesPageSearching) {
-    return inputData.filter((movie) =>
+    return inputData && inputData.filter((movie) =>
       handleInnerSearching(movie, isMoviesPageSearching)
     );
   }
@@ -41,8 +40,11 @@ export default function useSearchAndFilter({
 
   function handleSearchMovies() {
     let searchedMovies = JSON.parse(localStorage.getItem("searchedMovies"));
-    if (searchInputValue && moviesItems && moviesItems.length !== 0) {
-      searchedMovies = handleSearchingFilter(moviesItems, true);
+    const inputData = moviesItems.length !==0
+      ? moviesItems
+      : JSON.parse(localStorage.getItem("movies"));
+    if (searchInputValue) {
+      searchedMovies = handleSearchingFilter(inputData, true);
     }
     if (
       isShortMoviesFilterOn &&
@@ -54,9 +56,9 @@ export default function useSearchAndFilter({
     } else {
       searchInputValue &&
         localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
+      console.log(searchedMovies);
       setSearchedMoviesItems(searchedMovies);
     }
-    setIsFinishSearching(true);
   }
 
   function handleSearchSavedMovies() {
@@ -69,7 +71,6 @@ export default function useSearchAndFilter({
     } else {
       setSearchedSavedMoviesItems(searchedSavedMovies);
     }
-    setIsFinishSavedSearching(true);
   }
 
   function handleFilterMovies() {
@@ -96,6 +97,11 @@ export default function useSearchAndFilter({
   function handleClearSavedMoviesInput() {
     setSavedSearchInputValue("");
   }
+
+  function handleFinishSearching() {
+    setIsFinishSearching(true);
+  }
+
   return {
     searchedMoviesItems,
     searchedSavedMoviesItems,
@@ -114,5 +120,6 @@ export default function useSearchAndFilter({
     setSearchedMoviesItems,
     setShortMoviesFilterOn,
     setShortSavedMoviesFilterOn,
+    handleFinishSearching
   };
 }

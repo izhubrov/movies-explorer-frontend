@@ -8,7 +8,6 @@ export default function useGetSaveAndRemoveMovies({
   setErrorMoviesServer,
   setSavedMovies,
   handleShowError,
-  setIsFinishSearching
 }) {
   function handleSetMoviesToLocalStorage() {
     if (localStorage.getItem("movies") === null) {
@@ -25,7 +24,6 @@ export default function useGetSaveAndRemoveMovies({
         setTimeout(() => setErrorMoviesServer(false), 3000);
       })
       .catch(async (err) => {
-        setIsFinishSearching(true);
         setErrorMoviesServer(true);
       });
   }

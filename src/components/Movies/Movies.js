@@ -16,6 +16,7 @@ function Movies({
   isAllMoviesAreShown,
   isErrorMoviesServer,
   isFinishSearching,
+  onFinishSearching,
   savedMovies,
   onAddToSaved,
   onRemoveFromSaved,
@@ -44,6 +45,7 @@ function Movies({
         savedMovies={savedMovies}
         onAddToSaved={onAddToSaved}
         onRemoveFromSaved={onRemoveFromSaved}
+        onFinishSearching={onFinishSearching}
       />
       <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
     </section>

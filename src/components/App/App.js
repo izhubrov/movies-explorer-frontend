@@ -23,8 +23,6 @@ import useErrorPopup from "../../utils/useErrorPopup";
 function App() {
   const [isCurrentUser, setCurrentUser] = React.useState({});
   const [isFinishSearching, setIsFinishSearching] = React.useState(null);
-  const [isFinishSavedSearching, setIsFinishSavedSearching] =
-    React.useState(false);
   const [moviesItems, setMoviesItems] = React.useState([]);
   const [isErrorMoviesServer, setErrorMoviesServer] = React.useState(null);
   const [savedMovies, setSavedMovies] = React.useState([]);
@@ -47,7 +45,6 @@ function App() {
     setErrorMoviesServer,
     setSavedMovies,
     handleShowError,
-    setIsFinishSearching
   });
 
   const {
@@ -68,12 +65,12 @@ function App() {
     setSearchedMoviesItems,
     setShortMoviesFilterOn,
     setShortSavedMoviesFilterOn,
+    handleFinishSearching,
   } = useSearchAndFilter({
     moviesItems,
     savedMovies,
-    setIsFinishSearching,
-    setIsFinishSavedSearching,
     setErrorMoviesServer,
+    setIsFinishSearching,
   });
 
   const {
@@ -107,7 +104,6 @@ function App() {
     setSearchInputValue,
     setShortMoviesFilterOn,
     setIsFinishSearching,
-    setIsFinishSavedSearching
   );
 
   React.useEffect(() => {
@@ -129,23 +125,28 @@ function App() {
   }, [isLoggedIn]);
 
   React.useEffect(() => {
-    searchedMoviesItems && handleShowInitialMovies();
+    if (searchedMoviesItems) {
+      if (searchedMoviesItems.length === 0) {
+        setShownMovies(searchedMoviesItems);
+      } else {
+        handleShowInitialMovies();
+      }
+    }
   }, [searchedMoviesItems]);
 
   React.useEffect(() => {
-    if (shownMovies.length !== 0) {
+    if (shownMovies && shownMovies.length !== 0) {
       checkCountOfShownMovies();
-      setIsFinishSearching(true);
     }
   }, [shownMovies]);
 
   React.useEffect(() => {
-    searchedMoviesItems && handleShowMoviesInResize();
+    searchedMoviesItems && shownMovies && handleShowMoviesInResize();
   }, [width]);
 
   React.useEffect(() => {
     searchInputValue && handleSetMoviesToLocalStorage();
-    handleSearchMovies();
+    ((moviesItems && moviesItems.length !== 0) || (localStorage.getItem("movies") !== null)) && handleSearchMovies();
   }, [moviesItems, searchInputValue, isShortMoviesFilterOn]);
 
   React.useEffect(() => {
@@ -198,6 +199,7 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
+            onFinishSearching={handleFinishSearching}
           />
           <ProtectedRoute
             exact
@@ -210,7 +212,6 @@ function App() {
             isErrorMoviesServer={isErrorMoviesServer}
             isShortSavedMoviesFilterOn={isShortSavedMoviesFilterOn}
             shownMovies={searchedSavedMoviesItems}
-            isFinishSearching={isFinishSavedSearching}
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}

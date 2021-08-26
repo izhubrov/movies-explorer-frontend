@@ -21,6 +21,7 @@ function SearchForm({ onSearchMovies, onClearInput }) {
         setSearchedMovieInput("");
         setTimeout(()=>setEmptyQuery(false),3000);
       } else {
+
         setEmptyQuery(false);
         onSearchMovies(searchedMovie);
         setClearInput(true);
@@ -35,6 +36,11 @@ function SearchForm({ onSearchMovies, onClearInput }) {
   function handleChange(evt) {
     setSearchedMovieInput(evt.target.value);
     setClearInput(false);
+    if (isLocationSavedMovies && evt.target.value.length === 0) {
+      setSearchedMovieInput("");
+      setClearInput(false);
+      onClearInput();
+    }
   }
 
   function handleFocus() {

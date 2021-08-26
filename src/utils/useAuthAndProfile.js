@@ -15,7 +15,6 @@ export default function useAuthAndProfile(
   setSearchInputValue,
   setShortMoviesFilterOn,
   setIsFinishSearching,
-  setIsFinishSavedSearching
 ) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [isSuccess, setSuccess] = React.useState(false);
@@ -31,7 +30,7 @@ export default function useAuthAndProfile(
         setIsLoading(false);
         setIsLoggedIn(true);
         setIsFinishSearching(false);
-        setShownMovies([]);
+        setShownMovies(null);
         setMoviesItems([]);
         setSavedMovies([]);
         if (
@@ -94,8 +93,6 @@ export default function useAuthAndProfile(
         setShownMovies([]);
         setSearchInputValue("");
         setShortMoviesFilterOn(false);
-        setIsFinishSearching(false);
-        setIsFinishSavedSearching(false);
         localStorage.removeItem("isShortMoviesFilterOn");
         localStorage.removeItem("isShortSavedMoviesFilterOn");
         localStorage.removeItem("searchedMovies");

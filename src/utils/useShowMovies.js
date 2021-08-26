@@ -5,7 +5,7 @@ import {
 } from "./utils";
 
 export default function useShowMovies({ width, searchedMoviesItems }) {
-  const [shownMovies, setShownMovies] = React.useState([]);
+  const [shownMovies, setShownMovies] = React.useState(null);
   const [isAllMoviesAreShown, setAllMoviesAreShown] = React.useState(false);
 
   function handleShowInitialMovies() {
