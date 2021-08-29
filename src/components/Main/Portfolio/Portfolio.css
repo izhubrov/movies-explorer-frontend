@@ -127,6 +127,9 @@
     font-size: 18px;
     line-height: 1.56;
   }
+  .portfolio__link-text::after {
+    height: 1.5px;
+  }
   .portfolio__arrow-icon {
     width: 11px;
     height: 12px;
