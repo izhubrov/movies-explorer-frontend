@@ -19,7 +19,7 @@ function AboutMe({ isActiveAboutMe, onActivatePortfolio }) {
       const id = setInterval(() => {
         setAboutMeText((aboutMeText) => aboutMeText + text[currentPos]);
         currentPos += 1;
-        if (currentPos === Math.round(text.length / 6)) {
+        if (currentPos === Math.round(text.length / 12)) {
           onActivatePortfolio(true);
         }
         if (currentPos === text.length) {
