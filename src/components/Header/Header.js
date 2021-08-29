@@ -6,7 +6,7 @@ import Navigation from "../Navigation/Navigation";
 import { NavLink } from "react-router-dom";
 import Preloader from "../Preloader/Preloader";
 
-function Header({ isLoggedIn, isLoading }) {
+function Header({ isLoggedIn, isLoading, onOpenedMenu }) {
   const location = useLocation();
   const isLocationMain = location.pathname === "/";
   const isLocationRegisterOrLogin =
@@ -34,7 +34,7 @@ function Header({ isLoggedIn, isLoading }) {
               />
             </NavLink>
             {!isLocationRegisterOrLogin && (
-              <Navigation isLoggedIn={isLoggedIn} />
+              <Navigation isLoggedIn={isLoggedIn} onOpenedMenu={onOpenedMenu} />
             )}
           </header>
         </div>

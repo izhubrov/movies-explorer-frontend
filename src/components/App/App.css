@@ -32,6 +32,11 @@
   position: relative;
 }
 
+.page_no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(0,0,0,0.4) #fafafa;
@@ -109,6 +114,7 @@
 
 .overlay_active {
   visibility: visible;
+
   opacity: 1;
 }
 

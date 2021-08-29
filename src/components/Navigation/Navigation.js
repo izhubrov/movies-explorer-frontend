@@ -3,11 +3,25 @@ import "./Navigation.css";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import navigationLogoAccount from "../../images/logo-account.svg";
 
-function Navigation({ isLoggedIn }) {
+function Navigation({ isLoggedIn, onOpenedMenu }) {
   const location = useLocation();
   const isLocationMain = location.pathname === "/";
   const [isColumnMenu, setColumnMenu] = React.useState(false);
   const history = useHistory();
+
+  React.useEffect(()=>{
+    isColumnMenu ? onOpenedMenu(true) : onOpenedMenu(false);
+
+    function handleOverlayClick(evt) {
+      if (evt.target.classList.contains("overlay_active")) {
+        setColumnMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOverlayClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOverlayClick);
+    };
+  },[isColumnMenu])
 
   function handleSignIn() {
     setColumnMenu(false);

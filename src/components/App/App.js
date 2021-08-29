@@ -28,6 +28,7 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
+  const [isOpenedMenu, setOpenedMenu] = React.useState(false);
   const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
     useDeviceWidth();
 
@@ -156,10 +157,14 @@ function App() {
     }
   }, [isShortSavedMoviesFilterOn, savedSearchInputValue, savedMovies]);
 
+  function handleOpenMenu(state) {
+    setOpenedMenu(state);
+  }
+
   return (
-    <div className="page">
+    <div className={`page ${isOpenedMenu ? "page_no-scroll" : ""}`}>
       <CurrentUserContext.Provider value={isCurrentUser}>
-        <Header isLoggedIn={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} onOpenedMenu={handleOpenMenu}/>
         <Switch>
           <Route exact path="/">
             <Main isLoading={isLoading} isLoggedIn={isLoggedIn} />
