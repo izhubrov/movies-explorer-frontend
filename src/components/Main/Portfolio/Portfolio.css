@@ -129,6 +129,7 @@
   }
   .portfolio__link-text::after {
     height: 1.5px;
+    width: 120%;
   }
   .portfolio__arrow-icon {
     width: 11px;
