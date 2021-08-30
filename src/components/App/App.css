@@ -32,10 +32,10 @@
   position: relative;
 }
 
-/* .page_no-scroll {
+.page_no-scroll {
   overflow: hidden;
   height: 100vh;
-} */
+}
 
 * {
   scrollbar-width: thin;
