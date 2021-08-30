@@ -19,7 +19,7 @@
 
 .navigation__container_type_column {
   background-color: rgba(255, 255, 255, 1);
-  min-height: 100vh;
+  height: 100vh;
   padding: 22px 22px 92px;
   max-width: 520px;
   position: absolute;
@@ -28,6 +28,7 @@
   z-index: 1;
   top: 0;
   right: 0;
+  box-sizing: border-box;
 }
 
 .navigation__item {
