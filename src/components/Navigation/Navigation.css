@@ -29,6 +29,7 @@
   top: 0;
   right: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .navigation__item {
