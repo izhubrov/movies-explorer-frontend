@@ -2,4 +2,23 @@
   display: flex;
   max-width: 396px;
   box-sizing: border-box;
+  min-height: calc(100vh - 108px);
+}
+
+@media screen and (max-width: 918px) {
+  .login {
+    min-height: calc(100vh - 38px - (232 * 100vh / 1024));
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .login {
+    min-height: calc(100vh - 38px - 56px);
+  }
+}
+
+@media screen and (max-height: 520px) {
+  .login {
+    min-height: calc(100vh - 38px - 56px);
+  }
 }

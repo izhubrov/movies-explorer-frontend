@@ -12,7 +12,8 @@
 
 .form__auth-page {
   padding: 40px 0 70px;
-  min-height: calc(100% - 108px);
+  /* min-height: calc(100% - 108px); */
+  /* min-height: calc(100% - 108px); */
 }
 
 .form__set {
@@ -135,7 +136,7 @@
   .form__auth-page {
     padding-top: 40px;
     padding-bottom: calc(232 * 100% / 1024);
-    min-height: calc(100vh - 38px - (232 * 100% / 1024));
+    /* min-height: calc(100% - 38px - (232 * 100% / 1024)); */
   }
 }
 
@@ -155,6 +156,6 @@
   }
   .form__auth-page {
     padding: 20px 14px 10px 0;
-    min-height: calc(100vh - 38px - 56px);
+    /* min-height: calc(100% - 38px - 56px); */
   }
 }
