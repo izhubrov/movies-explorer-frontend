@@ -19,6 +19,11 @@
   }
 }
 
+html, body, .root {
+  min-height: 100%;
+  height: 1px;
+}
+
 .page {
   font-family: 'Inter', sans-serif, Arial;
   background-color: #fafafa;
@@ -28,13 +33,13 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-  min-height: 100vh;
+  height: 100%;
   position: relative;
 }
 
 .page_no-scroll {
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
 }
 
 * {
