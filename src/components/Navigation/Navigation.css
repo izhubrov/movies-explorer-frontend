@@ -117,6 +117,7 @@
   justify-self: center;
   align-content: end;
   align-self: end;
+  grid-template-columns: unset;
 }
 
 .header__place_not-main {
