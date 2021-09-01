@@ -5,9 +5,3 @@
   opacity: 1;
   min-height: calc(100% - 74px);
 }
-
-@media screen and (max-height: 350px) {
-  .profile {
-    min-height: calc(100% - 56px);
-  }
-}

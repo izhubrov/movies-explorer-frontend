@@ -63,7 +63,7 @@
   }
 }
 
-@media screen and (max-height: 350px) {
+@media screen and (max-height: 520px) {
   .header_place_auth {
     padding-top: 10px;
     min-height: unset;
