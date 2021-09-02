@@ -22,18 +22,18 @@ export default function useDeviceWidthAndHeight(handleNoScroll) {
   }
 
   function handleChangeDeviceHeight() {
-    function getDeviceHeight() {
-      return window.innerHeight <= 460
-        ? handleNoScroll(false)
-        : handleNoScroll(true);
-    }
-    getDeviceHeight();
+    // function getDeviceHeight() {
+    //   return window.innerHeight <= 460
+    //     ? handleNoScroll(false)
+    //     : handleNoScroll(true);
+    // }
+    // getDeviceHeight();
 
-    window.addEventListener("resize", getDeviceHeight);
-    return () => {
-      window.removeEventListener("resize", getDeviceHeight);
-      handleNoScroll(false);
-    };
+    // window.addEventListener("resize", getDeviceHeight);
+    // return () => {
+    //   window.removeEventListener("resize", getDeviceHeight);
+    //   handleNoScroll(false);
+    // };
   }
 
   return {
