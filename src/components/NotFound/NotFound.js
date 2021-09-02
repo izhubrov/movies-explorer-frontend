@@ -8,6 +8,8 @@ function NotFound() {
     history.goBack();
   }
 
+  console.log('123');
+
   return (
     <section className="not-found page__container">
       <h2 className="not-found__title">404</h2>

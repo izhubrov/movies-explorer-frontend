@@ -22,7 +22,7 @@ export default function useAuthAndProfile(
   const history = useHistory();
 
   function handleCheckToken() {
-    setIsLoading(true);
+    // setIsLoading(true);
     mainApi
       .checkToken()
       .then((res) => {
@@ -33,12 +33,22 @@ export default function useAuthAndProfile(
         setShownMovies(null);
         setMoviesItems([]);
         setSavedMovies([]);
+        console.log(location.pathname);
+        if (location.pathname === "/404") {
+          history.goBack();
+        }
         if (
           location.pathname === "/sign-up" ||
           location.pathname === "/sign-in"
         ) {
           history.push("/movies");
-        } else {
+        }
+        if (
+          location.pathname === "/profile" ||
+          location.pathname === "/movies" ||
+          location.pathname === "/saved-movies" ||
+          location.pathname === "/"
+        ) {
           history.push(location.pathname);
         }
       })
