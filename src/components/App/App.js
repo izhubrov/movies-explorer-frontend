@@ -29,8 +29,8 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
   const [isNoScrollPage, setIsNoScrollPage] = React.useState(false);
-  const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
-    useDeviceWidthAndHeight();
+  const { width, handleCheckDeviceWidth, handleChangeDeviceWidth,handleChangeDeviceHeight } =
+    useDeviceWidthAndHeight(handleNoScroll);
   const { isError, handleShowError } = useErrorPopup();
 
   const {
@@ -169,14 +169,14 @@ function App() {
             <Main isLoading={isLoading} onNoScroll={handleNoScroll}/>
           </Route>
           <Route exact path="/sign-up">
-            <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled}  onNoScroll={handleNoScroll}/>
+            <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled}  onNoScroll={handleChangeDeviceHeight}/>
           </Route>
           <Route exact path="/sign-in">
             <Login
               onSignIn={handleSignIn}
               isFormDisabled={isFormDisabled}
               isLoading={isLoading}
-              onNoScroll={handleNoScroll}
+              onNoScroll={handleChangeDeviceHeight}
             />
           </Route>
           <ProtectedRoute
@@ -184,7 +184,7 @@ function App() {
             path="/profile"
             isLoggedIn={isLoggedIn}
             component={Profile}
-            onNoScroll={handleNoScroll}
+            onNoScroll={handleChangeDeviceHeight}
             onUpdateUser={handleEditProfile}
             onSignOut={handleSignOut}
             isSuccess={isSuccess}
