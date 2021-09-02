@@ -22,7 +22,6 @@ export default function useDeviceWidthAndHeight(handleNoScroll) {
   }
 
   function handleChangeDeviceHeight() {
-    handleNoScroll(true);
     function getDeviceHeight() {
       return window.innerHeight <= 460
         ? handleNoScroll(false)
