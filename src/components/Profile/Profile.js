@@ -14,6 +14,7 @@ function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled }) {
   const [isInputsEqualCurrent, setisInputsEqualCurrent] = React.useState(false);
 
   React.useEffect(() => {
+    localStorage.setItem("route", JSON.stringify("/profile"));
     resetForm(currentUser);
   }, []);
 

@@ -20,6 +20,7 @@ function Main({
 
 
   React.useEffect(() => {
+    localStorage.setItem("route", JSON.stringify("/"));
     function checkScroll() {
       window.pageYOffset > 300
         ? setIsActiveAboutProject(true)

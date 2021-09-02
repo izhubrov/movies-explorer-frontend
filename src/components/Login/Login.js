@@ -10,6 +10,7 @@ function Login({ onSignIn, isFormDisabled, isLoading }) {
     useFormAndValidation();
 
   React.useEffect(() => {
+    localStorage.setItem("route", JSON.stringify("/sign-in"));
     resetForm();
   }, []);
 

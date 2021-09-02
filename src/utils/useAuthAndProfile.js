@@ -97,6 +97,7 @@ export default function useAuthAndProfile(
         localStorage.removeItem("isShortSavedMoviesFilterOn");
         localStorage.removeItem("searchedMovies");
         localStorage.removeItem("movies");
+        localStorage.removeItem("route");
       })
       .catch(async (err) => {
         await handleShowError(err);

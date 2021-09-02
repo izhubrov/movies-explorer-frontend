@@ -11,6 +11,7 @@ function Register({ onSignUp, isFormDisabled }) {
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   React.useEffect(() => {
+    localStorage.setItem("route", JSON.stringify("/sign-up"));
     resetForm();
   }, []);
 

@@ -25,6 +25,7 @@ function Movies({
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
 
   React.useEffect(() => {
+    localStorage.setItem("route", JSON.stringify("/movies"));
     window.addEventListener("scroll", checkArrowTop);
     return () => {
       window.removeEventListener("scroll", checkArrowTop);
