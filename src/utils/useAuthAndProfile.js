@@ -33,23 +33,23 @@ export default function useAuthAndProfile(
         setShownMovies(null);
         setMoviesItems([]);
         setSavedMovies([]);
-        if (location.pathname === "/404") {
-          history.goBack();
-        }
-        if (
-          location.pathname === "/sign-up" ||
-          location.pathname === "/sign-in"
-        ) {
-          history.push("/movies");
-        }
-        if (
-          location.pathname === "/profile" ||
-          location.pathname === "/movies" ||
-          location.pathname === "/saved-movies" ||
-          location.pathname === "/"
-        ) {
-          history.push(location.pathname);
-        }
+        // if (location.pathname === "/404") {
+        //   history.goBack();
+        // }
+        // if (
+        //   location.pathname === "/sign-up" ||
+        //   location.pathname === "/sign-in"
+        // ) {
+        //   history.push("/movies");
+        // }
+        // if (
+        //   location.pathname === "/profile" ||
+        //   location.pathname === "/movies" ||
+        //   location.pathname === "/saved-movies" ||
+        //   location.pathname === "/"
+        // ) {
+        //   history.push(location.pathname);
+        // }
       })
       .catch(async (err) => {
         setIsLoading(false);
