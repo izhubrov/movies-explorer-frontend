@@ -7,7 +7,7 @@
 
 @media screen and (max-width: 918px) {
   .register {
-    min-height: calc(100% - 38px - (232 * 100% / 1024));
+    min-height: calc(100% - 38px - 232px);
   }
 }
 
@@ -17,8 +17,8 @@
   }
 }
 
-@media screen and (max-height: 520px) {
+@media screen and (max-height: 760px) {
   .register {
-    min-height: calc(100% - 38px - 56px);
+    min-height: calc(100% - 56px);
   }
 }

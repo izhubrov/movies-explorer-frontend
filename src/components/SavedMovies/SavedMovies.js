@@ -16,6 +16,7 @@ function SavedMovies({
   isShortSavedMoviesFilterOn,
   onAddToSaved,
   onRemoveFromSaved,
+  onNoScroll
 }) {
 
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
@@ -23,6 +24,7 @@ function SavedMovies({
   React.useEffect(()=>{
     localStorage.setItem("route", JSON.stringify("/saved-movies"));
     onClearInput();
+    onNoScroll(false);
     window.addEventListener("scroll", checkArrowTop);
     return () => {
       window.removeEventListener("scroll", checkArrowTop);

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function useDeviceWidth() {
+export default function useDeviceWidthAndHeight() {
   const [width, setWidth] = React.useState("");
 
   function handleCheckDeviceWidth() {

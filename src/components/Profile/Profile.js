@@ -7,7 +7,7 @@ import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
-function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled }) {
+function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled, onNoScroll }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const currentUser = React.useContext(CurrentUserContext);
@@ -16,6 +16,16 @@ function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled }) {
   React.useEffect(() => {
     localStorage.setItem("route", JSON.stringify("/profile"));
     resetForm(currentUser);
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? onNoScroll(false)
+        : onNoScroll(true);
+    }
+    getDeviceHeight();
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+    };
   }, []);
 
   React.useEffect(() => {

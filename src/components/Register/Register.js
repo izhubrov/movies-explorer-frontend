@@ -6,13 +6,23 @@ import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Register({ onSignUp, isFormDisabled }) {
+function Register({ onSignUp, isFormDisabled, onNoScroll }) {
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   React.useEffect(() => {
     localStorage.setItem("route", JSON.stringify("/sign-up"));
     resetForm();
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? onNoScroll(false)
+        : onNoScroll(true);
+    }
+    getDeviceHeight();
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+    };
   }, []);
 
   function handleSignUp(evt) {

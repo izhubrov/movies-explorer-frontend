@@ -10,7 +10,7 @@ import Preloader from "../Preloader/Preloader";
 import useArrowTop from "../../utils/useArrowTop";
 
 function Main({
-  isLoading,
+  isLoading, onNoScroll
 }) {
   const [isActivePortfolio, setIsActivePortfolio] = React.useState(false);
   const [isActiveAboutProject, setIsActiveAboutProject] = React.useState(false);
@@ -35,6 +35,7 @@ function Main({
     }
 
     window.addEventListener("scroll", checkScroll);
+    onNoScroll(false);
     return () => {
       window.removeEventListener("scroll", checkScroll);
     };
