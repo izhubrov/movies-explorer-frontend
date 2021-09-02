@@ -16,12 +16,14 @@ function SavedMovies({
   isShortSavedMoviesFilterOn,
   onAddToSaved,
   onRemoveFromSaved,
+  onNoScroll
 }) {
 
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
 
   React.useEffect(()=>{
     onClearInput();
+    onNoScroll(false);
     window.addEventListener("scroll", checkArrowTop);
     return () => {
       window.removeEventListener("scroll", checkArrowTop);

@@ -20,11 +20,13 @@ function Movies({
   savedMovies,
   onAddToSaved,
   onRemoveFromSaved,
+  onNoScroll
 }) {
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
 
   React.useEffect(() => {
     window.addEventListener("scroll", checkArrowTop);
+    onNoScroll(false);
     return () => {
       window.removeEventListener("scroll", checkArrowTop);
     };

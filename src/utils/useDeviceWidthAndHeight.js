@@ -27,7 +27,6 @@ export default function useDeviceWidthAndHeight(handleNoScroll) {
         ? handleNoScroll(false)
         : handleNoScroll(true);
     }
-    // getDeviceHeight();
 
     window.addEventListener("resize", getDeviceHeight);
     return () => {

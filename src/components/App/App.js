@@ -166,7 +166,7 @@ function App() {
         <Header isLoggedIn={isLoggedIn} onNoScroll={handleNoScroll}/>
         <Switch>
           <Route exact path="/">
-            <Main isLoading={isLoading} isLoggedIn={isLoggedIn} />
+            <Main isLoading={isLoading} onNoScroll={handleNoScroll}/>
           </Route>
           <Route exact path="/sign-up">
             <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled}  onNoScroll={handleChangeDeviceHeight}/>
@@ -207,6 +207,7 @@ function App() {
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
             onFinishSearching={handleFinishSearching}
+            onNoScroll={handleNoScroll}
           />
           <ProtectedRoute
             exact
@@ -222,6 +223,7 @@ function App() {
             savedMovies={savedMovies}
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
+            onNoScroll={handleNoScroll}
           />
           <Route exact path="/404">
             <NotFound/>
