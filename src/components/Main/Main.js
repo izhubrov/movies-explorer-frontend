@@ -34,10 +34,10 @@ function Main({
     }
 
     window.addEventListener("scroll", checkScroll);
+    onNoScroll(false);
     return () => {
       window.removeEventListener("scroll", checkScroll);
     };
-    onNoScroll(false);
   }, []);
 
   function handleActivatePortfolio(status) {

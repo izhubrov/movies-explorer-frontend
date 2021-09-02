@@ -15,7 +15,16 @@ function Profile({ onUpdateUser, onSignOut, isSuccess, isFormDisabled, onNoScrol
 
   React.useEffect(() => {
     resetForm(currentUser);
-    onNoScroll();
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? onNoScroll(false)
+        : onNoScroll(true);
+    }
+    getDeviceHeight();
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+    };
   }, []);
 
   React.useEffect(() => {

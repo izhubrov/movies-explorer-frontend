@@ -11,7 +11,16 @@ function Login({ onSignIn, isFormDisabled, isLoading, onNoScroll }) {
 
   React.useEffect(() => {
     resetForm();
-    onNoScroll();
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? onNoScroll(false)
+        : onNoScroll(true);
+    }
+    getDeviceHeight();
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+    };
   }, []);
 
   function handleSignIn(evt) {
