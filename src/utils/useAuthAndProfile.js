@@ -22,7 +22,7 @@ export default function useAuthAndProfile(
   const history = useHistory();
 
   function handleCheckToken() {
-    // setIsLoading(true);
+    setIsLoading(true);
     mainApi
       .checkToken()
       .then((res) => {
@@ -33,7 +33,6 @@ export default function useAuthAndProfile(
         setShownMovies(null);
         setMoviesItems([]);
         setSavedMovies([]);
-        console.log(location.pathname);
         if (location.pathname === "/404") {
           history.goBack();
         }
