@@ -44,7 +44,7 @@
     padding-right: 30px;
   }
   .header_place_auth {
-    padding: calc(232 * 100% / 1024) 0 0;
+    padding: 232px 0 0;
   }
 }
 
@@ -63,7 +63,7 @@
   }
 }
 
-@media screen and (max-height: 520px) {
+@media screen and (max-height: 760px) {
   .header_place_auth {
     padding-top: 10px;
     min-height: unset;

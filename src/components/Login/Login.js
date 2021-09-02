@@ -5,12 +5,13 @@ import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Login({ onSignIn, isFormDisabled, isLoading }) {
+function Login({ onSignIn, isFormDisabled, isLoading, onNoScroll }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
   React.useEffect(() => {
     resetForm();
+    onNoScroll();
   }, []);
 
   function handleSignIn(evt) {

@@ -3,14 +3,14 @@ import "./Navigation.css";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import navigationLogoAccount from "../../images/logo-account.svg";
 
-function Navigation({ isLoggedIn, onOpenedMenu }) {
+function Navigation({ isLoggedIn, onNoScroll }) {
   const location = useLocation();
   const isLocationMain = location.pathname === "/";
   const [isColumnMenu, setColumnMenu] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(()=>{
-    isColumnMenu ? onOpenedMenu(true) : onOpenedMenu(false);
+    isColumnMenu ? onNoScroll(true) : onNoScroll(false);
 
     function handleOverlayClick(evt) {
       if (evt.target.classList.contains("overlay_active")) {

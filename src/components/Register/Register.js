@@ -6,12 +6,13 @@ import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
 import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Register({ onSignUp, isFormDisabled }) {
+function Register({ onSignUp, isFormDisabled, onNoScroll }) {
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   React.useEffect(() => {
     resetForm();
+    onNoScroll();
   }, []);
 
   function handleSignUp(evt) {

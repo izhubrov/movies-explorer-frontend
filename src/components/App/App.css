@@ -103,7 +103,6 @@ html, body, .root {
   animation-fill-mode: both;
 }
 
-
 .overlay {
   visibility: hidden;
   opacity: 0;

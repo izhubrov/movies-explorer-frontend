@@ -21,7 +21,7 @@ function Movies({
   onAddToSaved,
   onRemoveFromSaved,
 }) {
-
+  console.log(1234);
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
 
   React.useEffect(() => {

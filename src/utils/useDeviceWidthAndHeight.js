@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function useDeviceWidth() {
+export default function useDeviceWidthAndHeight(handleNoScroll) {
   const [width, setWidth] = React.useState("");
 
   function handleCheckDeviceWidth() {
@@ -21,9 +21,26 @@ export default function useDeviceWidth() {
     };
   }
 
+  function handleChangeDeviceHeight() {
+    handleNoScroll(true);
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? handleNoScroll(false)
+        : handleNoScroll(true);
+    }
+    getDeviceHeight();
+
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+      handleNoScroll(false);
+    };
+  }
+
   return {
     width,
     handleCheckDeviceWidth,
     handleChangeDeviceWidth,
+    handleChangeDeviceHeight
   };
 }

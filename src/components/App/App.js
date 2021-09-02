@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -13,12 +13,12 @@ import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute";
-import useDeviceWidth from "../../utils/useDeviceWidth";
 import useAuthAndProfile from "../../utils/useAuthAndProfile";
 import useSearchAndFilter from "../../utils/useSearchAndFilter";
 import useShowMovies from "../../utils/useShowMovies";
 import useGetSaveAndRemoveMovies from "../../utils/useGetSaveAndRemoveMovies";
 import useErrorPopup from "../../utils/useErrorPopup";
+import useDeviceWidthAndHeight from "../../utils/useDeviceWidthAndHeight";
 
 function App() {
   const [isCurrentUser, setCurrentUser] = React.useState({});
@@ -28,10 +28,9 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormDisabled, setIsFormDisabled] = React.useState(false);
-  const [isOpenedMenu, setOpenedMenu] = React.useState(false);
-  const { width, handleCheckDeviceWidth, handleChangeDeviceWidth } =
-    useDeviceWidth();
-
+  const [isNoScrollPage, setIsNoScrollPage] = React.useState(false);
+  const { width, handleCheckDeviceWidth, handleChangeDeviceWidth, handleChangeDeviceHeight } =
+    useDeviceWidthAndHeight(handleNoScroll);
   const { isError, handleShowError } = useErrorPopup();
 
   const {
@@ -157,26 +156,27 @@ function App() {
     }
   }, [isShortSavedMoviesFilterOn, savedSearchInputValue, savedMovies]);
 
-  function handleOpenMenu(state) {
-    setOpenedMenu(state);
+  function handleNoScroll(state) {
+    setIsNoScrollPage(state);
   }
 
   return (
-    <div className={`page ${isOpenedMenu ? "page_no-scroll" : ""}`}>
+    <div className={`page ${isNoScrollPage ? "page_no-scroll" : ""}`}>
       <CurrentUserContext.Provider value={isCurrentUser}>
-        <Header isLoggedIn={isLoggedIn} onOpenedMenu={handleOpenMenu}/>
+        <Header isLoggedIn={isLoggedIn} onNoScroll={handleNoScroll}/>
         <Switch>
           <Route exact path="/">
             <Main isLoading={isLoading} isLoggedIn={isLoggedIn} />
           </Route>
           <Route exact path="/sign-up">
-            <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled} />
+            <Register onSignUp={handleSignUp} isFormDisabled={isFormDisabled}  onNoScroll={handleChangeDeviceHeight}/>
           </Route>
           <Route exact path="/sign-in">
             <Login
               onSignIn={handleSignIn}
               isFormDisabled={isFormDisabled}
               isLoading={isLoading}
+              onNoScroll={handleChangeDeviceHeight}
             />
           </Route>
           <ProtectedRoute
@@ -184,6 +184,7 @@ function App() {
             path="/profile"
             isLoggedIn={isLoggedIn}
             component={Profile}
+            onNoScroll={handleChangeDeviceHeight}
             onUpdateUser={handleEditProfile}
             onSignOut={handleSignOut}
             isSuccess={isSuccess}
@@ -222,8 +223,8 @@ function App() {
             onAddToSaved={handleSaveMovie}
             onRemoveFromSaved={handleRemoveFromSavedMovie}
           />
-          <Route path="/404">
-            <NotFound />
+          <Route exact path="/404">
+            <NotFound/>
           </Route>
           <Redirect to="/404" />
         </Switch>
