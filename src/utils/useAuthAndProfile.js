@@ -33,29 +33,19 @@ export default function useAuthAndProfile(
         setShownMovies(null);
         setMoviesItems([]);
         setSavedMovies([]);
-        // if (location.pathname === "/404") {
-        //   history.goBack();
-        // }
-        // if (
-        //   location.pathname === "/sign-up" ||
-        //   location.pathname === "/sign-in"
-        // ) {
-        //   history.push("/movies");
-        // }
-        // if (
-        //   location.pathname === "/profile" ||
-        //   location.pathname === "/movies" ||
-        //   location.pathname === "/saved-movies" ||
-        //   location.pathname === "/"
-        // ) {
-        //   history.push(location.pathname);
-        // }
+        if (
+          location.pathname === "/sign-up" ||
+          location.pathname === "/sign-in"
+        ) {
+          history.push("/movies");
+        }
       })
       .catch(async (err) => {
         setIsLoading(false);
         if (isLoggedIn !== null) {
           await handleShowError(err);
         }
+        setIsLoggedIn(false);
       });
   }
 
@@ -106,7 +96,6 @@ export default function useAuthAndProfile(
         localStorage.removeItem("isShortSavedMoviesFilterOn");
         localStorage.removeItem("searchedMovies");
         localStorage.removeItem("movies");
-        localStorage.removeItem("route");
       })
       .catch(async (err) => {
         await handleShowError(err);

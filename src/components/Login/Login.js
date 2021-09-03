@@ -10,7 +10,6 @@ function Login({ onSignIn, isFormDisabled, isLoading, onNoScroll }) {
     useFormAndValidation();
 
   React.useEffect(() => {
-    localStorage.setItem("route", JSON.stringify("/sign-in"));
     resetForm();
     function getDeviceHeight() {
       return window.innerHeight <= 460

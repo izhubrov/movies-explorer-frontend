@@ -5,10 +5,6 @@ import { useHistory } from "react-router-dom";
 function NotFound() {
   const history = useHistory();
 
-  React.useEffect(()=>{
-    localStorage.setItem("route", JSON.stringify("/404"));
-  },[])
-
   function handleClick() {
     history.goBack();
   }

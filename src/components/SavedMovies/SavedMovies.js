@@ -22,7 +22,6 @@ function SavedMovies({
   const {isActiveArrowTop, checkArrowTop } = useArrowTop();
 
   React.useEffect(()=>{
-    localStorage.setItem("route", JSON.stringify("/saved-movies"));
     onClearInput();
     onNoScroll(false);
     window.addEventListener("scroll", checkArrowTop);
