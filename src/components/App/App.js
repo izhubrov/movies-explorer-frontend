@@ -9,6 +9,7 @@ import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
+import VKWidget from "../VKWidget/VKWidget";
 import NotFound from "../NotFound/NotFound";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -225,6 +226,9 @@ function App() {
             onRemoveFromSaved={handleRemoveFromSavedMovie}
             onNoScroll={handleNoScroll}
           />
+          <Route exact path="/widget">
+            <VKWidget/>
+          </Route>
           <Route exact path="/404">
             <NotFound/>
           </Route>

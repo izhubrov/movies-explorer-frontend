@@ -1,0 +1,12 @@
+.outer {
+  display: flex;
+  border-radius: 30px;
+  width: 360px;
+  overflow: hidden;
+  margin: 30px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+}
+.vk-widget {
+  width: 100%;
+  display: flex;
+}
