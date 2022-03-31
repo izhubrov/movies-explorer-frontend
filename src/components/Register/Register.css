@@ -2,4 +2,23 @@
   display: flex;
   max-width: 396px;
   box-sizing: border-box;
+  min-height: calc(100% - 108px);
+}
+
+@media screen and (max-width: 918px) {
+  .register {
+    min-height: calc(100% - 38px - 232px);
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .register {
+    min-height: calc(100% - 38px - 56px);
+  }
+}
+
+@media screen and (max-height: 760px) {
+  .register {
+    min-height: calc(100% - 56px);
+  }
 }

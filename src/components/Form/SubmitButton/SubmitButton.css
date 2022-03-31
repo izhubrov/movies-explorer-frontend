@@ -8,7 +8,7 @@
   text-align: center;
   color: #000;
   background-color: transparent;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   cursor: pointer;
   margin-top: 36px;
   margin-bottom: 16px;
@@ -22,9 +22,9 @@
 .submit-button_place_auth {
   padding: 13px 0 15px;
   box-sizing: border-box;
-  background-color: #3456F3;
+  background-color: #3456f3;
   border-radius: 3px;
-  color:#fff;
+  color: #fff;
   font-size: 14px;
   font-weight: 500;
 }
@@ -45,5 +45,11 @@
   .submit-button_place_auth {
     padding-top: 15px;
     font-size: 12px;
+  }
+}
+
+@media screen and (max-height: 520px) {
+  .submit-button {
+    margin-top: 10px;
   }
 }

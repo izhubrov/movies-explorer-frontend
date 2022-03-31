@@ -1,11 +1,15 @@
 import React from "react";
 import "./AboutProject.css";
 
-function AboutProject() {
+function AboutProject({ isActiveAboutProject }) {
   return (
     <section className="about-project page__container">
       <h2 className="subtitle">О проекте</h2>
-      <div className="about-project__container">
+      <div
+        className={`about-project__container inactive ${
+          isActiveAboutProject ? "active" : ""
+        }`}
+      >
         <h3 className="about-project__subsubtitle">
           Дипломный проект включал 5 этапов
         </h3>
@@ -22,12 +26,32 @@ function AboutProject() {
         </p>
       </div>
       <div className="about-project__period-container">
-        <div className="about-project__period">1 неделя</div>
-        <p className="about-project__tag">Back-end</p>
-        <div className="about-project__period about-project__period_type_frontend">
-          4 недели
-        </div>
-        <p className="about-project__tag">Front-end</p>
+        <div
+          className={`about-project__period inactive ${
+            isActiveAboutProject ? "active about-project__period_filled" : ""
+          }`}
+        ></div>
+        <p
+          className={`about-project__tag inactive ${
+            isActiveAboutProject ? "active" : ""
+          }`}
+        >
+          Back-end
+        </p>
+        <div
+          className={`about-project__period inactive ${
+            isActiveAboutProject
+              ? "active about-project__period_filled-frontend"
+              : ""
+          }`}
+        ></div>
+        <p
+          className={`about-project__tag inactive ${
+            isActiveAboutProject ? "active" : ""
+          }`}
+        >
+          Front-end
+        </p>
       </div>
     </section>
   );

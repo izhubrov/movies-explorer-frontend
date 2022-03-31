@@ -4,6 +4,9 @@
   font-weight: 500;
   margin: 0;
   padding-bottom: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .form-title_place_profile {
@@ -13,16 +16,25 @@
 
 @media screen and (max-width: 918px) {
   .form-title_place_profile {
-    padding-bottom: calc(96 * 100vh / 1024);
+    padding-bottom: 96px;
   }
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 530px) {
   .form-title {
-    padding-bottom: calc(80 * 100vh / 780);
+    padding-bottom: 80px;
     text-align: center;
   }
   .form-title_place_profile {
-    padding-bottom: calc(80 * 100vh / 780);
+    padding-bottom: 80px;
+  }
+}
+
+@media screen and (max-height: 570px) {
+  .form-title {
+    padding-bottom: 35px;
+  }
+  .form-title_place_profile {
+    font-size: 20px;
   }
 }

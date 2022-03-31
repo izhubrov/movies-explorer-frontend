@@ -1,14 +1,14 @@
 .error-popup {
   visibility: hidden;
   opacity: 0;
-  transition: all .35s ease-in-out;
+  transition: all 0.35s ease-in-out;
   flex-direction: column;
   align-items: center;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   display: flex;
-  background-color: #DDDEE3;
+  background-color: #dddee3;
   border-radius: 10px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   width: 430px;
@@ -21,7 +21,6 @@
 .error-popup_opened {
   visibility: visible;
   opacity: 1;
-  margin: 0;
 }
 
 .error-popup__title {

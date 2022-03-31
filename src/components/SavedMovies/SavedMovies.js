@@ -1,17 +1,47 @@
-import React from 'react';
-import './SavedMovies.css';
-import SearchForm from '../SearchForm/SearchForm';
-import FilterCheckBox from '../FilterCheckBox/FilterCheckBox';
-// import Preloader from '../Preloader/Preloader';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import React from "react";
+import "./SavedMovies.css";
+import SearchForm from "../SearchForm/SearchForm";
+import FilterCheckBox from "../FilterCheckBox/FilterCheckBox";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import ArrowTop from "../ArrowTop/ArrowTop";
+import useArrowTop from "../../utils/useArrowTop";
 
-function SavedMovies({moviesListShown}) {
+function SavedMovies({
+  shownMovies,
+  savedMovies,
+  onSearchMovies,
+  onClearInput,
+  onFilterMovies,
+  isErrorMoviesServer,
+  isShortSavedMoviesFilterOn,
+  onAddToSaved,
+  onRemoveFromSaved,
+  onNoScroll
+}) {
+
+  const {isActiveArrowTop, checkArrowTop } = useArrowTop();
+
+  React.useEffect(()=>{
+    onClearInput();
+    onNoScroll(false);
+    window.addEventListener("scroll", checkArrowTop);
+    return () => {
+      window.removeEventListener("scroll", checkArrowTop);
+    };
+  },[]);
+
   return (
     <section className="saved-movies page__container">
-      <SearchForm/>
-      <FilterCheckBox/>
-      {/* <Preloader/> */}
-      <MoviesCardList moviesListShown={moviesListShown}/>
+      <SearchForm onSearchMovies={onSearchMovies} onClearInput={onClearInput}/>
+      <FilterCheckBox onFilterMovies={onFilterMovies} isShortSavedMoviesFilterOn={isShortSavedMoviesFilterOn}/>
+      <MoviesCardList
+        shownMovies={shownMovies}
+        savedMovies={savedMovies}
+        onAddToSaved={onAddToSaved}
+        isErrorMoviesServer={isErrorMoviesServer}
+        onRemoveFromSaved={onRemoveFromSaved}
+      />
+      <ArrowTop isActiveArrowTop={isActiveArrowTop}></ArrowTop>
     </section>
   );
 }

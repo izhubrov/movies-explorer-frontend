@@ -1,3 +1,4 @@
+import React from 'react';
 import "./Form.css";
 import Title from "./Title/Title";
 import SubmitButton from "./SubmitButton/SubmitButton";
@@ -13,6 +14,8 @@ function Form({
   onbottomLinkClick,
   bottomLinkText,
   onBottomLinkRedirect,
+  buttonSubmitState,
+  isFormDisabled
 }) {
 
   return (
@@ -22,16 +25,22 @@ function Form({
       noValidate
     >
       <Title authPage={authPage} title={title} />
-      {children}
+      <fieldset className="form__set" disabled={isFormDisabled}>
+        {children}
+      </fieldset>
       <>
-        <SubmitButton buttonSubmitText={buttonSubmitText} authPage={authPage} />
+        <SubmitButton
+          buttonSubmitText={buttonSubmitText}
+          authPage={authPage}
+          buttonSubmitState={buttonSubmitState}
+        />
         <RedirectBottom
           authPage={authPage}
           authBottomText={authBottomText}
           onbottomLinkClick={onbottomLinkClick}
           bottomLinkText={bottomLinkText}
           onBottomLinkRedirect={onBottomLinkRedirect}
-          />
+        />
       </>
       <></>
     </form>

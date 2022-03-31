@@ -10,6 +10,20 @@
   }
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+html, body, .root {
+  min-height: 100%;
+  height: 1px;
+}
+
 .page {
   font-family: 'Inter', sans-serif, Arial;
   background-color: #fafafa;
@@ -19,7 +33,53 @@
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-  min-height: 100vh;
+  min-height: 100%;
+  position: relative;
+}
+
+.page_no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.4) #fafafa;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 30px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 5px;
+  border-top: 5px solid #fafafa;
+  border: 3px solid #fafafa;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0,0,0,0.45);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: rgba(0,0,0,0.6);
+}
+
+.inactive {
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s ease-in-out;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
 }
 
 .page__container {
@@ -52,13 +112,15 @@
   left: 0;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
+  box-sizing: border-box;
 }
 
 .overlay_active {
   visibility: visible;
   opacity: 1;
+  overflow: hidden;
 }
 
 .title {
@@ -96,11 +158,15 @@
 .btn-close {
   background-color: transparent;
   cursor: pointer;
-  transition: opacity .3s;
+  transition: opacity, rotate .3s ease-in-out;
   padding: 0;
   border: none;
   outline: none;
+  display: none;
+  justify-self: end;
   position: relative;
+  transform: rotate(0);
+  opacity: 0;
 }
 
 .btn-close:hover {
@@ -110,15 +176,17 @@
 .btn-close_place_navigation {
   width: 22px;
   height: 22px;
-  display: none;
-  justify-self: end;
+}
+
+.btn-close_place_search-form {
+  width: 13px;
+  height: 13px;
+  margin-right: 29px;
 }
 
 .btn-close_place_saved-movies {
   width: 7px;
   height: 7px;
-  display: none;
-  justify-self: end;
   margin-top: 4.5px;
   margin-right: 11.5px;
 }
@@ -129,6 +197,16 @@
   top: 0;
   content: ' ';
   width: 3px;
+  height: 100%;
+  background-color: #000;
+}
+
+.btn-close_place_search-form::before, .btn-close_place_search-form::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  width: 1px;
   height: 100%;
   background-color: #000;
 }
@@ -153,6 +231,9 @@
 
 .btn-close_active {
   display: flex;
+  opacity: 1;
+  animation: spin 0.5s ease-in-out;
+  animation-fill-mode: both;
 }
 
 .btn-close_place_navigation:hover {

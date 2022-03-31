@@ -1,24 +1,64 @@
+import React from "react";
 import "./Login.css";
 import Form from "../Form/Form";
 import Email from "../Form/Email/Email";
 import Password from "../Form/Password/Password";
+import { useFormAndValidation } from "../../utils/useFormAndValidation.js";
 
-function Login({ onSubmit }) {
+function Login({ onSignIn, isFormDisabled, isLoading, onNoScroll }) {
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
+
+  React.useEffect(() => {
+    resetForm();
+    function getDeviceHeight() {
+      return window.innerHeight <= 460
+        ? onNoScroll(false)
+        : onNoScroll(true);
+    }
+    getDeviceHeight();
+    window.addEventListener("resize", getDeviceHeight);
+    return () => {
+      window.removeEventListener("resize", getDeviceHeight);
+    };
+  }, []);
+
+  function handleSignIn(evt) {
+    evt.preventDefault();
+    onSignIn(values);
+  }
+
   return (
-    <section className="register page__container">
-      <Form
-        onSubmit={onSubmit}
-        authPage={true}
-        title={"Рады видеть!"}
-        buttonSubmitText="Войти"
-        authBottomText="Ещё не зарегистрированы?"
-        bottomLinkText="Регистрация"
-        onBottomLinkRedirect="/sign-up"
-      >
-        <Email authPage={true} />
-        <Password authPage={true} />
-      </Form>
-    </section>
+    <>
+      {!isLoading && (
+        <section className="login appear page__container">
+          <Form
+            onSubmit={handleSignIn}
+            authPage={true}
+            title={"Рады видеть!"}
+            buttonSubmitText="Войти"
+            authBottomText="Ещё не зарегистрированы?"
+            bottomLinkText="Регистрация"
+            onBottomLinkRedirect="/sign-up"
+            buttonSubmitState={!isFormDisabled&&isValid}
+            isFormDisabled={isFormDisabled}
+          >
+            <Email
+              values={values}
+              handleChange={handleChange}
+              errors={errors}
+              authPage={true}
+            />
+            <Password
+              values={values}
+              handleChange={handleChange}
+              errors={errors}
+              authPage={true}
+            />
+          </Form>
+        </section>
+      )}
+    </>
   );
 }
 
